@@ -1,0 +1,34 @@
+@model Agama
+
+<form action="/master/agama/save" method="post">
+    <input type="hidden" asp-for="AgamaID" />
+    <div class="modal-header bg-primary-700 bg-success-gradient">
+        @if (Model.AgamaID == 0)
+        {
+            <h4 class="modal-title">Tambah Data Agama</h4>
+        }
+        else
+        {
+            <h4 class="modal-title">Edit Data Agama</h4>
+        }
+
+        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Nama Agama</label>
+            <input type="text" asp-for="NamaAgama" class="form-control" placeholder="Isi nama agama..." autocomplete="off" autofocus />
+            <span asp-validation-for="NamaAgama" class="text-danger"></span>
+        </div>
+        @*<div class="form-group">
+                <div class="custom-control custom-checkbox custom-checkbox-circle">
+                    <input type="checkbox" asp-for="Active" class="custom-control-input" id="chkActive" />
+                    <label class="custom-control-label" for="chkActive">Aktif</label>
+                </div>
+            </div>*@
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-success">Simpan</button>
+    </div>
+</form>

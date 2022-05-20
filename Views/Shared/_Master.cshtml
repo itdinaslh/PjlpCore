@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <partial name="~/Views/Layouts/_Head.cshtml" />
+    @RenderSection("styles", required: false)
+</head>
+<body class="mod-bg-1 header-function-fixed nav-function-fixed mod-nav-link">
+    <partial name="_ScriptsLoadingSaving" />
+    <div class="page-wrapper">
+        <div class="page-inner">
+            <partial name="_LeftPanel" />
+            <div class="page-content-wrapper">
+                <partial name="_PageHeader" />
+                <main id="js-page-content" role="main" class="page-content">
+                    <partial name="_PageBreadCrumb" />                  
+                    @RenderBody()
+                </main>
+                <partial name="_PageContentOverlay" />
+                <partial name="~/Views/Layouts/_PageFooter.cshtml" />
+                <partial name="_ShortCutModal" />
+            </div>
+        </div>
+    </div>
+    <partial name="_ShortCutMenu" />
+    <partial name="_ShortCutMessenger" />
+    <partial name="_PageSettings" />
+    <partial name="_ScriptBasePlugins" />
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,11 @@
+.select2-selection {
+    min-height: 37px;
+}
+
+.select2-selection__rendered {
+    margin-top: 3px;
+}
+
+.select2-selection__arrow {
+    margin-top: 4px;
+}

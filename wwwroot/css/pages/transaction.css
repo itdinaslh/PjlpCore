@@ -1,0 +1,27 @@
+.totalTrans {
+    text-align:right;
+    width:60%;
+    padding-right: 8px;
+}
+
+.totalString {
+    text-align:right;
+}
+
+.theTotal {
+    font-weight: bold;
+    font-size: 18pt;
+}
+
+.detailString {
+    font-size: 13pt;
+}
+
+.paymentString {
+    font-size: 20pt;
+}
+
+.btnPayment {
+    width:100%;
+    margin-top:20px;
+}

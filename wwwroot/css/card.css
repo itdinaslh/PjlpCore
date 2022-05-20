@@ -1,0 +1,14 @@
+.table-title {
+    font-size: 36pt;
+    font-weight: bold;
+    text-align: center;
+}
+
+.order-button {
+    margin: 0 auto;
+    display: block;
+}
+
+.theCard {
+    margin-bottom: 15px;
+}
