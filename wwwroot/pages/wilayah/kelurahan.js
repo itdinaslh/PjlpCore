@@ -16,7 +16,7 @@ function loadTable() {
         stateSave: true,
         orderMulti: false,
         ajax: {
-            url: "/api/wilayah/kelurahan",
+            url: "https://localhost:7248/api/master/kelurahan",
             type: "POST",
             dataType: "json"
         },
@@ -25,10 +25,7 @@ function loadTable() {
             { data: "namaKelurahan", name: "namaKelurahan", autoWidth: true },
             { data: "namaKecamatan", name: "namaKecamatan", autoWidth: true },
             { data: "namaKabupaten", name: "namaKabupaten", autoWidth: true },
-            { data: "namaProvinsi", name: "namaProvinsi", autoWidth: true },            
-            {
-                render: function (data, type, row) { return "<button type='button' class='btn btn-sm btn-outline-success mr-2 showMe' style='width:100%;' data-href='/wilayah/kelurahan/edit/?kelurahanID=" + row.kelurahanID + "'><i class='fal fa-edit'></i> Edit</button>" }
-            }
+            { data: "namaProvinsi", name: "namaProvinsi", autoWidth: true }
         ],
         order: [[0, "desc"]]
     })

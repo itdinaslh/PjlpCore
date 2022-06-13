@@ -16,7 +16,7 @@ function loadTable() {
         stateSave: true,
         orderMulti: false,
         ajax: {
-            url: "/api/wilayah/kabupaten",
+            url: "https://localhost:7248/api/master/kabupaten",
             type: "POST",
             dataType: "json"
         },
@@ -25,10 +25,7 @@ function loadTable() {
             { data: "namaKabupaten", name: "namaKabupaten", autoWidth: true },
             { data: "namaProvinsi", name: "namaProvinsi", autoWidth: true },
             { data: "latitude", name: "latitude", autoWidth: true },
-            { data: "longitude", name: "longitude", autoWidth: true },
-            {
-                render: function (data, type, row) { return "<button type='button' class='btn btn-sm btn-outline-success mr-2 showMe' style='width:100%;' data-href='/wilayah/kabupaten/edit/?kabupatenID=" + row.kabupatenID + "'><i class='fal fa-edit'></i> Edit</button>" }
-            }
+            { data: "longitude", name: "longitude", autoWidth: true }
         ],
         order: [[0, "desc"]]
     })
