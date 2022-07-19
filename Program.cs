@@ -20,7 +20,7 @@ var services = builder.Services;
 services.AddCors();
 
 services.AddDbContext<AppDbContext>(options => {
-    options.UseMySql(builder.Configuration.GetConnectionString("AppDB"), new MySqlServerVersion(new Version()));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("AppDB"));
 });
 
 // Add SignalR
@@ -75,6 +75,8 @@ services.AddAuthentication(options => {
 });
 
 var app = builder.Build();
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // app.UseForwardedHeaders(new ForwardedHeadersOptions
 // {

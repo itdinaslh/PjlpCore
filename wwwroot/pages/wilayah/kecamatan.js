@@ -46,9 +46,9 @@ $(document).on('shown.bs.modal', function () {
                 };
                 return query;
             },
-            processResults: function (result) {
+            processResults: function (data) {
                 return {
-                    results: $.map(result, function (item) {
+                    results: $.map(data, function (item) {
                         return {
                             text: item.namaKabupaten,
                             id: item.id
