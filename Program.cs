@@ -34,6 +34,9 @@ services.AddSignalR();
     services.AddScoped<IKabupatenRepo, KabupatenService>();
     services.AddScoped<IKecamatanRepo, KecamatanService>();
     services.AddScoped<IKelurahanRepo, KelurahanService>();
+    services.AddScoped<IJabatanRepo, JabatanService>();
+    services.AddScoped<IDivisiRepo, DivisiService>();
+    // services.AddScoped<IDivisiRepo, DivisiSercice>();
 }
 
 services.AddAuthentication(options => {

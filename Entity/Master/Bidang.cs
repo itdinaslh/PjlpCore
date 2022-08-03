@@ -20,6 +20,9 @@ public class Bidang {
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
+
+    public List<Divisi>? Divisis { get; set; }
     
+    public List<Jabatan>? Jabatans { get; set; }
     
 }

@@ -18,4 +18,8 @@ public class AppDbContext : DbContext {
     public DbSet<Kecamatan> Kecamatans { get; set; }
 
     public DbSet<Kelurahan> Kelurahans { get; set; }
+
+    public DbSet<Divisi> Divisis { get; set; }
+
+    public DbSet<Jabatan> Jabatans { get; set; }
 }
