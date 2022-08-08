@@ -42,13 +42,14 @@ public class DivisiController : Controller {
         });
     }
 
-    // [HttpPost("/master/divisi/save")]    
-    // public async Task<IActionResult> SaveDivisiAsync(DivisiViewModel divisi) {
-    //     if (ModelState.IsValid) {
-    //         await repo.SaveDivisiAsync(divisi);
-    //         return Json(Result.Success());
-    //     } else {
-    //         return PartialView("~/Views/Master/Divisi/AddEdit.cshtml", divisi);
-    //     }
-    // }
+    [HttpPost("/master/divisi/save")]    
+    public async Task<IActionResult> SaveDivisiAsync(DivisiViewModel div) {
+        div.Divisi.DivisiID = Guid.NewGuid();
+        if (ModelState.IsValid) {
+            await repo.SaveDivisiAsync(div.Divisi);
+            return Json(Result.Success());
+        } else {
+            return PartialView("~/Views/Master/Divisi/AddEdit.cshtml", div);
+        }
+    }
 }

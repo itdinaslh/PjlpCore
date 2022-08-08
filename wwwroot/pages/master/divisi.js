@@ -30,8 +30,8 @@ function loadTable() {
 }
 
 $(document).on('shown.bs.modal', function () {
-    $('#sProvinsi').select2({
-        placeholder: 'Pilih Provinsi...',
+    $('#sBidang').select2({
+        placeholder: 'Pilih Bidang...',
         dropdownParent: $('#myModal'),
         allowClear: true,
         ajax: {

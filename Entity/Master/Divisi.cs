@@ -17,8 +17,7 @@ public class Divisi {
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
-    #nullable disable
-    [MaxLength(5)]
+    #nullable disable    
     public Guid? BidangID { get; set; }
 
     public Bidang Bidang { get; set; }
