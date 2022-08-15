@@ -18,7 +18,6 @@ public class Jabatan {
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
     #nullable disable
-    [MaxLength(5)]
     public Guid? BidangID { get; set; }
 
     public Bidang Bidang { get; set; }

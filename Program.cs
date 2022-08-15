@@ -36,6 +36,7 @@ services.AddSignalR();
     services.AddScoped<IKelurahanRepo, KelurahanService>();
     services.AddScoped<IJabatanRepo, JabatanService>();
     services.AddScoped<IDivisiRepo, DivisiService>();
+    services.AddScoped<IPendidikanRepo, PendidikanService>();
     // services.AddScoped<IDivisiRepo, DivisiSercice>();
 }
 

@@ -1,6 +1,8 @@
 using PjlpCore.Entity;
 using PjlpCore.Repository;
 using PjlpCore.Data;
+using PjlpCore.Models.Master;
+using Microsoft.EntityFrameworkCore;
 
 namespace PjlpCore.Service;
 
@@ -14,15 +16,13 @@ public class DivisiService : IDivisiRepo {
     public IQueryable<Divisi> Divisis => context.Divisis;
     
     #nullable disable
-    public async Task SaveDivisiAsync(Divisi divisi) {
-        if(divisi.DivisiID == Guid.Empty || divisi.DivisiID.ToString() == string.Empty) {
-            await context.AddAsync(divisi);
+    public async Task SaveDivisiAsync(DivisiViewModel model) {
+        if(model.IsNew == true) {
+            await context.AddAsync(model.Divisi);
         } else {
-            Divisi div = context.Divisis.FirstOrDefault(b => b.DivisiID == divisi.DivisiID);
-
-            div.NamaDivisi = divisi.NamaDivisi.Trim();
-            div.BidangID = divisi.BidangID;
-
+            Divisi div = await context.Divisis.FirstOrDefaultAsync(b => b.DivisiID == model.ExistingID);
+            div.NamaDivisi = model.Divisi.NamaDivisi.Trim();
+            div.BidangID = model.Divisi.BidangID;
             context.Update(div);
         }
 

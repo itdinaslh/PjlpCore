@@ -21,14 +21,19 @@
                     <span class="nav-link-text" data-i18n="nav.bidang">Bidang</span>
                 </a>
             </li>
-            <li class='@(ViewBag.Title == "Division" ? "active" : "")'>
+            <li class='@(ViewBag.Title == "Divisi" ? "active" : "")'>
                 <a asp-controller="Divisi" asp-action="Index" title="Divisi" data-filter-tags="divisi">
                     <span class="nav-link-text" data-i18n="nav.divisi">Divisi</span>
                 </a>
             </li>
-            <li class='@(ViewBag.Title == "Position" ? "active" : "")'>
-                <a href="/master/position" title="Jabatan" data-filter-tags="jabatan">
+            <li class='@(ViewBag.Title == "Jabatan" ? "active" : "")'>
+                <a asp-controller="Jabatan" asp-action="Index" title="Jabatan" data-filter-tags="jabatan">
                     <span class="nav-link-text" data-i18n="nav.jabatan">Jabatan</span>
+                </a>
+            </li>
+            <li class='@(ViewBag.Title == "Pendidikan" ? "active" : "")'>
+                <a asp-controller="Pendidikan" asp-action="Index" title="Pendidikan" data-filter-tags="pendidikan">
+                    <span class="nav-link-text" data-i18n="nav.pendidikan">Pendidikan</span>
                 </a>
             </li>
             <li class='@(ViewBag.Title == "Jobdesc" ? "active" : "")'>

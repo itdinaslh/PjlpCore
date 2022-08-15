@@ -1,6 +1,7 @@
 using PjlpCore.Entity;
 using PjlpCore.Repository;
 using PjlpCore.Data;
+using PjlpCore.Models.Master;
 
 namespace PjlpCore.Service;
 
@@ -14,16 +15,16 @@ public class JabatanService : IJabatanRepo {
     public IQueryable<Jabatan> Jabatans => context.Jabatans;
     
     #nullable disable
-    public async Task SaveJabatanAsync(Jabatan jabatan) {
-        if(jabatan.JabatanID == Guid.Empty || jabatan.JabatanID.ToString() == string.Empty) {
-            await context.AddAsync(jabatan);
+    public async Task SaveJabatanAsync(JabatanViewModel model) {
+        if(model.IsNew == true) {
+            await context.AddAsync(model.Jabatan);
         } else {
-            Jabatan jab = context.Jabatans.FirstOrDefault(b => b.JabatanID == jabatan.JabatanID);
+            Jabatan div = context.Jabatans.FirstOrDefault(b => b.JabatanID == model.ExistingID);
 
-            jab.NamaJabatan = jabatan.NamaJabatan.Trim();
-            jab.BidangID = jabatan.BidangID;
+            div.NamaJabatan = model.Jabatan.NamaJabatan.Trim();
+            div.BidangID = model.Jabatan.BidangID;
 
-            context.Update(jab);
+            context.Update(div);
         }
 
         await context.SaveChangesAsync();
