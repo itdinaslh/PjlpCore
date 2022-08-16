@@ -23,4 +23,5 @@ public class AppDbContext : DbContext {
 
     public DbSet<Jabatan> Jabatans { get; set; }
     public DbSet<Pendidikan> Pendidikans { get; set; }
+    public DbSet<Persyaratan> Persyaratans { get; set; }
 }

@@ -36,6 +36,11 @@
                     <span class="nav-link-text" data-i18n="nav.pendidikan">Pendidikan</span>
                 </a>
             </li>
+            <li class='@(ViewBag.Title == "Persyaratan" ? "active" : "")'>
+                <a asp-controller="Persyaratan" asp-action="Index" title="Persyaratan" data-filter-tags="persyaratan">
+                    <span class="nav-link-text" data-i18n="nav.persyaratan">Persyaratan</span>
+                </a>
+            </li>
             <li class='@(ViewBag.Title == "Jobdesc" ? "active" : "")'>
                 <a href="/master/jobdesc" title="Tupoksi" data-filter-tags="tupoksi">
                     <span class="nav-link-text" data-i18n="nav.tupoksi">Tupoksi</span>
