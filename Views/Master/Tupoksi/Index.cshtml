@@ -1,0 +1,61 @@
+@{
+    ViewData["Title"] = "Master Tupoksi";
+    ViewData["PageName"] = "master_tupoksi";
+    ViewData["Category1"] = "Master";
+    ViewBag.Parent = "Master";
+    ViewBag.Title = "Tupoksi";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/css/datagrid/datatables/datatables.bundle.css" />
+    <link rel="stylesheet" href="~/lib/sweetalert/sweetalert2.min.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="~/css/addon.css" />
+
+}
+
+<!--Modal Window-->
+<div id='myModal' class='modal fade in' data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">    
+    <div class="col-xl-12">
+        <button class="btn btn-primary showMe" style="margin-bottom:20px;" data-href="/master/tupoksi/create">Tambah Tupoksi</button>
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr" role="heading">
+                <h2>Master Data Tupoksi</h2>                
+            </div>
+            <div class="panel-container show">
+                <div id="listContent" class="panel-content">
+                    <table id="tblTupoksi" class="table table-striped table-bordered" data-page-length="5">
+                        <thead>
+                            <tr>     
+                                <th>Kode Tupoksi</th>                           
+                                <th>Nama Tupoksi</th>
+                                <th>Nama Divisi</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/sweetalert/sweetalert2.all.min.js"></script>
+        <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/js/datagrid/datatables/datatables.bundle.js"></script>
+    <script src="~/pages/master/tupoksi.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/modalForm.js"></script>
+    <script>
+        $('#js-page-content').smartPanel();
+    </script>
+}

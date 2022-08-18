@@ -21,4 +21,6 @@ public class Divisi {
     public Guid? BidangID { get; set; }
 
     public Bidang Bidang { get; set; }
+
+    public List<Tupoksi> Tupoksis { get; set; }
 }

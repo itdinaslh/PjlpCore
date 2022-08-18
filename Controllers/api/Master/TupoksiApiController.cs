@@ -10,14 +10,14 @@ namespace PjlpCore.Controllers.api;
 
 [ApiController]
 [Route("[controller]")]
-public class DivisiApiController : Controller {
-    private IDivisiRepo repo;
+public class TupoksiApiController : Controller {
+    private ITupoksiRepo repo;
 
-    public DivisiApiController(IDivisiRepo kRepo) => repo = kRepo;
+    public TupoksiApiController(ITupoksiRepo kRepo) => repo = kRepo;
 
     #nullable disable
-    [HttpPost("/api/master/divisi")]
-    public async Task<IActionResult> DivisiTable() {
+    [HttpPost("/api/master/tupoksi")]
+    public async Task<IActionResult> TupoksiTable() {
         var draw = Request.Form["draw"].FirstOrDefault();
         var start = Request.Form["start"].FirstOrDefault();
         var length = Request.Form["length"].FirstOrDefault();
@@ -28,10 +28,10 @@ public class DivisiApiController : Controller {
         int skip = start != null ? Convert.ToInt32(start) : 0;
         int recordsTotal = 0;
 
-        var init = repo.Divisis.Select(d => new {
-            divisiID = d.DivisiID,
-            namaDivisi = d.NamaDivisi,
-            namaBidang = d.Bidang.NamaBidang
+        var init = repo.Tupoksis.Select(d => new {
+            tupoksiID = d.TupoksiID,
+            namaTupoksi = d.NamaTupoksi,
+            namaDivisi = d.Divisi.NamaDivisi
         });
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
@@ -39,8 +39,8 @@ public class DivisiApiController : Controller {
         }
 
         if (!string.IsNullOrEmpty(searchValue)) {
-            init = init.Where(a => a.namaDivisi.ToLower().Contains(searchValue.ToLower()) ||
-                a.namaBidang.ToLower().Contains(searchValue.ToLower())            
+            init = init.Where(a => a.namaTupoksi.ToLower().Contains(searchValue.ToLower()) ||
+                a.namaDivisi.ToLower().Contains(searchValue.ToLower())            
             );
         }
 
@@ -53,24 +53,24 @@ public class DivisiApiController : Controller {
         return Ok(jsonData);
     }
 
-    [HttpGet("/api/master/divisi/search")]    
-    public async Task<IActionResult> SearchDivisi(string term) {                      
+    [HttpGet("/api/master/kabupaten/search")]    
+    public async Task<IActionResult> SearchTupoksi(string term) {                      
         if (String.IsNullOrEmpty(term))
         {
-            var bidangData = await repo.Divisis.
+            var bidangData = await repo.Tupoksis.
             Select(s => new
             {
-                id = s.DivisiID,
-                namaDivisi = s.NamaDivisi
+                id = s.TupoksiID,
+                namaTupoksi = s.NamaTupoksi
             }).Take(5).ToListAsync();
             var data = bidangData;
             return Ok(data);
         } else
         {            
-            var bid = await repo.Divisis.Where(p => p.NamaDivisi.ToLower().Contains(term.ToLower()))
+            var bid = await repo.Tupoksis.Where(p => p.NamaTupoksi.ToLower().Contains(term.ToLower()))
                 .Select(s => new {
-                    id = s.DivisiID,
-                    namaDivisi = s.NamaDivisi
+                    id = s.TupoksiID,
+                    namaTupoksi = s.NamaTupoksi
                 }).Take(5).ToListAsync();
 
             var data = bid;
