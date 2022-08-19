@@ -4,15 +4,26 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using PjlpCore.Data;
 using Microsoft.AspNetCore.Identity;
+using PjlpCore.Repository;
 
 namespace PjlpCore.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
+        private readonly IJabatanRepo jabRepo;
+        private readonly IDivisiRepo divRepo;
+
+        public HomeController(IJabatanRepo jRepo, IDivisiRepo dRepo) {
+            jabRepo = jRepo; divRepo = dRepo;
+        }
+
         public IActionResult Index()
         {            
-            return View();
+            return View(new DashboardVM {
+                CountJabatan = jabRepo.Jabatans.Count(),
+                CountDivisi = divRepo.Divisis.Count()
+            });
         }
 
         public IActionResult Privacy()
