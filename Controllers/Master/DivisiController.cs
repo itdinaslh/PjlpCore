@@ -24,9 +24,7 @@ public class DivisiController : Controller {
 
     [HttpGet("/master/divisi/create")]    
     public IActionResult Create() => PartialView("~/Views/Master/Divisi/AddEdit.cshtml", 
-        new DivisiViewModel { Divisi = new Divisi { 
-            DivisiID = Guid.NewGuid() 
-        }, IsNew = true });
+        new DivisiViewModel { Divisi = new Divisi(), IsNew = true });
 
     #nullable disable
     [HttpGet("/master/divisi/edit")]    
@@ -37,14 +35,12 @@ public class DivisiController : Controller {
         return PartialView("~/Views/Master/Divisi/AddEdit.cshtml", new DivisiViewModel {
             Divisi = div,
             NamaBidang = jab.NamaBidang,
-            IsNew = false,
-            ExistingID = div.DivisiID
+            IsNew = false
         });
     }
 
     [HttpPost("/master/divisi/save")]    
-    public async Task<IActionResult> SaveDivisiAsync(DivisiViewModel div) {
-        // div.Divisi.DivisiID = Guid.NewGuid();
+    public async Task<IActionResult> SaveDivisiAsync(DivisiViewModel div) {        
         if (ModelState.IsValid) {
             await repo.SaveDivisiAsync(div);
             return Json(Result.Success());

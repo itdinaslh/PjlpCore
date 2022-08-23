@@ -17,10 +17,10 @@ public class DivisiService : IDivisiRepo {
     
     #nullable disable
     public async Task SaveDivisiAsync(DivisiViewModel model) {
-        if(model.IsNew == true) {
+        if(model.IsNew) {
             await context.AddAsync(model.Divisi);
         } else {
-            Divisi div = await context.Divisis.FirstOrDefaultAsync(b => b.DivisiID == model.ExistingID);
+            Divisi div = await context.Divisis.FirstOrDefaultAsync(b => b.DivisiID == model.Divisi.DivisiID);
             div.NamaDivisi = model.Divisi.NamaDivisi.Trim();
             div.BidangID = model.Divisi.BidangID;
             context.Update(div);

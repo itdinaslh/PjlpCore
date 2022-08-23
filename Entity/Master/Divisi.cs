@@ -6,7 +6,7 @@ namespace PjlpCore.Entity;
 [Table("divisi")]
 public class Divisi {
     [Key]
-    public Guid DivisiID { get; set; } = Guid.Empty;
+    public Guid DivisiID { get; set; } = Guid.NewGuid();
 
     #nullable disable
     [MaxLength(100)]
