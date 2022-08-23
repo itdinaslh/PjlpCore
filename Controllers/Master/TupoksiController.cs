@@ -10,11 +10,11 @@ namespace PjlpCore.Controllers;
 
 [Authorize(Roles = "SysAdmin, PjlpAdmin")]
 public class TupoksiController : Controller {
-    private ITupoksiRepo repo;
-    private IDivisiRepo jabRepo;
+    private ITupoksiRepo tupRepo;
+    private IDivisiRepo divRepo;
 
     public TupoksiController(ITupoksiRepo kRepo, IDivisiRepo pRepo) {
-        repo = kRepo; jabRepo = pRepo;
+        tupRepo = kRepo; divRepo = pRepo;
     }
 
     [HttpGet("/master/tupoksi")]
@@ -31,8 +31,8 @@ public class TupoksiController : Controller {
     #nullable disable
     [HttpGet("/master/tupoksi/edit")]    
     public async Task<IActionResult> Edit(Guid tupoksiID) {
-        Tupoksi div = await repo.Tupoksis.FirstOrDefaultAsync(k => k.TupoksiID == tupoksiID);
-        Divisi jab = await jabRepo.Divisis.FirstOrDefaultAsync(p => p.DivisiID == div.DivisiID);
+        Tupoksi div = await tupRepo.Tupoksis.FirstOrDefaultAsync(k => k.TupoksiID == tupoksiID);
+        Divisi jab = await divRepo.Divisis.FirstOrDefaultAsync(p => p.DivisiID == div.DivisiID);
 
         return PartialView("~/Views/Master/Tupoksi/AddEdit.cshtml", new TupoksiViewModel {
             Tupoksi = div,
@@ -46,7 +46,7 @@ public class TupoksiController : Controller {
     public async Task<IActionResult> SaveTupoksiAsync(TupoksiViewModel div) {
         // div.Tupoksi.TupoksiID = Guid.NewGuid();
         if (ModelState.IsValid) {
-            await repo.SaveTupoksiAsync(div);
+            await tupRepo.SaveTupoksiAsync(div);
             return Json(Result.Success());
         } else {
             return PartialView("~/Views/Master/Tupoksi/AddEdit.cshtml", div);

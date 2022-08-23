@@ -13,16 +13,20 @@ namespace PjlpCore.Controllers
     {
         private readonly IJabatanRepo jabRepo;
         private readonly IDivisiRepo divRepo;
+        private readonly IBidangRepo bidRepo;
+        private readonly IPendidikanRepo penRepo;
 
-        public HomeController(IJabatanRepo jRepo, IDivisiRepo dRepo) {
-            jabRepo = jRepo; divRepo = dRepo;
+        public HomeController(IJabatanRepo jRepo, IDivisiRepo dRepo, IBidangRepo bRepo, IPendidikanRepo pRepo) {
+            jabRepo = jRepo; divRepo = dRepo; bidRepo=bRepo; penRepo=pRepo;
         }
 
         public IActionResult Index()
         {            
             return View(new DashboardVM {
                 CountJabatan = jabRepo.Jabatans.Count(),
-                CountDivisi = divRepo.Divisis.Count()
+                CountDivisi = divRepo.Divisis.Count(),
+                CountBidang = bidRepo.Bidangs.Count(),
+                CountPendidikan = penRepo.Pendidikans.Count(),
             });
         }
 
