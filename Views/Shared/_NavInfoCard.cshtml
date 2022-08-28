@@ -1,4 +1,6 @@
-﻿<div class="info-card">
+﻿@using System.Security.Claims
+
+<div class="info-card">
     <img src="~/img/clarissa.jpg" class="profile-image rounded-circle" alt="Username">
     <div class="info-card-text">
         <a href="#" class="d-flex align-items-center text-white">
@@ -6,7 +8,7 @@
                 @{
                     #nullable disable
                     if (User.Identity.IsAuthenticated) {
-                        @User.Identity.Name
+                        @(((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "given_name").Select(c => c.Value).SingleOrDefault())
                     }
                 }
             </span>

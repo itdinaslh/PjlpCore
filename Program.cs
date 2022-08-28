@@ -71,13 +71,14 @@ services.AddAuthentication(options => {
 
     options.Scope.Add("email");
     options.Scope.Add("roles");
-    // options.Scope.Add("profile");
+    options.Scope.Add("profile");
 
     // Disable the built-in JWT claims mapping feature.
     options.MapInboundClaims = false;
 
     options.TokenValidationParameters.NameClaimType = "name";
-    options.TokenValidationParameters.RoleClaimType = "role";    
+    options.TokenValidationParameters.RoleClaimType = "role";
+    
 });
 
 var app = builder.Build();

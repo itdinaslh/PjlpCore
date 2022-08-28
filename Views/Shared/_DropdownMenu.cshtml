@@ -1,4 +1,6 @@
-﻿﻿<div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
+﻿﻿@using System.Security.Claims
+
+<div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
     <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
         <span class="mr-2">
             <img src="~/img/clarissa.jpg" class="rounded-circle profile-image" alt="User">
@@ -8,7 +10,7 @@
                 @{
                     #nullable disable
                     if (User.Identity.IsAuthenticated) {
-                        @User.Identity.Name
+                        @(((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "given_name").Select(c => c.Value).SingleOrDefault())
                     }
                 }
             </div>
