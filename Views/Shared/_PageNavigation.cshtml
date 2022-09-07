@@ -1,6 +1,6 @@
 ﻿<ul id="js-nav-menu" class="nav-menu">
     <li class='@(ViewBag.Title == "Dashboard" ? "active" : "")'>
-        <a href="/" title="Dashboard" data-filter-tags="Dashboard">
+        <a asp-controller="Home" asp-action="Index" title="Dashboard" data-filter-tags="Dashboard">
             <i class="fal fa-home"></i>
             <span class="nav-link-text" data-i18n="nav.dashboard">Dashboard</span>
         </a>

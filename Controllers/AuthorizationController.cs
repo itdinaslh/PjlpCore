@@ -9,7 +9,7 @@ public class AuthorizationController : Controller {
 
     [HttpGet("~/login")]
     public IActionResult LogIn() {
-        return Challenge(new AuthenticationProperties { RedirectUri = "/"}, OpenIdConnectDefaults.AuthenticationScheme);
+        return Challenge(new AuthenticationProperties { RedirectUri = "/dashboard"}, OpenIdConnectDefaults.AuthenticationScheme);
     }
 
     [HttpGet("~/logout"), HttpPost("~/logout")]

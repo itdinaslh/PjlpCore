@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>
+        @ViewBag.Title - E-PJLP DLH DKI Jakarta
+    </title>
+    <meta name="description" content="Page Titile">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
+    <!-- Call App Mode on ios devices -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Remove Tap Highlight on Windows Phone IE -->
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- base css -->
+    <link rel="stylesheet" media="screen, print" href="~/css/vendors.bundle.css">
+    <link rel="stylesheet" media="screen, print" href="~/css/app.bundle.css">
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/img/favicon/favicon-32x32.png">
+    <link rel="mask-icon" href="~/img/favicon/safari-pinned-tab.svg" color="#5bbad5">    
+    <!--<link rel="stylesheet" media="screen, print" href="css/your_styles.css">-->
+    @RenderSectionAsync("styles", required: false)
+    <link rel="stylesheet" href="~/css/addon.css" />
+    <link rel="stylesheet" href="~/css/themes/cust-theme-3.css">
+</head>
+<body class="mod-bg-4 header-function-fixed nav-function-fixed nav-function-top mod-nav-link">
+    <!-- BEGIN Page Wrapper -->
+    <div class="page-wrapper">
+        <div class="page-inner">
+            <div class="page-content-wrapper">
+                <!-- Page Header -->
+                <partial name="~/Views/Shared/Pelamar/_Header.cshtml" />
+                <!-- BEGIN Page Content -->
+                <!-- the #js-page-content id is needed for some plugins to initialize -->
+                <main id="js-page-content" role="main" class="page-content">
+                    @RenderBody()
+                </main>
+                <!-- this overlay is activated only when mobile menu is triggered -->
+                <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div>
+                <!-- END Page Content -->
+                <!-- BEGIN Page Footer -->
+                <footer class="page-footer" role="contentinfo">
+                    <div class="d-flex align-items-center flex-1 text-muted">
+                        <span class="hidden-md-down fw-700">2021 © Dinas Lingkungan Hidup Provinsi DKI Jakarta</span>
+                    </div>
+                    <div>
+                        <ul class="list-table m-0">
+                            <!-- <li><a href="#" class="text-secondary fw-700">Kontak</a></li>
+                            <li class="pl-3"><a href="#" class="text-secondary fw-700">Dokumentasi</a></li>
+                            <li class="pl-3 fs-xl"><a href="#" class="text-secondary"><i class="fal fa-question-circle" aria-hidden="true"></i></a></li> -->
+                        </ul>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <!-- END Page Wrapper -->
+    <!-- Page Scripts -->
+    <script src="~/js/vendors.bundle.js"></script>
+    <script src="~/js/app.bundle.js"></script>
+    <script src="~/js/global.js"></script>
+    @RenderSectionAsync("scripts", required: false)
+</body>
+</html>

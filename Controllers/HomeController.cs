@@ -20,9 +20,18 @@ namespace PjlpCore.Controllers
             jabRepo = jRepo; divRepo = dRepo; bidRepo=bRepo; penRepo=pRepo;
         }
 
+        [AllowAnonymous]
+        [HttpGet("/")]
         public IActionResult Index()
         {            
-            return View(new DashboardVM {
+            return View();
+        }
+        
+        [HttpGet("/dashboard")]
+        public IActionResult Dashboard()
+        {
+            return View(new DashboardVM
+            {
                 CountJabatan = jabRepo.Jabatans.Count(),
                 CountDivisi = divRepo.Divisis.Count(),
                 CountBidang = bidRepo.Bidangs.Count(),

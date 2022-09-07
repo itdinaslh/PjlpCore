@@ -1,0 +1,702 @@
+﻿@{
+    Layout = "~/Views/Shared/Pelamar/_Master.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" media="screen, print" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="~/css/datagrid/datatables/datatables.bundle.css" />
+    <link rel="stylesheet" href="~/lib/sweetalert/sweetalert2.min.css" />
+    <link rel="stylesheet" href="~/css/wizard.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+}
+
+<div class="container text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-12 col-md-offset-1">
+            <h2>Pelamar Baru</h2>
+            <form id="myForm" action="/pendaftaran/store" method="post" class="f1" enctype="multipart/form-data">
+                <div class="f1-steps text-center">
+                    <div class="f1-progress">
+                        <div class="f1-progress-line" data-now-value="10" data-number-of-steps="4" style="width: 10%">
+                        </div>
+                    </div>
+                    <div class="f1-step active">
+                        <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                        <p>Biodata</p>
+                    </div>
+                    <div class="f1-step">
+                        <div class="f1-step-icon"><i class="fas fa-home"></i></div>
+                        <p>Data Alamat</p>
+                    </div>
+                    <div class="f1-step">
+                        <div class="f1-step-icon"><i class="fas fa-ellipsis-h"></i></div>
+                        <p>Lainnya</p>
+                    </div>
+                    <div class="f1-step">
+                        <div class="f1-step-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <p>Preview</p>
+                    </div>
+                </div>
+
+                <!-- step 1 -->
+                <fieldset>
+                    <div class="panel">
+                        <div class="panel-hdr bg-primary-700 bg-warning-gradient" role="heading">
+                            <h2>Biodata</h2>
+                        </div>
+                        <div class="panel-container show">
+                            <div class="panel-content">
+                                <div class="form-group">
+                                    <label for="namalengkap">Nama Lengkap</label>
+                                    <input type="text" name="namalengkap" id="namalengkap" value="{{$user->name}}" class="form-control" readonly required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_tel">No. Telepon</label>
+                                    <input type="text" name="no_tel" id="no_tel" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group mb-3 mb-lg-0">
+                                                <label for="no_ktp">No. KTP</label>
+                                                <input type="number" name="no_ktp" id="no_ktp" minlength="16" maxlength="16" value="{{$user->username}}" readonly class="form-control" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="no_kk">No. Kartu Keluarga</label>
+                                                <input type="number" name="no_kk" id="no_kk" class="form-control" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group mb-3 mb-lg-0">
+                                                <label for="tgl-lahir">Tanggal Lahir</label>
+                                                <input type="text" name="tgl_lahir" id="tgl_lahir"
+                                                    class="dtpicker form-control" readonly required />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="tempat_lahir">Tempat Lahir</label>
+                                                <input type="text" name="tempat_lahir" id="tempat_lahir"
+                                                    class="form-control" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group mb-3 mb-lg-0">
+                                                <label for="kelamin">Jenis Kelamin</label>
+                                                <select name="kelamin" id="kelamin" class="form-control" required>
+                                                    <option hidden value="" selected>Pilih Jenis Kelamin</option>
+                                                    <option value="1">Laki-Laki</option>
+                                                    <option value="0">Perempuan</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group mb-3 mb-lg-0">
+                                                <label for="gol-darah">Golongan Darah</label>
+                                                <select name="gol_darah" id="gol_darah" class="form-control">
+                                                    <option selected value="" hidden>Pilih Golongan Darah</option>
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="AB">AB</option>
+                                                    <option value="O">O</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="agama">Agama</label>
+                                                <select name="agama" id="agama" class="form-control myselect" required>
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-primary btn-next">
+                                        Selanjutnya <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- step 2 -->
+                <fieldset>
+                    <div class="panel">
+                        <div class="panel-hdr bg-primary-700 bg-warning-gradient" role="heading">
+                            <h2>Alamat Sesuai KTP</h2>
+                        </div>
+                        <div class="panel-container show">
+                            <div class="panel-content">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <label for="provinsi">Provinsi</label>
+                                            <select name="provinsi" id="provinsi" class="form-control myselect" style="width: 100%;" required>
+                                            </select>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <label for="kota">Kota/Kabupaten</label>
+                                            <select name="kota" id="kota" class="form-control myselect" style="width: 100%;" disabled required>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="kecamatan">Kecamatan</label>
+                                            <select name="kecamatan" id="kecamatan" class="form-control myselect" style="width: 100%;" disabled required>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="kelurahan">Kelurahan</label>
+                                                <select name="kelurahan" id="kelurahan" class="form-control myselect" style="width: 100%;" disabled required>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="alamat">Alamat</label>
+                                    <input type="text" name="alamat_ktp" id="alamat_ktp" class="form-control" required />
+                                    <span>Contoh : Jl. Mandala V No.67</span>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="rt">RT</label>
+                                                <input type="number" name="rt" id="rt" class="form-control" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="rw">RW</label>
+                                                <input type="number" name="rw" id="rw" class="form-control" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="kode-pos">Kode Pos</label>
+                                                <input type="number" name="kode_pos" id="kode_pos"
+                                                    class="form-control" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-hdr bg-primary-700 bg-warning-gradient" role="heading">
+                            <h2>Alamat Domisili</h2>
+                        </div>
+                        <div class="panel-container show">
+                            <div class="panel-content">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <label for="provinsi_dom">Provinsi</label>
+                                            <select name="provinsi_dom" id="provinsi_dom" class="form-control myselect" style="width: 100%;" required>
+                                            </select>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <label for="kota_dom">Kota/Kabupaten</label>
+                                            <select name="kota_dom" id="kota_dom" class="form-control myselect" style="width: 100%;" disabled required>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="kecamatan_dom">Kecamatan</label>
+                                            <select name="kecamatan_dom" id="kecamatan_dom" class="form-control myselect" style="width: 100%;" disabled required>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="kelurahan_dom">Kelurahan</label>
+                                                <select name="kelurahan_dom" id="kelurahan_dom" class="form-control myselect" style="width: 100%;" disabled required>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="alamat_dom">Alamat</label>
+                                    <input type="text" name="alamat_dom" id="alamat_dom" class="form-control" required />
+                                    <span>Contoh : Jl. Mandala V No.67</span>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="rt_dom">RT</label>
+                                                <input type="text" name="rt_dom" id="rt_dom" class="form-control" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="rw_dom">RW</label>
+                                                <input type="text" name="rw_dom" id="rw_dom" class="form-control" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="kode-pos">Kode Pos</label>
+                                                <input type="text" name="kode_pos_dom" id="kode_pos_dom"
+                                                    class="form-control" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-warning btn-previous">
+                                        <i class="fa fa-arrow-left"></i> Sebelumnya
+                                    </button>
+                                    <button type="button" class="btn btn-primary btn-next">
+                                        Selanjutnya <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- step 3 -->
+                <fieldset>
+                    <div class="panel">
+                        <div class="panel-hdr bg-primary-700 bg-warning-gradient" role="heading">
+                            <h2>Data Lainnya</h2>
+                        </div>
+                        <div class="panel-container show">
+                            <div class="panel-content">
+                                <div class="form-group">
+                                    <label for="pendidikan">Pendidikan Terakhir</label>
+                                    <select name="pendidikan" id="pendidikan" class="form-control myselect" style="width:100%;" required>
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="">Jurusan Pendidikan</label>
+                                                <input type="text" name="jurusan" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="">Nama Sekolah/Universitas</label>
+                                                <input type="text" name="nama_sekolah" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="npwp">No. NPWP *</label>
+                                                <input type="text" name="npwp" id="npwp" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label for="">Tanggungan *</label>
+                                            <select name="tanggungan" id="tanggungan" class="form-control">
+                                                <option value="TK">(TK) Belum Menikah</option>
+                                                <option value="K0">(K0)Menikah Belum Punya Anak</option>
+                                                <option value="K1">(K1) Menikah Anak 1</option>
+                                                <option value="K2">(K2) Menikah Anak 2</option>
+                                                <option value="K3">(K3) Menikah Anak Lebih Dari 2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="">No. BPJS Kesehatan</label>
+                                                <input type="text" name="bpjs" id="bpjs" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="">No. BPJS Ketenagakerjaan</label>
+                                                <input type="text" name="bpjsk" id="bpjsk" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label for="">Status BPJS</label>
+                                            <select name="status_bpjs" id="status_bpjs" class="form-control">
+                                                <option value="0">Tidak punya BPJS</option>
+                                                <option value="1">Dinas Lingkungan Hidup Prov. DKI Jakarta</option>
+                                                <option value="2">Non Dinas Lingkungan Hidup Prov. DKI Jakarta</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="sim_data">SIM/SIO/Sertifikat</label>
+                                                <input type="text" name="sim" id="sim_data" class="form-control" />
+                                                <span>Contoh : SIM C</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="sim-date">Berlaku Hingga</label>
+                                                <input type="text" name="sim_date" id="sim_date" class="form-control dtpicker" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="nama_bank">Cabang Bank DKI</label>
+                                                <input type="text" name="nama_bank" id="nama_bank"
+                                                    class="form-control" required/>
+                                                <span>Contoh : Dinas Lingkungan Hidup</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="no_rek">No. Rekening</label>
+                                                <input type="text" name="no_rek" id="no_rek" class="form-control" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <h4 class="font-weight-bold">Posisi yang Dilamar</h4>
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <div class="form-group">
+                                                <label for="bidang">Bidang *</label>
+                                                <select name="bidang" id="bidang" class="form-control" style="width: 100%;" required>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <div class="form-group">
+                                                <label for="jabatan">Jabatan *</label>
+                                                <select name="jabatan" id="jabatan" class="form-control" style="width: 100%;" required>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-warning btn-previous">
+                                        <i class="fa fa-arrow-left"></i> Sebelumnya
+                                    </button>
+                                    <button type="button" class="btn btn-primary btn-next">
+                                        Selanjutnya <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- step 4 -->
+                {{-- <fieldset>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="lamaran">Surat Lamaran</label>
+                                    <input type="file" name="lamaran" id="lamaran" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mt-3 mt-lg-0">
+                                    <label for="lamaran">KTP</label>
+                                    <input type="file" name="ktp" id="ktp" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="cvitae">Daftar Riwayat Hidup</label>
+                                    <input type="file" name="cvitae" id="cvitae" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mt-3 mt-lg-0">
+                                    <label for="foto">Foto Berwarna</label>
+                                    <input type="file" name="foto" id="foto" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="file_kk">Kartu Keluarga</label>
+                                    <input type="file" name="file_kk" id="file_kk" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mt-3 mt-lg-0">
+                                    <label for="file_npwp">NPWP</label>
+                                    <input type="file" name="file_npwp" id="file_npwp" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="file_rekening">Buku Rekening</label>
+                                    <input type="file" name="file_rekening" id="file_rekening" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mt-3 mt-lg-0">
+                                    <label for="file_ijazah">Ijazah</label>
+                                    <input type="file" name="file_ijazah" id="file_ijazah" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="file_pengalaman">Surat Pengalaman</label>
+                                    <input type="file" name="file_pengalaman" id="file_pengalaman" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mt-3 mt-lg-0">
+                                    <label for="file_skck">SKCK</label>
+                                    <input type="file" name="file_skck" id="file_skck" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="file_bnn">BNN</label>
+                                    <input type="file" name="file_bnn" id="file_bnn" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mt-3 mt-lg-0">
+                                    <label for="file_dimana_saja">Pernyataan dimana saja</label>
+                                    <input type="file" name="file_dimana_saja" id="file_dimana_saja" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="file_tidak_menuntut">Pernyataan tidak menuntut</label>
+                                    <input type="file" name="file_tidak_menuntut" id="file_tidak_menuntut" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mt-3 mt-lg-0">
+                                    <label for="file_fakta_integritas">Fakta Intergritas</label>
+                                    <input type="file" name="file_fakta_integritas" id="file_fakta_integritas" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="file_sim">SIM/SIO</label>
+                                    <input type="file" name="file_sim" id="file_sim" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="f1-buttons">
+                        <button type="button" class="btn btn-warning btn-previous">
+                            <i class="fa fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <button type="button" class="btn btn-primary btn-next">
+                            Selanjutnya <i class="fa fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </fieldset> --}}
+
+                {{-- Preview --}}
+                <fieldset>
+                    <h4>Preview</h4>
+                    <table class="table table-striped table-bordered">
+                        <tbody>
+                            <tr>
+                                <td colspan="2" class="table-primary h4"><i class="fa fa-user"></i> Biodata</td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Nama Lengkap</td>
+                                <td id="v-nama-lengkap"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">No. Telepon</td>
+                                <td id="v-tel"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">No. KTP</td>
+                                <td id="v-ktp"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">No. Kartu Keluarga</td>
+                                <td id="v-kk"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Tempat, Tanggal Lahir</td>
+                                <td>
+                                    <span id="v-tempat-lahir"></span>, <span id="v-tgl-lahir"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Jenis Kelamin</td>
+                                <td id="v-kelamin"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Golongan Darah</td>
+                                <td id="v-darah"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Agama</td>
+                                <td id="v-agama"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Alamat (Sesuai KTP)</td>
+                                <td>
+                                    <div class="alamat">
+                                        <span id="v-alamat"></span>,
+                                        RT. <span id="v-rt"></span>,
+                                        RW. <span id="v-rw"></span>,
+                                        <span id="v-kelurahan"></span>,
+                                        <span id="v-kecamatan"></span>,
+                                        <span id="v-kota"></span>,
+                                        <span id="v-provinsi"></span>,
+                                        <span id="v-kode-pos"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Alamat Domisili</td>
+                                <td>
+                                    <div class="alamat">
+                                        <span id="v-alamat-dom"></span>,
+                                        RT. <span id="v-rt-dom"></span>,
+                                        RW. <span id="v-rw-dom"></span>,
+                                        <span id="v-kelurahan-dom"></span>,
+                                        <span id="v-kecamatan-dom"></span>,
+                                        <span id="v-kota-dom"></span>,
+                                        <span id="v-provinsi-dom"></span>,
+                                        <span id="v-kode-pos-dom"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="table-primary h4"><i class="fas fa-ellipsis-h"></i> Lainnya</td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Pendidikan Terakhir</td>
+                                <td id="v-pendidikan"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">No. NPWP</td>
+                                <td id="v-npwp"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">No. BPJS Kesehatan</td>
+                                <td id="v-bpjs"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">No. BPJS Ketenagakerjaan</td>
+                                <td id="v-bpjsk"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Status BPJS</td>
+                                <td id="v-status-bpjs"></td>
+                            </tr>
+                            <tr>
+                                <td width="20%">SIM/SIO/Sertifikat</td>
+                                <td>
+                                    <div class="sim">
+                                        <span id="v-sim-data"></span>
+                                        | Berlaku Hingga: <span id="v-sim-date"></span>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%">No. Rekening</td>
+                                <td>
+                                    <div class="rekening">
+                                        <span id="v-nama-bank"></span>
+                                        | <span id="v-no-rek"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Posisi Yang dilamar</td>
+                                <td>
+                                    <div class="posisi">
+                                        Jabatan: <span id="v-jabatan"></span>
+                                        , Bidang: <span id="v-bidang"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="f1-buttons">
+                        <button type="button" class="btn btn-warning btn-previous">
+                            <i class="fa fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-submit">
+                            <i class="fa fa-save"></i> Submit
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/global.js"></script>
+    <script src="~/js/wizard.js"></script>
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/sweetalert/sweetalert2.min.js"></script>
+    <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/js/pendaftaran.js"></script>
+}
