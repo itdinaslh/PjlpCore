@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PjlpCore.Entity;
 
-[Table("kelurahan")]
+[Table("Kelurahan")]
 public class Kelurahan {
     #nullable disable
     [MaxLength(15, ErrorMessage = "Maksimal 15 Karakter")]
@@ -26,4 +26,6 @@ public class Kelurahan {
     public string KecamatanID { get; set; }
 
     public Kecamatan Kecamatan { get; set; }
+
+    public List<Pelamar> Pelamars { get; set; }
 }

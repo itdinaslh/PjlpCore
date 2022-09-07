@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PjlpCore.Entity;
 
-[Table("agama")]
+[Table("Agama")]
 public class Agama {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int AgamaID { get; set; }
@@ -16,4 +16,6 @@ public class Agama {
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
+
+    public List<Pelamar> Pelamars { get; set; }
 }

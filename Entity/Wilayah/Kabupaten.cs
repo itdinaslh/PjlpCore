@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PjlpCore.Entity;
 
-[Table("kabupaten")]
+[Table("Kabupaten")]
 public class Kabupaten {
     #nullable disable
     [Key]

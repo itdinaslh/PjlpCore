@@ -13,7 +13,13 @@
                 }
             </span>
         </a>
-        <span class="d-inline-block text-truncate text-truncate-sm">User</span>
+        <span class="d-inline-block text-truncate text-truncate-sm">
+            @if (User.IsInRole("PjlpAdmin")) {
+                <span>Admin PJLP</span>
+            } else if (User.IsInRole("PjlpUser")) {
+                <span>User PJLP</span>
+            }
+        </span>
     </div>
     <img src="~/img/card-backgrounds/cover-2-lg.png" class="cover" alt="cover">
     <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle" data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">

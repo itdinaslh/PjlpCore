@@ -14,7 +14,13 @@
                     }
                 }
             </div>
-            <span class="text-truncate text-truncate-md opacity-80">Software Developer</span>
+            <span class="text-truncate text-truncate-md opacity-80">
+                @if (User.IsInRole("PjlpAdmin")) {
+                    <span>Admin PJLP</span>
+                } else if (User.IsInRole("PjlpUser")) {
+                    <span>User PJLP</span>
+                }            
+            </span>
         </div>
     </div>
 </div>

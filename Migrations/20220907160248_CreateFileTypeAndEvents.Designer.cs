@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PjlpCore.Data;
@@ -11,9 +12,10 @@ using PjlpCore.Data;
 namespace PjlpCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220907160248_CreateFileTypeAndEvents")]
+    partial class CreateFileTypeAndEvents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +45,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("AgamaID");
 
-                    b.ToTable("Agama", (string)null);
+                    b.ToTable("agama");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Bidang", b =>
@@ -69,7 +71,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("BidangID");
 
-                    b.ToTable("Bidang", (string)null);
+                    b.ToTable("bidang");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Divisi", b =>
@@ -96,7 +98,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("BidangID");
 
-                    b.ToTable("Divisi", (string)null);
+                    b.ToTable("divisi");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Event", b =>
@@ -120,7 +122,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("EventId");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.FileType", b =>
@@ -146,7 +148,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("FileTypeId");
 
-                    b.ToTable("FileTypes", (string)null);
+                    b.ToTable("FileTypes");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Jabatan", b =>
@@ -173,7 +175,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("BidangID");
 
-                    b.ToTable("Jabatan", (string)null);
+                    b.ToTable("jabatan");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Kabupaten", b =>
@@ -206,7 +208,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("ProvinsiID");
 
-                    b.ToTable("Kabupaten", (string)null);
+                    b.ToTable("kabupaten");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Kecamatan", b =>
@@ -236,7 +238,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("KabupatenID");
 
-                    b.ToTable("Kecamatan", (string)null);
+                    b.ToTable("kecamatan");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Kelurahan", b =>
@@ -266,185 +268,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("KecamatanID");
 
-                    b.ToTable("Kelurahan", (string)null);
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.Pelamar", b =>
-                {
-                    b.Property<Guid>("PelamarId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("AgamaId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Alamat")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("BidangId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("CabangRekening")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("DomAlamat")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DomKelurahanId")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
-
-                    b.Property<string>("DomKodePos")
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
-                    b.Property<string>("DomRT")
-                        .HasMaxLength(5)
-                        .HasColumnType("character varying(5)");
-
-                    b.Property<string>("DomRW")
-                        .HasMaxLength(5)
-                        .HasColumnType("character varying(5)");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("GolonganDarah")
-                        .HasMaxLength(4)
-                        .HasColumnType("character varying(4)");
-
-                    b.Property<bool>("IsNew")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("JabatanId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("JurusanSekolah")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
-
-                    b.Property<bool>("Kelamin")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("KelurahanId")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
-
-                    b.Property<string>("KodePos")
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
-                    b.Property<string>("Nama")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
-
-                    b.Property<string>("NamaSekolah")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
-
-                    b.Property<string>("NoBPJS")
-                        .HasMaxLength(45)
-                        .HasColumnType("character varying(45)");
-
-                    b.Property<string>("NoBPJSK")
-                        .HasMaxLength(45)
-                        .HasColumnType("character varying(45)");
-
-                    b.Property<string>("NoKK")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.Property<string>("NoKTP")
-                        .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
-
-                    b.Property<string>("NoNPWP")
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
-
-                    b.Property<string>("NoRekening")
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
-
-                    b.Property<string>("NoSIM")
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
-
-                    b.Property<int>("PendidikanId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("RT")
-                        .HasMaxLength(5)
-                        .HasColumnType("character varying(5)");
-
-                    b.Property<string>("RW")
-                        .HasMaxLength(5)
-                        .HasColumnType("character varying(5)");
-
-                    b.Property<string>("StatusBPJS")
-                        .HasMaxLength(45)
-                        .HasColumnType("character varying(45)");
-
-                    b.Property<int>("StatusLamaranId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Tanggungan")
-                        .HasMaxLength(2)
-                        .HasColumnType("character varying(2)");
-
-                    b.Property<string>("Telp")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.Property<string>("TempatLahir")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<DateOnly?>("TglAkhirSIM")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("TglLahir")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("UserEmail")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("PelamarId");
-
-                    b.HasIndex("AgamaId");
-
-                    b.HasIndex("BidangId");
-
-                    b.HasIndex("DomKelurahanId");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("JabatanId");
-
-                    b.HasIndex("KelurahanId");
-
-                    b.HasIndex("PendidikanId");
-
-                    b.HasIndex("StatusLamaranId");
-
-                    b.ToTable("Pelamar", (string)null);
+                    b.ToTable("kelurahan");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Pendidikan", b =>
@@ -468,7 +292,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("PendidikanID");
 
-                    b.ToTable("Pendidikan", (string)null);
+                    b.ToTable("pendidikan");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Persyaratan", b =>
@@ -492,7 +316,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("PersyaratanID");
 
-                    b.ToTable("Persyaratan", (string)null);
+                    b.ToTable("persyaratan");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Provinsi", b =>
@@ -525,30 +349,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("ProvinsiID");
 
-                    b.ToTable("Provinsi", (string)null);
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.StatusLamaran", b =>
-                {
-                    b.Property<int>("StatusLamaranId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("StatusLamaranId"));
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NamaStatus")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("StatusLamaranId");
-
-                    b.ToTable("StatusLamaran", (string)null);
+                    b.ToTable("provinsi");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Tupoksi", b =>
@@ -575,7 +376,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("DivisiID");
 
-                    b.ToTable("Tupoksi", (string)null);
+                    b.ToTable("tupoksi");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Divisi", b =>
@@ -623,71 +424,6 @@ namespace PjlpCore.Migrations
                     b.Navigation("Kecamatan");
                 });
 
-            modelBuilder.Entity("PjlpCore.Entity.Pelamar", b =>
-                {
-                    b.HasOne("PjlpCore.Entity.Agama", "Agama")
-                        .WithMany("Pelamars")
-                        .HasForeignKey("AgamaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PjlpCore.Entity.Bidang", "Bidang")
-                        .WithMany("Pelamars")
-                        .HasForeignKey("BidangId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PjlpCore.Entity.Kelurahan", "KelurahanDom")
-                        .WithMany("Pelamars")
-                        .HasForeignKey("DomKelurahanId");
-
-                    b.HasOne("PjlpCore.Entity.Event", "Event")
-                        .WithMany("Pelamars")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PjlpCore.Entity.Jabatan", "Jabatan")
-                        .WithMany("Pelamars")
-                        .HasForeignKey("JabatanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PjlpCore.Entity.Kelurahan", "Kelurahan")
-                        .WithMany()
-                        .HasForeignKey("KelurahanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PjlpCore.Entity.Pendidikan", "Pendidikan")
-                        .WithMany("Pelamars")
-                        .HasForeignKey("PendidikanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PjlpCore.Entity.StatusLamaran", "StatusLamaran")
-                        .WithMany("Pelamars")
-                        .HasForeignKey("StatusLamaranId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Agama");
-
-                    b.Navigation("Bidang");
-
-                    b.Navigation("Event");
-
-                    b.Navigation("Jabatan");
-
-                    b.Navigation("Kelurahan");
-
-                    b.Navigation("KelurahanDom");
-
-                    b.Navigation("Pendidikan");
-
-                    b.Navigation("StatusLamaran");
-                });
-
             modelBuilder.Entity("PjlpCore.Entity.Tupoksi", b =>
                 {
                     b.HasOne("PjlpCore.Entity.Divisi", "Divisi")
@@ -697,33 +433,16 @@ namespace PjlpCore.Migrations
                     b.Navigation("Divisi");
                 });
 
-            modelBuilder.Entity("PjlpCore.Entity.Agama", b =>
-                {
-                    b.Navigation("Pelamars");
-                });
-
             modelBuilder.Entity("PjlpCore.Entity.Bidang", b =>
                 {
                     b.Navigation("Divisis");
 
                     b.Navigation("Jabatans");
-
-                    b.Navigation("Pelamars");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Divisi", b =>
                 {
                     b.Navigation("Tupoksis");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.Event", b =>
-                {
-                    b.Navigation("Pelamars");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.Jabatan", b =>
-                {
-                    b.Navigation("Pelamars");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Kabupaten", b =>
@@ -736,24 +455,9 @@ namespace PjlpCore.Migrations
                     b.Navigation("Kelurahans");
                 });
 
-            modelBuilder.Entity("PjlpCore.Entity.Kelurahan", b =>
-                {
-                    b.Navigation("Pelamars");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.Pendidikan", b =>
-                {
-                    b.Navigation("Pelamars");
-                });
-
             modelBuilder.Entity("PjlpCore.Entity.Provinsi", b =>
                 {
                     b.Navigation("Kabupatens");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.StatusLamaran", b =>
-                {
-                    b.Navigation("Pelamars");
                 });
 #pragma warning restore 612, 618
         }

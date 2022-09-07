@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PjlpCore.Entity;
 
-[Table("pendidikan")]
+[Table("Pendidikan")]
 public class Pendidikan {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int PendidikanID { get; set; }
@@ -16,4 +16,6 @@ public class Pendidikan {
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
+
+    public List<Pelamar> Pelamars { get; set; }
 }

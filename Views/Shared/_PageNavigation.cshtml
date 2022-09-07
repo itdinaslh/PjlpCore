@@ -83,6 +83,25 @@
         </a>
     </li>
 
+    <li class='@(ViewBag.Parent == "Pelamar" ? "active open" : "")'>
+        <a href="#" title="Pelamar" data-filter-tags="pelamar">
+            <i class="fal fa-id-badge"></i>
+            <span class="nav-link-text" data-i18n="nav.pelamar">Pelamar</span>            
+        </a>
+        <ul>
+            <li class='@(ViewBag.Title == "Data Pelamar Baru" ? "active" : "")'>
+                <a asp-controller="Pelamar" asp-action="Baru" title="Pelamar Baru" data-filter-tags="pelamar baru">
+                    <span class="nav-link-text" data-i18n="nav.pelamar_baru">Pelamar Baru</span>
+                </a>
+            </li>
+            <li class='@(ViewBag.Title == "Data Pelamar Lama" ? "active" : "")'>
+                <a asp-controller="Pelamar" asp-action="Lama" title="Pelamar Lama" data-filter-tags="pelamar lama">
+                    <span class="nav-link-text" data-i18n="nav.pelamar_lama">Pelamar Lama</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+
     <li class="nav-title">Administrasi</li>
 
     <li class="">

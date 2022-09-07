@@ -28,4 +28,21 @@ public class AppDbContext : DbContext {
     public DbSet<Persyaratan> Persyaratans { get; set; }
 
     public DbSet<Tupoksi> Tupoksis { get; set; }
+
+    public DbSet<Event> Events { get; set; }
+
+    public DbSet<FileType> FileTypes { get; set; }
+
+    public DbSet<StatusLamaran> StatusLamarans { get; set; }
+
+    public DbSet<Pelamar> Pelamars { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+
+        builder.Entity<Pelamar>()
+            .HasOne(p => p.KelurahanDom)
+            .WithMany(k => k.Pelamars)
+            .HasForeignKey(p => p.DomKelurahanId);
+    }
 }

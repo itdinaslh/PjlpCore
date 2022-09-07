@@ -3,16 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PjlpCore.Entity;
 
-[Table("Events")]
-public class Event
+[Table("StatusLamaran")]
+public class StatusLamaran
 {
 #nullable disable
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int EventId { get; set; }
+    public int StatusLamaranId { get; set; }
 
-    [MaxLength(150)]
-    [Required]
-    public string EventName { get; set; }
+    [MaxLength(50)]
+    public string NamaStatus { get; set; }
 
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
