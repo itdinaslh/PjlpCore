@@ -5,76 +5,79 @@
             <span class="nav-link-text" data-i18n="nav.dashboard">Dashboard</span>
         </a>
     </li>
-    <li class='@(ViewBag.Parent == "Master" ? "active open" : "")'>
-        <a href="#" title="Master Data" data-filter-tags="master data">
-            <i class="fal fa-database"></i>
-            <span class="nav-link-text" data-i18n="nav.master_data">Master Data</span>
-        </a>
-        <ul>
-            <li class='@(ViewBag.Title == "Agama" ? "active" : "")'>
-                <a asp-controller="Agama" asp-action="Index" title="Agama" data-filter-tags="agama">
-                    <span class="nav-link-text" data-i18n="nav.agama">Agama</span>
-                </a>
-            </li>
-            <li class='@(ViewBag.Title == "Bidang" ? "active" : "")'>
-                <a asp-controller="Bidang" asp-action="Index" title="Bidang" data-filter-tags="bidang">
-                    <span class="nav-link-text" data-i18n="nav.bidang">Bidang</span>
-                </a>
-            </li>
-            <li class='@(ViewBag.Title == "Divisi" ? "active" : "")'>
-                <a asp-controller="Divisi" asp-action="Index" title="Divisi" data-filter-tags="divisi">
-                    <span class="nav-link-text" data-i18n="nav.divisi">Divisi</span>
-                </a>
-            </li>
-            <li class='@(ViewBag.Title == "Jabatan" ? "active" : "")'>
-                <a asp-controller="Jabatan" asp-action="Index" title="Jabatan" data-filter-tags="jabatan">
-                    <span class="nav-link-text" data-i18n="nav.jabatan">Jabatan</span>
-                </a>
-            </li>
-            <li class='@(ViewBag.Title == "Pendidikan" ? "active" : "")'>
-                <a asp-controller="Pendidikan" asp-action="Index" title="Pendidikan" data-filter-tags="pendidikan">
-                    <span class="nav-link-text" data-i18n="nav.pendidikan">Pendidikan</span>
-                </a>
-            </li>
-            <li class='@(ViewBag.Title == "Persyaratan" ? "active" : "")'>
-                <a asp-controller="Persyaratan" asp-action="Index" title="Persyaratan" data-filter-tags="persyaratan">
-                    <span class="nav-link-text" data-i18n="nav.persyaratan">Persyaratan</span>
-                </a>
-            </li>
-            <li class='@(ViewBag.Title == "Tupoksi" ? "active" : "")'>
-                <a asp-controller="Tupoksi" asp-action="Index" title="Tupoksi" data-filter-tags="tupoksi">
-                    <span class="nav-link-text" data-i18n="nav.tupoksi">Tupoksi</span>
-                </a>
-            </li>
-            <li class='@(ViewBag.Category == "Wilayah" ? "active open" : "")'>
-                <a href="#" title="Wilayah" data-filter-tags="wilayah">
-                    <span class="nav-link-text" data-i18n="nav.wilayah">Wilayah</span>
-                </a>
-                <ul>
-                    <li class='@(ViewBag.Title == "Provinsi" ? "active" : "")'>
-                        <a asp-controller="Provinsi" asp-action="Index" title="Provinsi" data-filter-tags="provinsi">
-                            <span class="nav-link-text" data-i18n="nav.provinsi">Provinsi</span>
-                        </a>
-                    </li>
-                    <li class='@(ViewBag.Title == "Kabupaten" ? "active" : "")'>
-                        <a asp-controller="Kabupaten" asp-action="Index" title="Kabupaten" data-filter-tags="kabupaten">
-                            <span class="nav-link-text" data-i18n="nav.kabupaten">Kabupaten</span>
-                        </a>
-                    </li>
-                    <li class='@(ViewBag.Title == "Kecamatan" ? "active" : "")'>
-                        <a asp-controller="Kecamatan" asp-action="Index" title="Kecamatan" data-filter-tags="kecamatan">
-                            <span class="nav-link-text" data-i18n="nav.kecamatan">Kecamatan</span>
-                        </a>
-                    </li>
-                    <li class='@(ViewBag.Title == "Kelurahan" ? "active" : "")'>
-                        <a asp-controller="Kelurahan" asp-action="Index" title="Kelurahan" data-filter-tags="kelurahan">
-                            <span class="nav-link-text" data-i18n="nav.kelurahan">Kelurahan</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </li>
+
+    @if (User.IsInRole("SysAdmin") || User.IsInRole("PjlpAdmin")) {
+        <li class='@(ViewBag.Parent == "Master" ? "active open" : "")'>
+            <a href="#" title="Master Data" data-filter-tags="master data">
+                <i class="fal fa-database"></i>
+                <span class="nav-link-text" data-i18n="nav.master_data">Master Data</span>
+            </a>
+            <ul>
+                <li class='@(ViewBag.Title == "Agama" ? "active" : "")'>
+                    <a asp-controller="Agama" asp-action="Index" title="Agama" data-filter-tags="agama">
+                        <span class="nav-link-text" data-i18n="nav.agama">Agama</span>
+                    </a>
+                </li>
+                <li class='@(ViewBag.Title == "Bidang" ? "active" : "")'>
+                    <a asp-controller="Bidang" asp-action="Index" title="Bidang" data-filter-tags="bidang">
+                        <span class="nav-link-text" data-i18n="nav.bidang">Bidang</span>
+                    </a>
+                </li>
+                <li class='@(ViewBag.Title == "Divisi" ? "active" : "")'>
+                    <a asp-controller="Divisi" asp-action="Index" title="Divisi" data-filter-tags="divisi">
+                        <span class="nav-link-text" data-i18n="nav.divisi">Divisi</span>
+                    </a>
+                </li>
+                <li class='@(ViewBag.Title == "Jabatan" ? "active" : "")'>
+                    <a asp-controller="Jabatan" asp-action="Index" title="Jabatan" data-filter-tags="jabatan">
+                        <span class="nav-link-text" data-i18n="nav.jabatan">Jabatan</span>
+                    </a>
+                </li>
+                <li class='@(ViewBag.Title == "Pendidikan" ? "active" : "")'>
+                    <a asp-controller="Pendidikan" asp-action="Index" title="Pendidikan" data-filter-tags="pendidikan">
+                        <span class="nav-link-text" data-i18n="nav.pendidikan">Pendidikan</span>
+                    </a>
+                </li>
+                <li class='@(ViewBag.Title == "Persyaratan" ? "active" : "")'>
+                    <a asp-controller="Persyaratan" asp-action="Index" title="Persyaratan" data-filter-tags="persyaratan">
+                        <span class="nav-link-text" data-i18n="nav.persyaratan">Persyaratan</span>
+                    </a>
+                </li>
+                <li class='@(ViewBag.Title == "Tupoksi" ? "active" : "")'>
+                    <a asp-controller="Tupoksi" asp-action="Index" title="Tupoksi" data-filter-tags="tupoksi">
+                        <span class="nav-link-text" data-i18n="nav.tupoksi">Tupoksi</span>
+                    </a>
+                </li>
+                <li class='@(ViewBag.Category == "Wilayah" ? "active open" : "")'>
+                    <a href="#" title="Wilayah" data-filter-tags="wilayah">
+                        <span class="nav-link-text" data-i18n="nav.wilayah">Wilayah</span>
+                    </a>
+                    <ul>
+                        <li class='@(ViewBag.Title == "Provinsi" ? "active" : "")'>
+                            <a asp-controller="Provinsi" asp-action="Index" title="Provinsi" data-filter-tags="provinsi">
+                                <span class="nav-link-text" data-i18n="nav.provinsi">Provinsi</span>
+                            </a>
+                        </li>
+                        <li class='@(ViewBag.Title == "Kabupaten" ? "active" : "")'>
+                            <a asp-controller="Kabupaten" asp-action="Index" title="Kabupaten" data-filter-tags="kabupaten">
+                                <span class="nav-link-text" data-i18n="nav.kabupaten">Kabupaten</span>
+                            </a>
+                        </li>
+                        <li class='@(ViewBag.Title == "Kecamatan" ? "active" : "")'>
+                            <a asp-controller="Kecamatan" asp-action="Index" title="Kecamatan" data-filter-tags="kecamatan">
+                                <span class="nav-link-text" data-i18n="nav.kecamatan">Kecamatan</span>
+                            </a>
+                        </li>
+                        <li class='@(ViewBag.Title == "Kelurahan" ? "active" : "")'>
+                            <a asp-controller="Kelurahan" asp-action="Index" title="Kelurahan" data-filter-tags="kelurahan">
+                                <span class="nav-link-text" data-i18n="nav.kelurahan">Kelurahan</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    }    
 
     <li class="">
         <a href="/master/emp" title="Data PJLP" data-filter-tags="data pjlp">
