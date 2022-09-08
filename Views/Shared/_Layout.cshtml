@@ -20,12 +20,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="https://localhost:6001/Identity/Account/RegisterPJLP">Register</a>
+                            @if (User.Identity!.IsAuthenticated) {
+                                <a class="nav-link text-dark" href="/dashboard">Dashboard</a>
+                            } else {
+                                <a class="nav-link text-dark" href="/login">Login</a>
+                            }
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="https://localhost:6001/Identity/Account/RegisterPJLP">Register</a>
                         </li>
                     </ul>
                 </div>

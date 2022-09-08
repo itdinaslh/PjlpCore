@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using PjlpCore.Data;
 using Microsoft.AspNetCore.Identity;
 using PjlpCore.Repository;
+using PjlpCore.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace PjlpCore.Controllers
 {
@@ -15,9 +17,10 @@ namespace PjlpCore.Controllers
         private readonly IDivisiRepo divRepo;
         private readonly IBidangRepo bidRepo;
         private readonly IPendidikanRepo penRepo;
+        private readonly IPelamar pelamarRepo;
 
-        public HomeController(IJabatanRepo jRepo, IDivisiRepo dRepo, IBidangRepo bRepo, IPendidikanRepo pRepo) {
-            jabRepo = jRepo; divRepo = dRepo; bidRepo=bRepo; penRepo=pRepo;
+        public HomeController(IJabatanRepo jRepo, IDivisiRepo dRepo, IBidangRepo bRepo, IPendidikanRepo pRepo, IPelamar pelRepo) {
+            jabRepo = jRepo; divRepo = dRepo; bidRepo=bRepo; penRepo=pRepo; pelamarRepo = pelRepo;
         }
 
         [AllowAnonymous]
@@ -28,8 +31,18 @@ namespace PjlpCore.Controllers
         }
         
         [HttpGet("/dashboard")]
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
+            if (User.IsInRole("PjlpUser"))
+            {
+                Pelamar? pelamar = await pelamarRepo.Pelamars.Where(p => p.NoKTP == User.Identity!.Name).FirstOrDefaultAsync();
+
+                if (pelamar is null)
+                {
+                    return RedirectToAction("Index", "Pendaftaran");
+                }
+            }
+
             return View(new DashboardVM
             {
                 CountJabatan = jabRepo.Jabatans.Count(),

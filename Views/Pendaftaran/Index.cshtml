@@ -51,7 +51,7 @@
                             <div class="panel-content">
                                 <div class="form-group">
                                     <label for="namalengkap">Nama Lengkap</label>
-                                    <input type="text" name="namalengkap" id="namalengkap" value="{{$user->name}}" class="form-control" readonly required />
+                                        <input type="text" name="namalengkap" id="namalengkap" value="@(((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "given_name").Select(c => c.Value).SingleOrDefault())" class="form-control" readonly required />
                                 </div>
                                 <div class="form-group">
                                     <label for="no_tel">No. Telepon</label>
@@ -62,7 +62,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group mb-3 mb-lg-0">
                                                 <label for="no_ktp">No. KTP</label>
-                                                <input type="number" name="no_ktp" id="no_ktp" minlength="16" maxlength="16" value="{{$user->username}}" readonly class="form-control" required />
+                                                <input type="number" name="no_ktp" id="no_ktp" minlength="16" maxlength="16" value="@User.Identity!.Name" readonly class="form-control" required />
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -420,7 +420,7 @@
                 </fieldset>
 
                 <!-- step 4 -->
-                {{-- <fieldset>
+                <fieldset>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-lg-6">
@@ -551,9 +551,8 @@
                             Selanjutnya <i class="fa fa-arrow-right"></i>
                         </button>
                     </div>
-                </fieldset> --}}
-
-                {{-- Preview --}}
+                </fieldset>
+                
                 <fieldset>
                     <h4>Preview</h4>
                     <table class="table table-striped table-bordered">
