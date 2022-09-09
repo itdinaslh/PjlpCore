@@ -423,19 +423,23 @@ $(document).ready(function() {
             placeholder: 'Pilih Agama...',
             allowClear: true,
             ajax: {
-                url: "/master/agama/search",
-                dataType: 'json',
-                delay: 100,
+                url: "/api/master/agama/search",
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
                         q: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaAgama,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }

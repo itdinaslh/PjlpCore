@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PjlpCore.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly IJabatanRepo jabRepo;
@@ -31,6 +30,7 @@ namespace PjlpCore.Controllers
         }
         
         [HttpGet("/dashboard")]
+        [Authorize(Roles = "SysAdmin, PjlpAdmin, PjlpUser")]
         public async Task<IActionResult> Dashboard()
         {
             if (User.IsInRole("PjlpUser"))

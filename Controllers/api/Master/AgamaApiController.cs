@@ -47,4 +47,18 @@ public class AgamaApiController : Controller {
         
         return Ok(jsonData);
     }
+
+    [HttpGet("/api/master/agama/search")]
+    public async Task<IActionResult> Search(string? term)
+    {
+        var data = await repo.Agamas
+            .Where(k => !String.IsNullOrEmpty(term) ?
+                k.NamaAgama.ToLower().Contains(term.ToLower()) : true
+            ).Select(s => new {
+                id = s.AgamaID,
+                namaAgama = s.NamaAgama
+            }).Take(10).ToListAsync();
+
+        return Ok(data);
+    }
 }
