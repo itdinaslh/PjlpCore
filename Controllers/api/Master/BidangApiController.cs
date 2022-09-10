@@ -98,28 +98,18 @@ public class BidangApiController : Controller {
         return Json(data);
     }
 
+#nullable enable
+
     [HttpGet("/api/master/bidang/search")]    
-    public async Task<IActionResult> SearchBidang(string term) {                      
-        if (String.IsNullOrEmpty(term))
-        {
-            var bidangData = await repo.Bidangs.
-            Select(s => new
-            {
+    public async Task<IActionResult> SearchBidang(string? term) {
+        var data = await repo.Bidangs            
+            .Where(k => !String.IsNullOrEmpty(term) ?
+                k.NamaBidang.ToLower().Contains(term.ToLower()) : true
+            ).Select(s => new {
                 id = s.BidangID,
                 namaBidang = s.NamaBidang
-            }).Take(5).ToListAsync();
-            var data = bidangData;
-            return Ok(data);
-        } else
-        {            
-            var prov = await repo.Bidangs.Where(p => p.NamaBidang.ToLower().Contains(term.ToLower()))
-                .Select(s => new {
-                    id = s.BidangID,
-                    namaBidang = s.NamaBidang
-                }).Take(5).ToListAsync();
+            }).Take(10).ToListAsync();
 
-            var data = prov;
-            return Ok(data);
-        }
+        return Ok(data);
     }
 }

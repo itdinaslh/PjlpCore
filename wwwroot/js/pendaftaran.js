@@ -80,6 +80,18 @@ $(document).ready(function() {
     });
 });
 
+$('#chkSame').change(function () {
+    if (!this.checked) {
+        $('#myDomisili').show();
+        $('#nextSame').hide();
+        $('.thisDom').prop('required', true);
+    } else {
+        $('#myDomisili').hide();
+        $('#nextSame').show();
+        $('.thisDom').prop('required', false);
+    }
+})
+
 // #region getData
     function getDataSelect(form, preview){
         $(form).change(function() {
@@ -108,19 +120,23 @@ $(document).ready(function() {
             placeholder: 'Pilih Provinsi...',
             allowClear: true,
             ajax: {
-                url: "/master/wilayah/provinsi/search",
-                dataType: 'json',
-                delay: 100,
+                url: "/api/wilayah/provinsi/search",
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaProvinsi,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }
@@ -136,22 +152,26 @@ $(document).ready(function() {
         $('#kota').prop('disabled', false);
         $('#kota').select2('destroy');
         $('#kota').select2({
-            placeholder: 'Pilih Kota...',
+            placeholder: 'Pilih Kota/Kabupaten...',
             allowClear: true,
             ajax: {
-                url: "/master/wilayah/kota/search/" + ProvID,
-                dataType: 'json',
-                delay: 100,
+                url: "/api/wilayah/kabupaten/search/?prov=" + ProvID,
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaKabupaten,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }
@@ -170,19 +190,23 @@ $(document).ready(function() {
             placeholder: 'Pilih Kecamatan...',
             allowClear: true,
             ajax: {
-                url: "/master/wilayah/kecamatan/search/" + CityID,
-                dataType: 'json',
-                delay: 100,
+                url: "/api/wilayah/kecamatan/search/?kab=" + CityID,
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaKecamatan,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }
@@ -201,19 +225,23 @@ $(document).ready(function() {
             placeholder: 'Pilih Kelurahan...',
             allowClear: true,
             ajax: {
-                url: "/master/wilayah/kelurahan/search/" + KecamatanID,
-                dataType: 'json',
-                delay: 100,
+                url: "/api/wilayah/kelurahan/search/?kec=" + KecamatanID,
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaKelurahan,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }
@@ -222,29 +250,33 @@ $(document).ready(function() {
 
     function PopulateProvinceDom() {
         $('#provinsi_dom').select2({
-            placeholder: 'Pilih Provinsi Domisili',
+            placeholder: 'Pilih Provinsi Domisili...',
             allowClear: true,
             ajax: {
-                url: "/master/wilayah/provinsi/search",
-                dataType: 'json',
-                delay: 100,
+                url: "/api/wilayah/provinsi/search",
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaProvinsi,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }
-        }).on('change', function() {
+        }).on('change', function () {
             $('#kota_dom').val(null).trigger('change');
-            var theID = $('#provinsi_dom option:selected').val();
-            PopulateCityDom(theID);
+            var theID = $('#provinsi option:selected').val();
+            PopulateCity(theID);
             $('#kota_dom').select2('focus');
         });
     }
@@ -253,22 +285,26 @@ $(document).ready(function() {
         $('#kota_dom').prop('disabled', false);
         $('#kota_dom').select2('destroy');
         $('#kota_dom').select2({
-            placeholder: 'Pilih Kota Domisili...',
+            placeholder: 'Pilih Kota/Kabupaten Domisili...',
             allowClear: true,
             ajax: {
-                url: "/master/wilayah/kota/search/" + ProvID,
-                dataType: 'json',
-                delay: 100,
+                url: "/api/wilayah/kabupaten/search/?prov=" + ProvID,
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaKabupaten,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }
@@ -287,19 +323,23 @@ $(document).ready(function() {
             placeholder: 'Pilih Kecamatan Domisili...',
             allowClear: true,
             ajax: {
-                url: "/master/wilayah/kecamatan/search/" + CityID,
-                dataType: 'json',
-                delay: 100,
+                url: "/api/wilayah/kecamatan/search/?kab=" + CityID,
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaKecamatan,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }
@@ -318,19 +358,23 @@ $(document).ready(function() {
             placeholder: 'Pilih Kelurahan Domisili...',
             allowClear: true,
             ajax: {
-                url: "/master/wilayah/kelurahan/search/" + KecamatanID,
-                dataType: 'json',
-                delay: 100,
+                url: "/api/wilayah/kelurahan/search/?kec=" + KecamatanID,
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaKelurahan,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }
@@ -342,19 +386,23 @@ $(document).ready(function() {
             placeholder: 'Pilih Bidang...',
             allowClear: true,
             ajax: {
-                url: "/master/bidang/search",
-                dataType: 'json',
-                delay: 100,
+                url: "/api/master/bidang/search",
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaBidang,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }
@@ -368,19 +416,23 @@ $(document).ready(function() {
             placeholder: 'Pilih Jabatan...',
             allowClear: true,
             ajax: {
-                url: "/master/jabatan/search/" + BidangID,
-                dataType: 'json',
-                delay: 100,
+                url: "/api/master/jabatan/search/?bidang=" + BidangID,
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaJabatan,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }
@@ -399,19 +451,23 @@ $(document).ready(function() {
             placeholder: 'Pilih Pendidikan...',
             allowClear: true,
             ajax: {
-                url: "/master/pendidikan/search",
-                dataType: 'json',
-                delay: 100,
+                url: "/api/master/pendidikan/search",
+                contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },
-                processResults: function(data, params) {
+                processResults: function (result) {
                     return {
-                        results: data
-                    };
+                        results: $.map(result, function (item) {
+                            return {
+                                text: item.namaPendidikan,
+                                id: item.id
+                            }
+                        })
+                    }
                 },
                 cache: true
             }
@@ -427,7 +483,7 @@ $(document).ready(function() {
                 contentType: "application/json; charset=utf-8",
                 data: function (params) {
                     var query = {
-                        q: params.term
+                        term: params.term
                     };
                     return query;
                 },

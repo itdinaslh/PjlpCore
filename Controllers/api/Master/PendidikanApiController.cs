@@ -47,4 +47,18 @@ public class PendidikanApiController : Controller {
         
         return Ok(jsonData);
     }
+
+    [HttpGet("/api/master/pendidikan/search")]
+    public async Task<IActionResult> Search(string? term)
+    {
+        var data = await repo.Pendidikans
+            .Where(k => !String.IsNullOrEmpty(term) ?
+                k.NamaPendidikan.ToLower().Contains(term.ToLower()) : true
+            ).Select(s => new {
+                id = s.PendidikanID,
+                namaPendidikan = s.NamaPendidikan
+            }).Take(10).ToListAsync();
+
+        return Ok(data);
+    }
 }

@@ -56,5 +56,22 @@ public class KecamatanApiController : Controller {
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result};
         
         return Ok(jsonData);
-    }   
+    }
+
+#nullable enable
+
+    [HttpGet("/api/wilayah/kecamatan/search")]
+    public async Task<IActionResult> Search(string? term, string kab)
+    {
+        var data = await repo.Kecamatans
+            .Where(k => k.KabupatenID == kab)
+            .Where(k => !String.IsNullOrEmpty(term) ?
+                k.NamaKecamatan.ToLower().Contains(term.ToLower()) : true
+            ).Select(s => new {
+                id = s.KecamatanID,
+                namaKecamatan = s.NamaKecamatan
+            }).Take(10).ToListAsync();
+
+        return Ok(data);
+    }
 }

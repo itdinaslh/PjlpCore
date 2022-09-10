@@ -20,6 +20,7 @@ public class Pelamar
     public int EventId { get; set; }
 
     [MaxLength(16, ErrorMessage = "No KTP maksimal 16 karakter")]
+    [MinLength(16, ErrorMessage = "No KTP minimal 16 karakter")]
     [Required(ErrorMessage = "Data Wajib Diisi")]
     public string NoKTP { get; set; }
 

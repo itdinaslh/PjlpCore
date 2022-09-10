@@ -53,28 +53,20 @@ public class JabatanApiController : Controller {
         return Ok(jsonData);
     }
 
-    [HttpGet("/api/master/kabupaten/search")]    
-    public async Task<IActionResult> SearchJabatan(string term) {                      
-        if (String.IsNullOrEmpty(term))
-        {
-            var bidangData = await repo.Jabatans.
-            Select(s => new
-            {
+#nullable enable
+
+    [HttpGet("/api/master/jabatan/search")]
+    public async Task<IActionResult> Search(string? term, Guid? bidang)
+    {
+        var data = await repo.Jabatans
+            .Where(b => b.BidangID == bidang)
+            .Where(k => !String.IsNullOrEmpty(term) ?
+                k.NamaJabatan.ToLower().Contains(term.ToLower()) : true
+            ).Select(s => new {
                 id = s.JabatanID,
                 namaJabatan = s.NamaJabatan
-            }).Take(5).ToListAsync();
-            var data = bidangData;
-            return Ok(data);
-        } else
-        {            
-            var bid = await repo.Jabatans.Where(p => p.NamaJabatan.ToLower().Contains(term.ToLower()))
-                .Select(s => new {
-                    id = s.JabatanID,
-                    namaJabatan = s.NamaJabatan
-                }).Take(5).ToListAsync();
+            }).Take(10).ToListAsync();
 
-            var data = bid;
-            return Ok(data);
-        }
+        return Ok(data);
     }
 }

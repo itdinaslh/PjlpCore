@@ -49,28 +49,19 @@ public class ProvinsiApiController : Controller {
         return Ok(jsonData);
     }
 
-    [HttpGet("/api/wilayah/provinsi/search")]    
-    public async Task<IActionResult> SearchProvinsi(string term) {                      
-        if (String.IsNullOrEmpty(term))
-        {
-            var provinceData = await repo.Provinsis.
-            Select(s => new
-            {
+#nullable enable
+
+    [HttpGet("/api/wilayah/provinsi/search")]
+    public async Task<IActionResult> Search(string? term)
+    {
+        var data = await repo.Provinsis
+            .Where(k => !String.IsNullOrEmpty(term) ?
+                k.NamaProvinsi.ToLower().Contains(term.ToLower()) : true
+            ).Select(s => new {
                 id = s.ProvinsiID,
                 namaProvinsi = s.NamaProvinsi
-            }).Take(5).ToListAsync();
-            var data = provinceData;
-            return Ok(data);
-        } else
-        {            
-            var prov = await repo.Provinsis.Where(p => p.NamaProvinsi.ToLower().Contains(term.ToLower()))
-                .Select(s => new {
-                    id = s.ProvinsiID,
-                    namaProvinsi = s.NamaProvinsi
-                }).Take(5).ToListAsync();
+            }).Take(10).ToListAsync();
 
-            var data = prov;
-            return Ok(data);
-        }
+        return Ok(data);
     }
 }

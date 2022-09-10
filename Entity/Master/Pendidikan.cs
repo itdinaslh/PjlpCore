@@ -9,7 +9,7 @@ public class Pendidikan {
     public int PendidikanID { get; set; }
 
     #nullable disable
-    [MaxLength(25)]
+    [MaxLength(50)]
     [Required(ErrorMessage = "Nama Pendidikan Wajib Diisi")]
     public string NamaPendidikan { get; set; }
 

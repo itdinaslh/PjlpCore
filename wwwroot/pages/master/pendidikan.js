@@ -11,7 +11,8 @@ function loadTable() {
     $('#tblPendidikan').DataTable({
         processing: false,
         serverSide: true,
-        lengthMenu: [5,10,25,50],
+        lengthMenu: [5, 10, 25, 50],
+        stateSave: true,
         filter: true,
         orderMulti: false,
         ajax: {
