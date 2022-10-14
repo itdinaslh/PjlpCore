@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PjlpCore.Entity;
 
-[Table("FileTypes")]
+[Table("filetypes")]
 public class FileType
 {
 #nullable disable

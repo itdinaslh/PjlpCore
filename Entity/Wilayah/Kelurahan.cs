@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PjlpCore.Entity;
 
-[Table("Kelurahan")]
+[Table("kelurahan")]
 public class Kelurahan {
     #nullable disable
     [MaxLength(15, ErrorMessage = "Maksimal 15 Karakter")]

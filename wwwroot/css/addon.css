@@ -9,3 +9,7 @@
 .select2-selection__arrow {
     margin-top: 4px;
 }
+
+.custom-select {
+    width: 80px !important;
+}

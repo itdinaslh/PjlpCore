@@ -16,7 +16,7 @@ function loadTable() {
         stateSave: true,
         orderMulti: false,
         ajax: {
-            url: "https://localhost:7248/api/master/kelurahan",
+            url: "/api/wilayah/kelurahan",
             type: "POST",
             dataType: "json"
         },

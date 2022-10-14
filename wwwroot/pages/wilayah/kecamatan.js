@@ -16,7 +16,7 @@ function loadTable() {
         stateSave: true,
         orderMulti: false,
         ajax: {
-            url: "https://localhost:7248/api/master/kecamatan",
+            url: "/api/wilayah/kecamatan",
             type: "POST",
             dataType: "json"
         },

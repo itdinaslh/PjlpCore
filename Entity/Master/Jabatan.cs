@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PjlpCore.Entity;
 
-[Table("Jabatan")]
+[Table("jabatan")]
 public class Jabatan {
     [Key]
     public Guid JabatanID { get; set; } = new Guid();

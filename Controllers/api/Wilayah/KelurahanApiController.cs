@@ -42,11 +42,10 @@ public class KelurahanApiController : Controller {
         }
 
         if (!string.IsNullOrEmpty(searchValue)) {
-            init = init.Where(a => a.namaKelurahan.ToLower().Contains(searchValue.ToLower()) ||
-                a.namaKecamatan.ToLower().Contains(searchValue.ToLower()) ||
-                a.namaKabupaten.ToLower().Contains(searchValue.ToLower()) || 
-                a.namaProvinsi.ToLower().Contains(searchValue.ToLower())
-            );
+            init = init
+                .Where(a => a.namaKelurahan.ToLower()
+                .Contains(searchValue.ToLower()) || 
+                a.namaKecamatan.ToLower().Contains(searchValue.ToLower()));
         }
 
         recordsTotal = init.Count();

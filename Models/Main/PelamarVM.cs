@@ -8,4 +8,6 @@ public class PelamarVM
     public Pelamar Pelamar { get; set; }
 
     public bool AddressIsSame { get; set; }
+
+    public string TanggalLahir { get; set; }
 }

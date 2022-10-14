@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PjlpCore.Entity;
 
-[Table("Pelamar")]
+[Table("pelamar")]
 public class Pelamar
 {
     [Key]
@@ -31,8 +31,12 @@ public class Pelamar
     [Required(ErrorMessage = "Agama wajib diisi")]
     public int AgamaId { get; set; }
 
+#nullable enable
+
     [Required(ErrorMessage = "Tanggal lahir wajib diisi")]
-    public DateOnly TglLahir { get; set; }
+    public DateOnly? TglLahir { get; set; }
+
+#nullable disable
 
     [MaxLength(255)]
     [Required(ErrorMessage = "Tempat lahir wajib diisi")]
