@@ -1,20 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PjlpCore.Entity;
+namespace PjlpCore.Domain.Entities;
 
-[Table("statuslamaran")]
-public class StatusLamaran
+[Table("status_pegawai")]
+public class StatusPegawai
 {
-#nullable disable
-    public int StatusLamaranId { get; set; }
+    public int StatusPegawaiId { get; set; }
 
-    [MaxLength(50)]
+#nullable disable
+    [Required(ErrorMessage = "Nama Status Wajib Diisi")]
+    [MaxLength(30)]
     public string NamaStatus { get; set; }
 
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
-
-    public List<Pelamar> Pelamars { get; set; }
 }

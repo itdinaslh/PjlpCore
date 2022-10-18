@@ -163,7 +163,7 @@ public class Pelamar
 
     public Bidang Bidang { get; set; }
 
-    public StatusLamaran StatusLamaran { get; set; }
+    public Status StatusLamaran { get; set; }
 
     public Kelurahan KelurahanDom { get; set; }
     
