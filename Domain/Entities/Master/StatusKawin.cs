@@ -1,15 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PjlpCore.Domain.Entities;
+namespace PjlpCore.Entities;
 
-[Table("status_pegawai")]
-public class StatusPegawai
+[Table("statuskawin")]
+public class StatusKawin
 {
-    public int StatusPegawaiId { get; set; }
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int StatusKawinID { get; set; }
 
 #nullable disable
-    [Required(ErrorMessage = "Nama Status Wajib Diisi")]
+
+    [Required]
     [MaxLength(30)]
     public string NamaStatus { get; set; }
 

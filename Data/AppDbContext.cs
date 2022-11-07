@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PjlpCore.Entities;
 using PjlpCore.Entity;
 
 namespace PjlpCore.Data;
@@ -16,6 +17,7 @@ public class AppDbContext : DbContext {
     public DbSet<Divisi> Divisis { get; set; }
     public DbSet<Jabatan> Jabatans { get; set; }
     public DbSet<Pendidikan> Pendidikans { get; set; }
+    public DbSet<StatusKawin> StatusKawins { get; set; }
     public DbSet<Persyaratan> Persyaratans { get; set; }
     public DbSet<Tupoksi> Tupoksis { get; set; }
     public DbSet<Event> Events { get; set; }

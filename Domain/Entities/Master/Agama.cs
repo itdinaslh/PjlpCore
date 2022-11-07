@@ -1,3 +1,4 @@
+using PjlpCore.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,4 +19,6 @@ public class Agama {
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
     public List<Pelamar> Pelamars { get; set; }
+
+    public List<Pegawai> Pegawais { get; set; }
 }
