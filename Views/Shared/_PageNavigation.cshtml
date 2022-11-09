@@ -47,6 +47,11 @@
                         <span class="nav-link-text" data-i18n="nav.tupoksi">Tupoksi</span>
                     </a>
                 </li>
+                <li class='@(ViewBag.Title == "Lokasi Kerja" ? "active" : "")'>
+                    <a asp-controller="LokasiKerja" asp-action="Index" title="LokasiKerja" data-filter-tags="lokasi kerja">
+                        <span class="nav-link-text" data-i18n="nav.lokasi_kerja">Lokasi Kerja</span>
+                    </a>
+                </li>
                 <li class='@(ViewBag.Category == "Wilayah" ? "active open" : "")'>
                     <a href="#" title="Wilayah" data-filter-tags="wilayah">
                         <span class="nav-link-text" data-i18n="nav.wilayah">Wilayah</span>
