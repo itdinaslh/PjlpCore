@@ -4,7 +4,7 @@ using PjlpCore.Data;
 using PjlpCore.Models.Master;
 using Microsoft.EntityFrameworkCore;
 
-namespace PjlpCore.Service;
+namespace PjlpCore.Services;
 
 public class DivisiService : IDivisiRepo {
     private AppDbContext context;

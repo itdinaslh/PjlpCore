@@ -2,7 +2,7 @@
 using PjlpCore.Entity;
 using PjlpCore.Repository;
 
-namespace PjlpCore.Service;
+namespace PjlpCore.Services;
 
 public class PelamarService : IPelamar
 {

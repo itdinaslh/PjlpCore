@@ -3,7 +3,7 @@ using PjlpCore.Repository;
 using PjlpCore.Data;
 using PjlpCore.Models.Master;
 
-namespace PjlpCore.Service;
+namespace PjlpCore.Services;
 
 public class TupoksiService : ITupoksiRepo {
     private AppDbContext context;

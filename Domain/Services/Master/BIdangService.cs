@@ -3,7 +3,7 @@ using PjlpCore.Repository;
 using PjlpCore.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace PjlpCore.Service;
+namespace PjlpCore.Services;
 
 public class BidangService : IBidangRepo {
     private AppDbContext context;

@@ -4,7 +4,7 @@ using PjlpCore.Data;
 using PjlpCore.Models.Wilayah;
 using Microsoft.EntityFrameworkCore;
 
-namespace PjlpCore.Service;
+namespace PjlpCore.Services;
 
 public class KecamatanService : IKecamatanRepo {
     private AppDbContext context;

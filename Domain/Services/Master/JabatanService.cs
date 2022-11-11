@@ -3,7 +3,7 @@ using PjlpCore.Repository;
 using PjlpCore.Data;
 using PjlpCore.Models.Master;
 
-namespace PjlpCore.Service;
+namespace PjlpCore.Services;
 
 public class JabatanService : IJabatanRepo {
     private AppDbContext context;

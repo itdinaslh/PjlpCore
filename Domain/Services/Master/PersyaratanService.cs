@@ -3,7 +3,7 @@ using PjlpCore.Entity;
 using PjlpCore.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace PjlpCore.Service;
+namespace PjlpCore.Services;
 
 public class PersyaratanService : IPersyaratanRepo {
     private AppDbContext context;

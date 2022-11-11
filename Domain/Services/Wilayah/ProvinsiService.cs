@@ -2,7 +2,7 @@ using PjlpCore.Entity;
 using PjlpCore.Repository;
 using PjlpCore.Data;
 
-namespace PjlpCore.Service;
+namespace PjlpCore.Services;
 
 public class ProvinsiService : IProvinsiRepo {
     private AppDbContext context;
