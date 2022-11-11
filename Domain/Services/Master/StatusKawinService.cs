@@ -1,6 +1,6 @@
 ﻿using PjlpCore.Data;
-using PjlpCore.Entities;
-using PjlpCore.Repositories;
+using PjlpCore.Entity;
+using PjlpCore.Repository;
 
 namespace PjlpCore.Services;
 

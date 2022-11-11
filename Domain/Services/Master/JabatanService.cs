@@ -19,7 +19,7 @@ public class JabatanService : IJabatanRepo {
         if(model.IsNew == true) {
             await context.AddAsync(model.Jabatan);
         } else {
-            Jabatan div = context.Jabatans.FirstOrDefault(b => b.JabatanID == model.ExistingID);
+            Jabatan div = await context.Jabatans.FindAsync(model.Jabatan.JabatanID);
 
             div.NamaJabatan = model.Jabatan.NamaJabatan.Trim();
             div.BidangID = model.Jabatan.BidangID;

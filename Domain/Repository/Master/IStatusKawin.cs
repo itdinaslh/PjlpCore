@@ -1,6 +1,6 @@
-﻿using PjlpCore.Entities;
+﻿using PjlpCore.Entity;
 
-namespace PjlpCore.Repositories;
+namespace PjlpCore.Repository;
 
 public interface IStatusKawin
 {

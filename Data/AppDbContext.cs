@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using PjlpCore.Entities;
 using PjlpCore.Entity;
 
 namespace PjlpCore.Data;
@@ -20,10 +19,12 @@ public class AppDbContext : DbContext {
     public DbSet<StatusKawin> StatusKawins { get; set; }
     public DbSet<Persyaratan> Persyaratans { get; set; }
     public DbSet<Tupoksi> Tupoksis { get; set; }
+    public DbSet<LokasiKerja> LokasiKerjas { get; set; }
     public DbSet<Event> Events { get; set; }
     public DbSet<FileType> FileTypes { get; set; }
     public DbSet<Status> Statuses { get; set; }
     public DbSet<Pelamar> Pelamars { get; set; }
+    public DbSet<Pegawai> Pegawais { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

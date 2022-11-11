@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PjlpCore.Data;
 
@@ -10,9 +11,10 @@ using PjlpCore.Data;
 namespace PjlpCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221110200037_AlterNoKKPegawai")]
+    partial class AlterNoKKPegawai
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -360,8 +362,8 @@ namespace PjlpCore.Migrations
                         .HasColumnType("varchar(150)");
 
                     b.Property<string>("NoHP")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
 
                     b.Property<string>("NoKK")
                         .HasMaxLength(20)

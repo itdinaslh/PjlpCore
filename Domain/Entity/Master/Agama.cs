@@ -1,21 +1,24 @@
+using PjlpCore.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PjlpCore.Entity;
 
-[Table("pendidikan")]
-public class Pendidikan {
+[Table("agama")]
+public class Agama {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int PendidikanID { get; set; }
+    public int AgamaID { get; set; }
 
     #nullable disable
-    [MaxLength(50)]
-    [Required(ErrorMessage = "Nama Pendidikan Wajib Diisi")]
-    public string NamaPendidikan { get; set; }
+    [MaxLength(25)]
+    [Required(ErrorMessage = "Nama Agama Wajib Diisi")]
+    public string NamaAgama { get; set; }
 
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
     public List<Pelamar> Pelamars { get; set; }
+
+    public List<Pegawai> Pegawais { get; set; }
 }

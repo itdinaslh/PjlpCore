@@ -17,7 +17,7 @@ public class PendidikanService : IPendidikanRepo {
         if (pendidikan.PendidikanID == 0) {
             await context.AddAsync(pendidikan);
         } else {
-            Pendidikan data = context.Pendidikans.FirstOrDefault(a => a.PendidikanID == pendidikan.PendidikanID);
+            Pendidikan data = await context.Pendidikans.FindAsync(pendidikan.PendidikanID);
             data.NamaPendidikan = pendidikan.NamaPendidikan;
 
             context.Update(data);

@@ -1,38 +1,37 @@
-﻿using PjlpCore.Entity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PjlpCore.Entities;
+namespace PjlpCore.Entity;
 
 [Table("pegawai")]
 public class Pegawai
 {
     [Key]
-    public Guid PegawaiID { get; set; } = Guid.Empty;
-
-    // Reference To NIP or id of PJLP
-    [MaxLength(50)]
-    public string? UniqueID { get; set; }
+    public Guid PegawaiID { get; set; } = Guid.Empty;    
 
     public string? Email { get; set; }
 
 #nullable disable
     [MaxLength(16)]
     [Required(ErrorMessage = "No KTP Wajib Diisi!")]
-    public string NoKTP { get; set; }
+    public string NIK { get; set; }
+
+    [MaxLength(255)]
+    [Required(ErrorMessage = "Nama Pegawai Wajib Diisi")]
+    public string NamaPegawai { get; set; }
 
     public int JenisPegawaiID { get; set; }
 
     public Guid BidangID { get; set; }
 
 #nullable enable
-    [MaxLength(16)]
+    [MaxLength(20)]
     public string? NoKK { get; set; }
 
     [MaxLength(25)]
     public string? NPWP { get; set; }
 
-    [MaxLength(15)]
+    [MaxLength(50)]
     public string? NoHP { get; set; }
 
     [MaxLength(30)]
@@ -41,25 +40,25 @@ public class Pegawai
     public DateOnly? TglLahir { get; set;  }
 
     // false 0 if woman or girl and true 1 if man
-    public bool Kelamin { get; set; }
-
-    [Required(ErrorMessage = "Agama Wajib Diisi!")]
-    public int AgamaID { get; set; }
+    public bool? Kelamin { get; set; }
+    
+    public int? AgamaID { get; set; }
 
     public int? PendidikanID { get; set; }
 
+    [MaxLength(100)]
+    public string? JurusanPendidikan { get; set; }
+
+    [MaxLength(150)]
+    public string? NamaSekolah { get; set; }
+
     public int? StatusKawinID { get; set; }
 
-    // true if K2 false if non k2
-    public bool? IsK2 { get; set; }
-
-    public bool? IsKtpDKI { get; set; }
-
     [MaxLength(30)]
-    public string? NoRekeningDKI { get; set; }
+    public string? NoRekening { get; set; }
 
     [MaxLength(100)]
-    public string? CabangBankDKI { get; set; }
+    public string? CabangBank { get; set; }
 
     // Handle Alamat KTP
 
@@ -88,23 +87,25 @@ public class Pegawai
     [MaxLength(3)]
     public string? RwDom { get; set; }
 
-    public Guid? JabatanID { get; set; }
-
 #nullable disable
 
     public Agama Agama { get; set; }
 
     public JenisPegawai JenisPegawai { get; set; }
 
+    public Bidang Bidang { get; set; }
+
 #nullable enable
 
     public Pendidikan? Pendidikan { get; set; }
-
-    public Jabatan? Jabatan { get; set; }
 
     public StatusKawin? StatusKawin { get; set; }
 
     public Kelurahan? Kelurahan { get; set; }
 
     public Kelurahan? KelurahanDom { get; set; }
+
+    public DateTime? CreatedAt { get; set; } = DateTime.Now;
+
+    public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 }

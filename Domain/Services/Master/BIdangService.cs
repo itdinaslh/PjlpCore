@@ -1,6 +1,7 @@
 using PjlpCore.Entity;
 using PjlpCore.Repository;
 using PjlpCore.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace PjlpCore.Service;
 
@@ -18,7 +19,7 @@ public class BidangService : IBidangRepo {
         if(bidang.BidangID == Guid.Empty || bidang.BidangID.ToString() == string.Empty) {
             await context.AddAsync(bidang);
         } else {
-            Bidang bid = context.Bidangs.FirstOrDefault(b => b.BidangID == bidang.BidangID);
+            Bidang bid = await context.Bidangs.FindAsync(bidang.BidangID);
 
             bid.NamaBidang = bidang.NamaBidang.Trim();
             bid.KepalaBidang = bidang.KepalaBidang.Trim();

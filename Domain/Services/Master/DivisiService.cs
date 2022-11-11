@@ -20,7 +20,7 @@ public class DivisiService : IDivisiRepo {
         if(model.IsNew) {
             await context.AddAsync(model.Divisi);
         } else {
-            Divisi div = await context.Divisis.FirstOrDefaultAsync(b => b.DivisiID == model.Divisi.DivisiID);
+            Divisi div = await context.Divisis.FindAsync(model.Divisi.DivisiID);
             div.NamaDivisi = model.Divisi.NamaDivisi.Trim();
             div.BidangID = model.Divisi.BidangID;
             context.Update(div);

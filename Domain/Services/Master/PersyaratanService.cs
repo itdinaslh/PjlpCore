@@ -17,7 +17,7 @@ public class PersyaratanService : IPersyaratanRepo {
         if (persyaratan.PersyaratanID == 0) {
             await context.AddAsync(persyaratan);
         } else {
-            Persyaratan data = context.Persyaratans.FirstOrDefault(a => a.PersyaratanID == persyaratan.PersyaratanID);
+            Persyaratan data = await context.Persyaratans.FindAsync(persyaratan.PersyaratanID);
             data.NamaPersyaratan = persyaratan.NamaPersyaratan;
 
             context.Update(data);

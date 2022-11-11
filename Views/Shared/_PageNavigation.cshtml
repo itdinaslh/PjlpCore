@@ -83,8 +83,8 @@
         </li>
     }    
 
-    <li class="">
-        <a href="/master/emp" title="Data PJLP" data-filter-tags="data pjlp">
+    <li class='@(ViewBag.Title == "Data PJLP" ? "active" : "")'>
+        <a asp-action="PJLP" asp-controller="Pegawai" title="Data PJLP" data-filter-tags="data pjlp">
             <i class="fal fa-user-alt"></i>
             <span class="nav-link-text" data-i18n="nav.data_pjlp">Data PJLP</span>
         </a>

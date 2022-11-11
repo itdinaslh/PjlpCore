@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PjlpCore.Entities;
+namespace PjlpCore.Entity;
 
 [Table("jenis_pegawai")]
 public class JenisPegawai

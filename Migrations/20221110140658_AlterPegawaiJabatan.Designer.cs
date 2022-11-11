@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PjlpCore.Data;
 
@@ -10,14 +11,35 @@ using PjlpCore.Data;
 namespace PjlpCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221110140658_AlterPegawaiJabatan")]
+    partial class AlterPegawaiJabatan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("PjlpCore.Entities.LokasiKerja", b =>
+                {
+                    b.Property<int>("LokasiKerjaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NamaLokasi")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("LokasiKerjaID");
+
+                    b.ToTable("lokasi_kerja");
+                });
 
             modelBuilder.Entity("PjlpCore.Entity.Agama", b =>
                 {
@@ -275,26 +297,6 @@ namespace PjlpCore.Migrations
                     b.ToTable("kelurahan");
                 });
 
-            modelBuilder.Entity("PjlpCore.Entity.LokasiKerja", b =>
-                {
-                    b.Property<int>("LokasiKerjaID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("NamaLokasi")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("LokasiKerjaID");
-
-                    b.ToTable("lokasi_kerja");
-                });
-
             modelBuilder.Entity("PjlpCore.Entity.Pegawai", b =>
                 {
                     b.Property<Guid>("PegawaiID")
@@ -350,22 +352,17 @@ namespace PjlpCore.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("varchar(25)");
 
-                    b.Property<string>("NamaPegawai")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
                     b.Property<string>("NamaSekolah")
                         .HasMaxLength(150)
                         .HasColumnType("varchar(150)");
 
                     b.Property<string>("NoHP")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
 
                     b.Property<string>("NoKK")
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
 
                     b.Property<string>("NoRekening")
                         .HasMaxLength(30)
@@ -406,8 +403,6 @@ namespace PjlpCore.Migrations
                     b.HasKey("PegawaiID");
 
                     b.HasIndex("AgamaID");
-
-                    b.HasIndex("BidangID");
 
                     b.HasIndex("JenisPegawaiID");
 
@@ -799,12 +794,6 @@ namespace PjlpCore.Migrations
                         .WithMany("Pegawais")
                         .HasForeignKey("AgamaID");
 
-                    b.HasOne("PjlpCore.Entity.Bidang", "Bidang")
-                        .WithMany("Pegawais")
-                        .HasForeignKey("BidangID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PjlpCore.Entity.JenisPegawai", "JenisPegawai")
                         .WithMany()
                         .HasForeignKey("JenisPegawaiID")
@@ -828,8 +817,6 @@ namespace PjlpCore.Migrations
                         .HasForeignKey("StatusKawinID");
 
                     b.Navigation("Agama");
-
-                    b.Navigation("Bidang");
 
                     b.Navigation("JenisPegawai");
 
@@ -928,8 +915,6 @@ namespace PjlpCore.Migrations
                     b.Navigation("Divisis");
 
                     b.Navigation("Jabatans");
-
-                    b.Navigation("Pegawais");
 
                     b.Navigation("Pelamars");
                 });

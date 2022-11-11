@@ -19,7 +19,7 @@ public class TupoksiService : ITupoksiRepo {
         if(model.IsNew == true) {
             await context.AddAsync(model.Tupoksi);
         } else {
-            Tupoksi div = context.Tupoksis.FirstOrDefault(b => b.TupoksiID == model.ExistingID);
+            Tupoksi div = await context.Tupoksis.FindAsync(model.Tupoksi.TupoksiID);
 
             div.NamaTupoksi = model.Tupoksi.NamaTupoksi.Trim();
             div.DivisiID = model.Tupoksi.DivisiID;

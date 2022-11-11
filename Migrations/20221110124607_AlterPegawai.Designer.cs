@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PjlpCore.Data;
 
@@ -10,14 +11,197 @@ using PjlpCore.Data;
 namespace PjlpCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221110124607_AlterPegawai")]
+    partial class AlterPegawai
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("PjlpCore.Entities.JenisPegawai", b =>
+                {
+                    b.Property<int>("JenisPegawaiID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("NamaJenis")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.HasKey("JenisPegawaiID");
+
+                    b.ToTable("jenis_pegawai");
+                });
+
+            modelBuilder.Entity("PjlpCore.Entities.LokasiKerja", b =>
+                {
+                    b.Property<int>("LokasiKerjaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NamaLokasi")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("LokasiKerjaID");
+
+                    b.ToTable("lokasi_kerja");
+                });
+
+            modelBuilder.Entity("PjlpCore.Entities.Pegawai", b =>
+                {
+                    b.Property<Guid>("PegawaiID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int?>("AgamaID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AlamatDom")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AlamatKTP")
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("BidangID")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CabangBank")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid?>("JabatanID")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("JenisPegawaiID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("JurusanPendidikan")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<bool?>("Kelamin")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("KelurahanDomID")
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<string>("KelurahanID")
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<string>("NIK")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<string>("NPWP")
+                        .HasMaxLength(25)
+                        .HasColumnType("varchar(25)");
+
+                    b.Property<string>("NamaSekolah")
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<string>("NoHP")
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<string>("NoKK")
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<string>("NoRekening")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<int?>("PendidikanID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RtDom")
+                        .HasMaxLength(3)
+                        .HasColumnType("varchar(3)");
+
+                    b.Property<string>("RtKTP")
+                        .HasMaxLength(3)
+                        .HasColumnType("varchar(3)");
+
+                    b.Property<string>("RwDom")
+                        .HasMaxLength(3)
+                        .HasColumnType("varchar(3)");
+
+                    b.Property<string>("RwKTP")
+                        .HasMaxLength(3)
+                        .HasColumnType("varchar(3)");
+
+                    b.Property<int?>("StatusKawinID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TempatLahir")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<DateOnly?>("TglLahir")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("PegawaiID");
+
+                    b.HasIndex("AgamaID");
+
+                    b.HasIndex("JabatanID");
+
+                    b.HasIndex("JenisPegawaiID");
+
+                    b.HasIndex("KelurahanDomID");
+
+                    b.HasIndex("KelurahanID");
+
+                    b.HasIndex("PendidikanID");
+
+                    b.HasIndex("StatusKawinID");
+
+                    b.ToTable("pegawai");
+                });
+
+            modelBuilder.Entity("PjlpCore.Entities.StatusKawin", b =>
+                {
+                    b.Property<int>("StatusKawinID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NamaStatus")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("StatusKawinID");
+
+                    b.ToTable("statuskawin");
+                });
 
             modelBuilder.Entity("PjlpCore.Entity.Agama", b =>
                 {
@@ -167,21 +351,6 @@ namespace PjlpCore.Migrations
                     b.ToTable("jabatan");
                 });
 
-            modelBuilder.Entity("PjlpCore.Entity.JenisPegawai", b =>
-                {
-                    b.Property<int>("JenisPegawaiID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("NamaJenis")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
-
-                    b.HasKey("JenisPegawaiID");
-
-                    b.ToTable("jenis_pegawai");
-                });
-
             modelBuilder.Entity("PjlpCore.Entity.Kabupaten", b =>
                 {
                     b.Property<string>("KabupatenID")
@@ -273,153 +442,6 @@ namespace PjlpCore.Migrations
                     b.HasIndex("KecamatanID");
 
                     b.ToTable("kelurahan");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.LokasiKerja", b =>
-                {
-                    b.Property<int>("LokasiKerjaID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("NamaLokasi")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("LokasiKerjaID");
-
-                    b.ToTable("lokasi_kerja");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.Pegawai", b =>
-                {
-                    b.Property<Guid>("PegawaiID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<int?>("AgamaID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AlamatDom")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("AlamatKTP")
-                        .HasColumnType("longtext");
-
-                    b.Property<Guid>("BidangID")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("CabangBank")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("JenisPegawaiID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("JurusanPendidikan")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<bool?>("Kelamin")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("KelurahanDomID")
-                        .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
-
-                    b.Property<string>("KelurahanID")
-                        .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
-
-                    b.Property<string>("NIK")
-                        .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("varchar(16)");
-
-                    b.Property<string>("NPWP")
-                        .HasMaxLength(25)
-                        .HasColumnType("varchar(25)");
-
-                    b.Property<string>("NamaPegawai")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("NamaSekolah")
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
-
-                    b.Property<string>("NoHP")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("NoKK")
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<string>("NoRekening")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<int?>("PendidikanID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RtDom")
-                        .HasMaxLength(3)
-                        .HasColumnType("varchar(3)");
-
-                    b.Property<string>("RtKTP")
-                        .HasMaxLength(3)
-                        .HasColumnType("varchar(3)");
-
-                    b.Property<string>("RwDom")
-                        .HasMaxLength(3)
-                        .HasColumnType("varchar(3)");
-
-                    b.Property<string>("RwKTP")
-                        .HasMaxLength(3)
-                        .HasColumnType("varchar(3)");
-
-                    b.Property<int?>("StatusKawinID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TempatLahir")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<DateOnly?>("TglLahir")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("PegawaiID");
-
-                    b.HasIndex("AgamaID");
-
-                    b.HasIndex("BidangID");
-
-                    b.HasIndex("JenisPegawaiID");
-
-                    b.HasIndex("KelurahanDomID");
-
-                    b.HasIndex("KelurahanID");
-
-                    b.HasIndex("PendidikanID");
-
-                    b.HasIndex("StatusKawinID");
-
-                    b.ToTable("pegawai");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Pelamar", b =>
@@ -699,28 +721,6 @@ namespace PjlpCore.Migrations
                     b.ToTable("status");
                 });
 
-            modelBuilder.Entity("PjlpCore.Entity.StatusKawin", b =>
-                {
-                    b.Property<int>("StatusKawinID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("NamaStatus")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("StatusKawinID");
-
-                    b.ToTable("statuskawin");
-                });
-
             modelBuilder.Entity("PjlpCore.Entity.Tupoksi", b =>
                 {
                     b.Property<Guid>("TupoksiID")
@@ -746,6 +746,53 @@ namespace PjlpCore.Migrations
                     b.HasIndex("DivisiID");
 
                     b.ToTable("tupoksi");
+                });
+
+            modelBuilder.Entity("PjlpCore.Entities.Pegawai", b =>
+                {
+                    b.HasOne("PjlpCore.Entity.Agama", "Agama")
+                        .WithMany("Pegawais")
+                        .HasForeignKey("AgamaID");
+
+                    b.HasOne("PjlpCore.Entity.Jabatan", "Jabatan")
+                        .WithMany()
+                        .HasForeignKey("JabatanID");
+
+                    b.HasOne("PjlpCore.Entities.JenisPegawai", "JenisPegawai")
+                        .WithMany()
+                        .HasForeignKey("JenisPegawaiID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PjlpCore.Entity.Kelurahan", "KelurahanDom")
+                        .WithMany()
+                        .HasForeignKey("KelurahanDomID");
+
+                    b.HasOne("PjlpCore.Entity.Kelurahan", "Kelurahan")
+                        .WithMany()
+                        .HasForeignKey("KelurahanID");
+
+                    b.HasOne("PjlpCore.Entity.Pendidikan", "Pendidikan")
+                        .WithMany()
+                        .HasForeignKey("PendidikanID");
+
+                    b.HasOne("PjlpCore.Entities.StatusKawin", "StatusKawin")
+                        .WithMany()
+                        .HasForeignKey("StatusKawinID");
+
+                    b.Navigation("Agama");
+
+                    b.Navigation("Jabatan");
+
+                    b.Navigation("JenisPegawai");
+
+                    b.Navigation("Kelurahan");
+
+                    b.Navigation("KelurahanDom");
+
+                    b.Navigation("Pendidikan");
+
+                    b.Navigation("StatusKawin");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Divisi", b =>
@@ -791,55 +838,6 @@ namespace PjlpCore.Migrations
                         .HasForeignKey("KecamatanID");
 
                     b.Navigation("Kecamatan");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.Pegawai", b =>
-                {
-                    b.HasOne("PjlpCore.Entity.Agama", "Agama")
-                        .WithMany("Pegawais")
-                        .HasForeignKey("AgamaID");
-
-                    b.HasOne("PjlpCore.Entity.Bidang", "Bidang")
-                        .WithMany("Pegawais")
-                        .HasForeignKey("BidangID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PjlpCore.Entity.JenisPegawai", "JenisPegawai")
-                        .WithMany()
-                        .HasForeignKey("JenisPegawaiID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PjlpCore.Entity.Kelurahan", "KelurahanDom")
-                        .WithMany()
-                        .HasForeignKey("KelurahanDomID");
-
-                    b.HasOne("PjlpCore.Entity.Kelurahan", "Kelurahan")
-                        .WithMany()
-                        .HasForeignKey("KelurahanID");
-
-                    b.HasOne("PjlpCore.Entity.Pendidikan", "Pendidikan")
-                        .WithMany("Pegawais")
-                        .HasForeignKey("PendidikanID");
-
-                    b.HasOne("PjlpCore.Entity.StatusKawin", "StatusKawin")
-                        .WithMany("Pegawais")
-                        .HasForeignKey("StatusKawinID");
-
-                    b.Navigation("Agama");
-
-                    b.Navigation("Bidang");
-
-                    b.Navigation("JenisPegawai");
-
-                    b.Navigation("Kelurahan");
-
-                    b.Navigation("KelurahanDom");
-
-                    b.Navigation("Pendidikan");
-
-                    b.Navigation("StatusKawin");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Pelamar", b =>
@@ -929,8 +927,6 @@ namespace PjlpCore.Migrations
 
                     b.Navigation("Jabatans");
 
-                    b.Navigation("Pegawais");
-
                     b.Navigation("Pelamars");
                 });
 
@@ -966,8 +962,6 @@ namespace PjlpCore.Migrations
 
             modelBuilder.Entity("PjlpCore.Entity.Pendidikan", b =>
                 {
-                    b.Navigation("Pegawais");
-
                     b.Navigation("Pelamars");
                 });
 
@@ -979,11 +973,6 @@ namespace PjlpCore.Migrations
             modelBuilder.Entity("PjlpCore.Entity.Status", b =>
                 {
                     b.Navigation("Pelamars");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.StatusKawin", b =>
-                {
-                    b.Navigation("Pegawais");
                 });
 #pragma warning restore 612, 618
         }

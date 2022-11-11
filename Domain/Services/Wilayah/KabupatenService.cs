@@ -19,7 +19,7 @@ public class KabupatenService : IKabupatenRepo {
             model.Kabupaten.NamaKabupaten = model.Kabupaten.NamaKabupaten.ToUpper();
             await context.AddAsync(model.Kabupaten);
         } else {
-            Kabupaten kab = await context.Kabupatens.FirstOrDefaultAsync(k => k.KabupatenID == model.ExistingID);
+            Kabupaten kab = await context.Kabupatens.FindAsync(model.Kabupaten.KabupatenID);
             kab.KabupatenID = model.Kabupaten.KabupatenID;
             kab.NamaKabupaten = model.Kabupaten.NamaKabupaten.ToUpper();
             kab.ProvinsiID = model.Kabupaten.ProvinsiID;

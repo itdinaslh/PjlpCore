@@ -1,7 +1,6 @@
 @using System.Security.Claims
 
-<div class="info-card">
-    <img src="~/img/clarissa.jpg" class="profile-image rounded-circle" alt="Username">
+<div class="info-card">    
     <div class="info-card-text">
         <a href="#" class="d-flex align-items-center text-white">
             <span class="text-truncate text-truncate-sm d-inline-block">
@@ -15,7 +14,7 @@
         </a>
         <span class="d-inline-block text-truncate text-truncate-sm">
             @if (User.IsInRole("PjlpAdmin")) {
-                <span>Admin PJLP</span>
+                <span>Admin System</span>
             } else if (User.IsInRole("PjlpUser")) {
                 <span>User PJLP</span>
             }

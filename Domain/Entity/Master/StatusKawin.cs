@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PjlpCore.Entities;
+namespace PjlpCore.Entity;
 
 [Table("statuskawin")]
 public class StatusKawin
@@ -18,4 +18,8 @@ public class StatusKawin
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
+
+#nullable enable
+
+    public List<Pegawai>? Pegawais { get; set; }
 }

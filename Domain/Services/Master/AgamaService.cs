@@ -17,7 +17,7 @@ public class AgamaService : IAgamaRepo {
         if (agama.AgamaID == 0) {
             await context.AddAsync(agama);
         } else {
-            Agama data = context.Agamas.FirstOrDefault(a => a.AgamaID == agama.AgamaID);
+            Agama data = await context.Agamas.FindAsync(agama.AgamaID);
             data.NamaAgama = agama.NamaAgama;
 
             context.Update(data);
