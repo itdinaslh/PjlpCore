@@ -1,0 +1,45 @@
+﻿<div class="card" style="width:100%; margin-bottom:20px;">
+    <div class="card-header bg-primary-700 bg-success-gradient d-flex align-items-center flex-wrap text-white">
+    </div>
+    <img class="card-img-top" src="">
+</div>
+
+<ul class="nav-menu" style="margin-bottom:20px;">
+    <li style="border-bottom:1px solid white">
+        <a href="/pelamar/baru/details/{{$data->user_id}}"
+           class="text-white btn-primary waves-effect waves-themed {{Request::is('pelamar/baru/details/*') ? 'bg-primary-700 bg-warning-gradient' : ''}}">
+            Data
+            Personal
+        </a>
+    </li>
+    <li style="border-bottom:1px solid white">
+        <a href="/pelamar/baru/alamat/{{$data->user_id}}"
+           class="text-white btn-primary waves-effect waves-themed {{Request::is('pelamar/baru/alamat/*') ? 'bg-primary-700 bg-warning-gradient' : ''}}">
+            Detail
+            Alamat
+        </a>
+    </li>
+    <li style="border-bottom:1px solid white">
+        <a href="/pelamar/baru/kontrak/{{$data->user_id}}"
+           class="text-white btn-primary waves-effect waves-themed {{Request::is('pelamar/baru/kontrak/*') ? 'bg-primary-700 bg-warning-gradient' : ''}}">
+            Detail
+            Kontrak
+        </a>
+    </li>
+    <li style="border-bottom:1px solid white">
+        <a href="/pelamar/baru/upload/{{$data->user_id}}"
+           class="text-white btn-primary waves-effect waves-themed {{Request::is('pelamar/baru/upload/*') ? 'bg-primary-700 bg-warning-gradient' : ''}}">
+            Data
+            Upload
+        </a>
+    </li>
+</ul>
+<div class="row">
+    <div class="col-md-12 text-right">
+        <a type="button" class="btn btn-warning mr-2" href="/pelamar/baru">Kembali</a>
+        <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{$data->user_id}}" data-original-title="Verifikasi"
+           class="btn btn-success verify">Verifikasi</a>
+    </div>
+    <div class="col-md-6">
+    </div>
+</div>

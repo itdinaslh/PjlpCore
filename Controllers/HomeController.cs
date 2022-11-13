@@ -15,11 +15,11 @@ namespace PjlpCore.Controllers
         private readonly IJabatanRepo jabRepo;
         private readonly IDivisiRepo divRepo;
         private readonly IBidangRepo bidRepo;
-        private readonly IPendidikanRepo penRepo;
+        private readonly IPegawai pegRepo;
         private readonly IPelamar pelamarRepo;
 
-        public HomeController(IJabatanRepo jRepo, IDivisiRepo dRepo, IBidangRepo bRepo, IPendidikanRepo pRepo, IPelamar pelRepo) {
-            jabRepo = jRepo; divRepo = dRepo; bidRepo=bRepo; penRepo=pRepo; pelamarRepo = pelRepo;
+        public HomeController(IJabatanRepo jRepo, IDivisiRepo dRepo, IBidangRepo bRepo, IPegawai pRepo, IPelamar pelRepo) {
+            jabRepo = jRepo; divRepo = dRepo; bidRepo=bRepo; pegRepo = pRepo; pelamarRepo = pelRepo;
         }
 
         [AllowAnonymous]
@@ -48,7 +48,7 @@ namespace PjlpCore.Controllers
                 CountJabatan = jabRepo.Jabatans.Count(),
                 CountDivisi = divRepo.Divisis.Count(),
                 CountBidang = bidRepo.Bidangs.Count(),
-                CountPendidikan = penRepo.Pendidikans.Count(),
+                CountPendidikan = pegRepo.Pegawais.Where(x => x.JenisPegawaiID == 2).Count(),
             });
         }
 

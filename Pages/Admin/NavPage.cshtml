@@ -1,0 +1,43 @@
+﻿<div class="card" style="width:100%; margin-bottom:20px;">
+    <div class="card-header bg-primary-700 bg-success-gradient d-flex align-items-center flex-wrap text-white">
+        Ebik Almatin Rohendi
+    </div>
+    <img class="card-img-top" src="/img/user.png" alt="Card image cap">
+</div>
+
+<ul class="nav-menu" style="margin-bottom:20px;">
+    <li style="border-bottom:1px solid white">
+        <NavLink href="/pegawai/pjlp/details/"
+                 class="text-white btn-primary waves-effect waves-themed"
+                 ActiveClass="bg-primary-700 bg-warning-gradient"
+                 Match="NavLinkMatch.Prefix">
+            Data
+            Personal
+        </NavLink>
+    </li>
+    <li style="border-bottom:1px solid white">
+        <NavLink href="/pegawai/pjlp/details/alamat"
+                 class="text-white btn-primary waves-effect waves-themed"
+                 ActiveClass="bg-primary-700 bg-warning-gradient"
+                 Match="NavLinkMatch.Prefix">
+            Data
+            Alamat
+        </NavLink>
+    </li>
+    <li style="border-bottom:1px solid white">
+        <a href="/pelamar/lama/kontrak/{{$data->user_id}}"
+           class="text-white btn-primary waves-effect waves-themed {{Request::is('pelamar/lama/kontrak/*') ? 'bg-primary-700 bg-warning-gradient' : ''}} ">
+            Detail
+            Kontrak
+        </a>
+    </li>
+</ul>
+<div class="row">
+    <div class="col-md-12 text-right">
+        <a type="button" class="btn btn-warning mr-2" href="/pelamar/baru">Kembali</a>
+        <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{$data->user_id}}" data-original-title="Verifikasi"
+           class="btn btn-success verify">Verifikasi</a>
+    </div>
+    <div class="col-md-6">
+    </div>
+</div>

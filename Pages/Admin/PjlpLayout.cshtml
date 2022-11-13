@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@namespace PjlpCore.Pages.Admin
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <partial name="~/Views/Layouts/_Head.cshtml" />
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+</head>
+<body class="mod-bg-1 header-function-fixed nav-function-fixed mod-skin-dark mod-nav-link">
+    <partial name="~/Views/Shared/_ScriptsLoadingSaving.cshtml" />
+    <div class="page-wrapper">
+        <div class="page-inner">
+            <partial name="~/Views/Shared/_LeftPanel.cshtml" />
+            <div class="page-content-wrapper">
+                <partial name="~/Views/Shared/_PageHeader.cshtml" />
+                <main id="js-page-content" role="main" class="page-content">
+                    <partial name="~/Views/Shared/_PageBreadCrumb.cshtml" />
+                    
+                    @RenderBody()
+                </main>
+                <partial name="~/Views/Shared/_PageContentOverlay.cshtml" />
+                <partial name="~/Views/Layouts/_PageFooter.cshtml" />
+                <partial name="~/Views/Shared/_ShortCutModal.cshtml" />
+            </div>
+        </div>
+    </div>
+    <partial name="~/Views/Shared/_ShortCutMenu.cshtml" />
+    <partial name="~/Views/Shared/_ShortCutMessenger.cshtml" />
+    <partial name="~/Views/Shared/_PageSettings.cshtml" />
+    <partial name="~/Views/Shared/_ScriptBasePlugins.cshtml" />
+    <script src="_framework/blazor.server.js"></script>    
+</body>
+</html>
+
+

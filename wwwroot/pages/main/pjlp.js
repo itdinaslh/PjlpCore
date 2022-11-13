@@ -12,6 +12,7 @@ function loadTable() {
         processing: false,
         serverSide: true,
         lengthMenu: [5, 10, 25, 50],
+        responsive: true,
         filter: true,
         stateSave: true,
         orderMulti: false,

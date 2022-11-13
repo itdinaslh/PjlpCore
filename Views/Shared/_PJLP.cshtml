@@ -1,0 +1,37 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <partial name="~/Views/Layouts/_Head.cshtml" />
+    <base href="/pegawai/pjlp/details" />
+    <script src="_framework/blazor.server.js"></script>    
+</head>
+<body class="mod-bg-1 header-function-fixed nav-function-fixed mod-skin-dark mod-nav-link">
+    <partial name="_ScriptsLoadingSaving" />
+    <div class="page-wrapper">
+        <div class="page-inner">
+            <partial name="_LeftPanel" />
+            <div class="page-content-wrapper">
+                <partial name="_PageHeader" />
+                <main id="js-page-content" role="main" class="page-content">
+                    <partial name="_PageBreadCrumb" />       
+                    
+                    <component type="typeof(PjlpCore.Pages.Admin.Routed)" render-mode="ServerPrerendered" />
+                </main>
+                <partial name="_PageContentOverlay" />
+                <partial name="~/Views/Layouts/_PageFooter.cshtml" />
+                <partial name="_ShortCutModal" />
+            </div>
+        </div>
+    </div>
+    <partial name="_ShortCutMenu" />
+    <partial name="_ShortCutMessenger" />
+    <partial name="_PageSettings" />
+    <partial name="_ScriptBasePlugins" />
+    <script src="_framework/blazor.server.js"></script>
+    <persist-component-state />
+</body>
+</html>

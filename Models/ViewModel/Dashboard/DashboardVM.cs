@@ -12,4 +12,6 @@ public class DashboardVM {
     public int CountTupoksi;
 
     public int CountPendidikan;
+
+    public int CountPJLP;
 }
