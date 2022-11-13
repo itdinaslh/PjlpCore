@@ -1,0 +1,102 @@
+﻿@model PegawaiVM
+
+<div>
+    <div class="panel">
+        <div class="panel-hdr bg-primary-700 bg-success-gradient" role="heading">
+            <h2>Biodata</h2>
+        </div>
+        <div class="panel-container show">
+            <div class="panel-content">
+                <!-- 1st row -->
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input asp-for="Pegawai.NamaPegawai" class="form-control" required autofocus />
+                </div>
+                <!-- 2nd row -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>No. KTP</label>
+                                <input asp-for="Pegawai.NIK" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>No. Kartu Keluarga</label>
+                                <input asp-for="Pegawai.NoKK" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 3rd row -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">Agama</label>
+                                <select class="form-control" required>
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">No. Telp</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 4th row -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">Tanggal Lahir</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">Tempat Lahir</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 5th row -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">Jenis Kelamin</label>
+                                <select class="form-control" required>
+                                    <option value="1">Laki-Laki</option>
+                                    <option value="0">Perempuan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">Golongan Darah</label>
+                                <select class="form-control" required>                                    
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="AB">AB</option>
+                                    <option value="O">O</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 6th save -->
+                <div class="form-group">
+                    <div class="text-right">
+                        <button type="button" class="btn btn-primary">Update Biodata</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

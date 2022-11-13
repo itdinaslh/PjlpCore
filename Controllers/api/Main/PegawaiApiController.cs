@@ -35,6 +35,7 @@ public class PegawaiApiController : ControllerBase
           .Where(p => p.JenisPegawaiID == 2)
           .Select(k => new {
             pegawaiID = k.PegawaiID,
+            bidangID = k.BidangID,
             nik = k.NIK,
             namaPegawai = k.NamaPegawai,
             bidang = k.Bidang.NamaBidang,

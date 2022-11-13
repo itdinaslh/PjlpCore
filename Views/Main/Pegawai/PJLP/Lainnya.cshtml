@@ -1,0 +1,137 @@
+﻿<div>
+    <div class="panel">
+        <div class="panel-hdr bg-primary-700 bg-danger-gradient" role="heading">
+            <h2>Data Lainnya</h2>
+        </div>
+        <div class="panel-container show">
+            <div class="panel-content">
+                <div class="form-group">
+                    <label for="pendidikan">Pendidikan Terakhir</label>
+                    <select wire:model="pendidikan" class="form-control myselect" style="width:100%;" required>                        
+                        <option value=""></option>                        
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="jurusan">Jurusan Pendidikan</label>
+                                <input type="text" class="form-control" required />
+                                <!-- Isi aja jurusan lebak bulus - Rambutan klo bingung coy, wkwkwkwkw... -->
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="namaSekolah">Nama Sekolah / Universitas / Institusi Pendidikan</label>
+                                <input type="text" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="npwp">No. NPWP</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="tanggungan">tanggungan</label>
+                                <select class="form-control">                                    
+                                    <option value="TK">(TK) Belum Menikah</option>
+                                    <option value="K0">(K0)Menikah Belum Punya Anak</option>
+                                    <option value="K1">(K1) Menikah Anak 1</option>
+                                    <option value="K2">(K2) Menikah Anak 2</option>
+                                    <option value="K3">(K3) Menikah Anak Lebih Dari 2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="">No. BPJS Kesehatan</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="">No. BPJS Ketenagakerjaan</label>
+                            <input type="text" class="form-control" required />
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="">Status BPJS</label>
+                            <select class="form-control">
+                                <option value="0">Tidak Punya BPJS</option>
+                                <option value="1">Dinas Lingkungan Hidup Prov. DKI Jakarta</option>
+                                <option value="2">Non Dinas Lingkungan Hidup Prov. DKI Jakarta</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="sim_data">SIM/SIO/Sertifikat</label>
+                                <input type="text" class="form-control" required />
+                                <span>Contoh : SIM C</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group" wire:ignore>
+                                <label for="sim-date">Berlaku Hingga</label>
+                                <input type="text" id="TglSIM" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="nama_bank">Cabang Bank DKI</label>
+                                <input type="text" class="form-control" required />
+                                <span>Contoh : Dinas Lingkungan Hidup</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="no_rek">No. Rekening</label>
+                                <input type="text" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">                    
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group" wire:ignore>
+                                <label for="bidang_lain">Bidang</label>
+                                <select id="bidang_lain" class="form-control" style="width: 100%;" required>
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group" wire:ignore>
+                                <label for="jabatan_lain">Jabatan</label>
+                                <select id="jabatan_lain" class="form-control" style="width: 100%;" required>
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="text-right">
+                        <button type="button" class="btn btn-primary">Update Data Lainnya</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
