@@ -30,7 +30,6 @@ function loadTable() {
             {
                 render: function (data, type, row) { return "<a class='btn btn-sm btn-outline-success mr-2' href='/pegawai/pjlp/details/?bid=" + row.bidangID + "&pid=" + row.pegawaiID + "'><i class='fal fa-edit'></i> Detail</a>" }
             }
-        ],
-        order: [[0, "desc"]]
+        ]
     })
 }

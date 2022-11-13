@@ -35,15 +35,18 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="">Agama</label>
-                                <select class="form-control" required>
-                                    
+                                <select id="sAgama" asp-for="Pegawai.AgamaID" class="form-control" required>
+                                    @if (Model.Pegawai.AgamaID is not null)
+                                    {
+                                        <option value="@Model.Pegawai.AgamaID" selected>@Model.NamaAgama</option>
+                                    }
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="">No. Telp</label>
-                                <input type="text" class="form-control" />
+                                <input asp-for="Pegawai.NoHP" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -60,7 +63,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="">Tempat Lahir</label>
-                                <input type="text" class="form-control" />
+                                <input asp-for="Pegawai.TempatLahir" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -71,16 +74,19 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="">Jenis Kelamin</label>
-                                <select class="form-control" required>
-                                    <option value="1">Laki-Laki</option>
-                                    <option value="0">Perempuan</option>
+                                <select id="sKelamin" asp-for="Pegawai.Kelamin" class="form-control" required>
+                                    <option value=""></option>
+                                    <option value="true">Laki-Laki</option>
+                                    <option value="false">Perempuan</option>
+
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="">Golongan Darah</label>
-                                <select class="form-control" required>                                    
+                                <select id="sGolDarah" class="form-control" required>
+                                    <option value=""></option>
                                     <option value="A">A</option>
                                     <option value="B">B</option>
                                     <option value="AB">AB</option>

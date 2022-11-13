@@ -26,10 +26,20 @@ public class PegawaiController : Controller
     [HttpGet("/pegawai/pjlp/details")]
     public async Task<IActionResult> Details(Guid bid, Guid pid)
     {
-        Pegawai? peg = await pegRepo.Pegawais.Where(p => p.PegawaiID == pid).FirstOrDefaultAsync();
-        return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", new PegawaiVM
+        Pegawai? peg = await pegRepo.Pegawais.Where(p => p.PegawaiID == pid)
+            .Include(a => a.Agama)
+            .Include(b => b.Bidang)
+            .FirstOrDefaultAsync();
+        if (peg is not null)
         {
-            Pegawai = peg
-        });
+            return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", new PegawaiVM
+            {
+                Pegawai = peg,
+                NamaAgama = peg.Agama.NamaAgama,
+                NamaBidang = peg.Bidang.NamaBidang
+            });
+        }
+
+        return NotFound();
     }
 }
