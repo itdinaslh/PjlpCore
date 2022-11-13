@@ -13,3 +13,37 @@
 .custom-select {
     width: 80px !important;
 }
+
+.violet-red {
+    background: rgb(2,0,36) !important;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,7,119,1) 60%, rgba(255,0,0,1) 100%) !important;
+}
+
+.violet-green {
+    background: rgb(2,0,36) !important;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,7,119,1) 50%, rgba(25,130,5,1) 100%) !important;
+}
+
+.violet-blue {
+    background: rgb(2,0,36) !important;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,7,119,0.9986461137189251) 69%, rgba(31,0,247,1) 100%) !important;
+}
+
+.orange {
+    background: #de6a00 !important;
+}
+
+.violet-gradient {
+    background: rgb(2,0,36) !important;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(77,0,129,1) 84%) !important;
+}
+
+.green-gradient {
+    background: rgb(2,0,36) !important;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 10%, rgba(0,129,1,1) 99%) !important;
+}
+
+.orange-gradient {
+    background: rgb(2,0,36) !important;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 10%, rgba(223,77,0,1) 96%) !important;
+}

@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-3 col-sm-12">
             <div class="card" style="width:100%; margin-bottom:20px;">
-                <div class="card-header bg-primary-700 bg-success-gradient d-flex align-items-center flex-wrap text-white">
+                <div class="card-header violet-red d-flex align-items-center flex-wrap text-white">
                     @Model.Pegawai.NamaPegawai
                 </div>
                 <img class="card-img-top" src="/img/user.png" alt="Card image cap">
@@ -30,7 +30,7 @@
                     <button
                         x-on:click="modul = 1"
                         class="btn text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
-                        :class="modul == 1 ? 'bg-primary-900 bg-warning-gradient' : ''">
+                        :class="modul == 1 ? 'orange' : ''">
                             Biodata
                      </button>
                 </li>
@@ -38,7 +38,7 @@
                     <button
                         x-on:click="modul = 2"
                         class="text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
-                        :class="modul == 2 ? 'bg-primary-900 bg-warning-gradient' : ''">
+                            :class="modul == 2 ? 'orange' : ''">
                             Alamat
                     </button>
                 </li>
@@ -46,12 +46,12 @@
                     <button
                         x-on:click="modul = 3"
                         class="text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
-                        :class="modul == 3 ? 'bg-primary-900 bg-warning-gradient' : 'btn-primary'">
+                        :class="modul == 3 ? 'orange' : 'btn-primary'">
                             Lainnya
                     </button>
                 </li>
             </ul>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-12 text-right">
                     <a type="button" class="btn btn-warning mr-2" asp-action="PJLP" asp-controller="Pegawai">Kembali</a>
                     <a href="javascript:void(0)" data-toggle="tooltip" data-id="" data-original-title="Verifikasi"
