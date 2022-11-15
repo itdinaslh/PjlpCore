@@ -28,4 +28,6 @@ public class Kelurahan {
     public Kecamatan Kecamatan { get; set; }
 
     public List<Pelamar> Pelamars { get; set; }
+
+    public List<Pegawai> Pegawais { get; set; }
 }

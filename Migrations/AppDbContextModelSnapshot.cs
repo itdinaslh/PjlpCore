@@ -38,7 +38,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("AgamaID");
 
-                    b.ToTable("agama");
+                    b.ToTable("agama", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Bidang", b =>
@@ -64,7 +64,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("BidangID");
 
-                    b.ToTable("bidang");
+                    b.ToTable("bidang", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Divisi", b =>
@@ -91,7 +91,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("BidangID");
 
-                    b.ToTable("divisi");
+                    b.ToTable("divisi", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Event", b =>
@@ -113,7 +113,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("EventId");
 
-                    b.ToTable("events");
+                    b.ToTable("events", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.FileType", b =>
@@ -137,7 +137,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("FileTypeId");
 
-                    b.ToTable("filetypes");
+                    b.ToTable("filetypes", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Jabatan", b =>
@@ -164,7 +164,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("BidangID");
 
-                    b.ToTable("jabatan");
+                    b.ToTable("jabatan", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.JenisPegawai", b =>
@@ -179,7 +179,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("JenisPegawaiID");
 
-                    b.ToTable("jenis_pegawai");
+                    b.ToTable("jenis_pegawai", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Kabupaten", b =>
@@ -212,7 +212,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("ProvinsiID");
 
-                    b.ToTable("kabupaten");
+                    b.ToTable("kabupaten", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Kecamatan", b =>
@@ -242,7 +242,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("KabupatenID");
 
-                    b.ToTable("kecamatan");
+                    b.ToTable("kecamatan", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Kelurahan", b =>
@@ -272,7 +272,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("KecamatanID");
 
-                    b.ToTable("kelurahan");
+                    b.ToTable("kelurahan", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.LokasiKerja", b =>
@@ -292,7 +292,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("LokasiKerjaID");
 
-                    b.ToTable("lokasi_kerja");
+                    b.ToTable("lokasi_kerja", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Pegawai", b =>
@@ -419,7 +419,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("StatusKawinID");
 
-                    b.ToTable("pegawai");
+                    b.ToTable("pegawai", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Pelamar", b =>
@@ -598,7 +598,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("StatusLamaranId");
 
-                    b.ToTable("pelamar");
+                    b.ToTable("pelamar", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Pendidikan", b =>
@@ -620,7 +620,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("PendidikanID");
 
-                    b.ToTable("pendidikan");
+                    b.ToTable("pendidikan", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Persyaratan", b =>
@@ -642,7 +642,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("PersyaratanID");
 
-                    b.ToTable("persyaratan");
+                    b.ToTable("persyaratan", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Provinsi", b =>
@@ -675,7 +675,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("ProvinsiID");
 
-                    b.ToTable("provinsi");
+                    b.ToTable("provinsi", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Status", b =>
@@ -696,7 +696,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("StatusId");
 
-                    b.ToTable("status");
+                    b.ToTable("status", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.StatusKawin", b =>
@@ -718,7 +718,7 @@ namespace PjlpCore.Migrations
 
                     b.HasKey("StatusKawinID");
 
-                    b.ToTable("statuskawin");
+                    b.ToTable("statuskawin", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Tupoksi", b =>
@@ -745,7 +745,7 @@ namespace PjlpCore.Migrations
 
                     b.HasIndex("DivisiID");
 
-                    b.ToTable("tupoksi");
+                    b.ToTable("tupoksi", (string)null);
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Divisi", b =>

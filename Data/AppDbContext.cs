@@ -24,7 +24,7 @@ public class AppDbContext : DbContext {
     public DbSet<FileType> FileTypes { get; set; }
     public DbSet<Status> Statuses { get; set; }
     public DbSet<Pelamar> Pelamars { get; set; }
-    public DbSet<Pegawai> Pegawais { get; set; }
+    public DbSet<Pegawai> Karyawans { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -32,6 +32,11 @@ public class AppDbContext : DbContext {
         builder.Entity<Pelamar>()
             .HasOne(p => p.KelurahanDom)
             .WithMany(k => k.Pelamars)
-            .HasForeignKey(p => p.DomKelurahanId);
+            .HasForeignKey(p => p.DomKelurahanId);        
+
+        builder.Entity<Pegawai>()
+            .HasOne(p => p.KelurahanDom)
+            .WithMany(k => k.Pegawais)
+            .HasForeignKey(p => p.KelurahanDomID);
     }
 }

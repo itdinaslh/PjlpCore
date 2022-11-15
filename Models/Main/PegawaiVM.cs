@@ -12,4 +12,16 @@ public class PegawaiVM
     public string? NamaAgama { get; set; }
 
     public string? NamaBidang { get; set; }
+
+    public string? NamaPendidikan { get; set; }
+
+    public string? TanggalLahir { get; set; }
+
+    public string? Provinsi { get; set; }
+
+    public string? Kabupaten { get; set; }
+
+    public string? Kecamatan { get; set; }
+
+    public string? Kelurahan { get; set; }
 }

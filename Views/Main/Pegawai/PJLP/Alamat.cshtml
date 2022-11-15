@@ -1,137 +1,134 @@
-﻿<div>
-    <div class="panel">
-        <div class="panel-hdr green-gradient" role="heading">
-            <h2>Alamat</h2>
-        </div>
-        <div class="panel-container show">
-            <div class="panel-content">
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-6 mb-3" wire:ignore>
-                            <label for="provinsi">Provinsi</label>
-                            <select id="provinsi" class="form-control" required>
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="col-6 mb-3" wire:ignore>
-                            <label for="kota">Kota/Kabupaten</label>
-                            <select id="kota" class="form-control myselect" style="width: 100%;" required>
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="col-6" wire:ignore>
-                            <label for="kecamatan">Kecamatan</label>
-                            <select id="kecamatan" class="form-control myselect" style="width: 100%;" required>
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group" wire:ignore>
-                                <label for="kelurahan">Kelurahan</label>
-                                <select name="kelurahan" id="kelurahan" class="form-control myselect" style="width: 100%;" required>
-                                    <option value=""></option>
+﻿@model PegawaiVM
+
+<div>
+    <form id="formAlamat" class="formdata" action="/pegawai/alamat/update" method="post">
+        <input type="hidden" asp-for="Pegawai.PegawaiID" />
+        <div class="panel">
+            <div class="panel-hdr green-gradient" role="heading">
+                <h2>Alamat</h2>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Provinsi</label>
+                                <select id="sProvKTP" class="form-control myselect" style="width: 100%;" required>
                                 </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="sKabKTP">Kota/Kabupaten</label>
+                                <select id="sKabKTP" class="form-control myselect" style="width: 100%;" required>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="kecamatan">Kecamatan</label>
+                                <select id="sKecKTP" class="form-control myselect" style="width: 100%;" required>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="kelurahan">Kelurahan</label>
+                                    <select id="sKelKTP" asp-for="Pegawai.KelurahanID" class="form-control myselect" style="width: 100%;" required>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="alamat">Alamat (Sesuai KTP)</label>
-                    <input type="text" class="form-control" required />
-                </div>
-                <div class="form-group mb-3">
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="rt">RT</label>
-                                <input type="text" class="form-control" required />
+                    <div class="form-group">
+                        <label for="alamat">Alamat (Sesuai KTP)</label>
+                        <input asp-for="Pegawai.AlamatKTP" class="form-control" />
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="rt">RT</label>
+                                    <input asp-for="Pegawai.RtKTP" class="form-control" required />
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="rw">RW</label>
-                                <input type="text" wire:model="rw" class="form-control" required />
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="rw">RW</label>
+                                    <input asp-for="Pegawai.RwDom" class="form-control" required />
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="kode-pos">Kode Pos</label>
-                                <input type="text" wire:model="kodePos" class="form-control" required />
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="kode-pos">Kode Pos</label>
+                                    <input asp-for="Pegawai.RwDom" class="form-control" required />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="panel">
-        <div class="panel-hdr green-gradient" role="heading">
-            <h2>Alamat Domisili</h2>
-        </div>
-        <div class="panel-container show">
-            <div class="panel-content">
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-6 mb-3" wire:ignore>
-                            <label for="provinsi_dom">Provinsi</label>
-                            <select id="provinsi_dom" class="form-control myselect" style="width: 100%;" required>
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="col-6 mb-3" wire:ignore>
-                            <label for="kota_dom">Kota/Kabupaten</label>
-                            <select id="kota_dom" class="form-control myselect" style="width: 100%;" required>
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="col-6" wire:ignore>
-                            <label for="kecamatan_dom">Kecamatan</label>
-                            <select id="kecamatan_dom" class="form-control myselect" style="width: 100%;" required>
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group" wire:ignore>
-                                <label for="kelurahan_dom">Kelurahan</label>
-                                <select id="kelurahan_dom" class="form-control myselect" style="width: 100%;" required>
-                                    <option value=""></option>
+        <div class="panel">
+            <div class="panel-hdr green-gradient" role="heading">
+                <h2>Alamat Domisili</h2>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-6 mb-3" wire:ignore>
+                                <label for="provinsi_dom">Provinsi</label>
+                                <select id="sProvDom" class="form-control myselect" style="width: 100%;" required>
                                 </select>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="alamat_dom">Alamat Domisili</label>
-                    <input type="text" class="form-control" required />
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="rt_dom">RT</label>
-                                <input type="text" class="form-control" required />
+                            <div class="col-6 mb-3" wire:ignore>
+                                <label for="kota_dom">Kota/Kabupaten</label>
+                                <select id="sKabDom" class="form-control myselect" style="width: 100%;" required>
+                                </select>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="rw_dom">RW</label>
-                                <input type="text" class="form-control" required/>
+                            <div class="col-6" wire:ignore>
+                                <label for="kecamatan_dom">Kecamatan</label>
+                                <select id="sKecDom" class="form-control myselect" style="width: 100%;" required>
+                                </select>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="kode-pos">Kode Pos</label>
-                                <input type="text" class="form-control" required />
+                            <div class="col-6">
+                                <div class="form-group" wire:ignore>
+                                    <label for="kelurahan_dom">Kelurahan</label>
+                                    <select id="sKelDom" asp-for="Pegawai.KelurahanDomID" class="form-control myselect" style="width: 100%;" required>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="text-right">
-                        <button type="button" class="btn btn-primary">Update Alamat</button>
+                    <div class="form-group">
+                        <label for="alamat_dom">Alamat Domisili</label>
+                        <input type="text" asp-for="Pegawai.AlamatDom" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="rt_dom">RT</label>
+                                    <input type="text" asp-for="Pegawai.RtDom" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="rw_dom">RW</label>
+                                    <input type="text" asp-for="Pegawai.RwDom" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="kode-pos">Kode Pos</label>
+                                    <input type="text" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary">Update Alamat</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>    
 </div>

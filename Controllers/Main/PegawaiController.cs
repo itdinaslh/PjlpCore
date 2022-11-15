@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using PjlpCore.Entity;
 using PjlpCore.Models;
 using PjlpCore.Repository;
+using PjlpCore.Helpers;
+using System.Globalization;
 
 namespace PjlpCore.Controllers;
 
@@ -29,17 +31,56 @@ public class PegawaiController : Controller
         Pegawai? peg = await pegRepo.Pegawais.Where(p => p.PegawaiID == pid)
             .Include(a => a.Agama)
             .Include(b => b.Bidang)
+            .Include(p => p.Pendidikan)
+            .Include(k => k.Kelurahan!.Kecamatan.Kabupaten.Provinsi)
+            .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
             .FirstOrDefaultAsync();
         if (peg is not null)
         {
+            string? lahir = peg.TglLahir.ToString();            
+
             return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", new PegawaiVM
             {
                 Pegawai = peg,
                 NamaAgama = peg.Agama.NamaAgama,
-                NamaBidang = peg.Bidang.NamaBidang
+                NamaBidang = peg.Bidang.NamaBidang,
+                NamaPendidikan = peg.Pendidikan!.NamaPendidikan,
+                TanggalLahir = DateTime.Parse(lahir!).ToString("dd-MM-yyyy"),
+                Kelurahan = peg.KelurahanID is null ? "" : peg.Kelurahan!.NamaKelurahan,
+                Kecamatan = peg.KelurahanID is null ? "" : peg.Kelurahan!.Kecamatan.NamaKecamatan,
+                Kabupaten = peg.KelurahanID is null ? "" : peg.Kelurahan!.Kecamatan.Kabupaten.NamaKabupaten,
+                Provinsi = peg.KelurahanID is null ? "" : peg.Kelurahan!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi
             });
         }
 
         return NotFound();
+    }
+
+    [HttpPost("/pegawai/biodata/update")]
+    public async Task<IActionResult> UpdateBiodata(PegawaiVM model)
+    {
+        #nullable disable
+        if (ModelState.IsValid)
+        {
+            model.Pegawai.TglLahir = DateOnly.Parse(model.TanggalLahir, new CultureInfo("id-ID"));
+
+            await pegRepo.UpdateBiodata(model.Pegawai);
+            return Json(Result.Success());
+        }
+
+        return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", model);
+    }
+
+    [HttpPost("/pegawai/alamat/update")]
+    public async Task<IActionResult> UpdateAlamat(PegawaiVM model)
+    {
+        if (ModelState.IsValid)
+        {
+            await pegRepo.UpdateAlamat(model.Pegawai);
+
+            return Json(Result.Success());
+        }
+
+        return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", model);
     }
 }
