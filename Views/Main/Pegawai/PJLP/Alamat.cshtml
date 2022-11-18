@@ -3,40 +3,68 @@
 <div>
     <form id="formAlamat" class="formdata" action="/pegawai/alamat/update" method="post">
         <input type="hidden" asp-for="Pegawai.PegawaiID" />
+        <input type="hidden" asp-for="ProvID" id="provid" />
+        <input type="hidden" asp-for="KabID" id="kabid" />
+        <input type="hidden" asp-for="KecID" id="kecid" />
+        <input type="hidden" asp-for="ProvDomID" id="provdomid" />
+        <input type="hidden" asp-for="KabDomID" id="kabdomid" />
+        <input type="hidden" asp-for="KecDomID" id="kecdomid" />
+        <!-- Alamat KTP -->
         <div class="panel">
-            <div class="panel-hdr green-gradient" role="heading">
-                <h2>Alamat</h2>
+            <div class="panel-hdr green-gradient " role="heading">
+                <h2 class="text-white">Alamat Berdasarkan KTP</h2>
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
                     <div class="form-group">
                         <div class="row">
+                            <div class="col-md-12">
+                                <div asp-validation-summary="All"></div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label>Provinsi</label>
                                 <select id="sProvKTP" class="form-control myselect" style="width: 100%;" required>
+                                    @if (Model.Provinsi is not null)
+                                    {
+                                        <option value="@Model.ProvID" selected>@Model.Provinsi</option>
+                                    }
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="sKabKTP">Kota/Kabupaten</label>
                                 <select id="sKabKTP" class="form-control myselect" style="width: 100%;" required>
+                                    @if (Model.Kabupaten is not null)
+                                    {
+                                        <option value="@Model.KabID" selected>@Model.Kabupaten</option>
+                                    }
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="kecamatan">Kecamatan</label>
                                 <select id="sKecKTP" class="form-control myselect" style="width: 100%;" required>
+                                    @if (Model.Kecamatan is not null)
+                                    {
+                                        <option value="@Model.KecID">@Model.Kecamatan</option>
+                                    }
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="kelurahan">Kelurahan</label>
                                     <select id="sKelKTP" asp-for="Pegawai.KelurahanID" class="form-control myselect" style="width: 100%;" required>
+                                        @if (Model.Kelurahan is not null)
+                                        {
+                                            <option value="@Model.Pegawai.KelurahanID">@Model.Kelurahan</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="alamat">Alamat (Sesuai KTP)</label>
+                        <label for="alamat">Alamat</label>
                         <input asp-for="Pegawai.AlamatKTP" class="form-control" />
                     </div>
                     <div class="form-group mb-3">
@@ -50,47 +78,79 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="rw">RW</label>
-                                    <input asp-for="Pegawai.RwDom" class="form-control" required />
+                                    <input asp-for="Pegawai.RwKTP" class="form-control" required />
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="kode-pos">Kode Pos</label>
-                                    <input asp-for="Pegawai.RwDom" class="form-control" required />
+                                    <input asp-for="Pegawai.KodePosKTP" class="form-control" required />
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @if (Model.IsSame)
+                                {
+                                    <input id="chkSame" asp-for="IsSame" class="form-check-input chkAlamat" type="checkbox" checked />
+                                } else
+                                {
+                                    <input id="chkSame" asp-for="IsSame" class="form-check-input chkAlamat" type="checkbox" />
+                                }                             
+                                <label class="form-check-label lblAlamat" for="chkSame">Alamat domisili sama dengan alamat KTP</label>
+                            </div>
+                        </div>                        
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="panel">
-            <div class="panel-hdr green-gradient" role="heading">
-                <h2>Alamat Domisili</h2>
+                
+        <!-- Alamat Domisili -->
+        <div class="panel" id="domisili" style="display:none;">
+            <div class="panel-hdr green-gradient " role="heading">
+                <h2 class="text-white">Alamat Domisili</h2>
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-6 mb-3" wire:ignore>
+                            <div class="col-6 mb-3">
                                 <label for="provinsi_dom">Provinsi</label>
-                                <select id="sProvDom" class="form-control myselect" style="width: 100%;" required>
+                                <select id="sProvDom" class="form-control myselect" style="width: 100%;">
+                                    @if (Model.ProvinsiDom is not null)
+                                    {
+                                        <option value="@Model.ProvDomID" selected>@Model.ProvinsiDom</option>
+                                    }
                                 </select>
                             </div>
-                            <div class="col-6 mb-3" wire:ignore>
+                            <div class="col-6 mb-3"e>
                                 <label for="kota_dom">Kota/Kabupaten</label>
-                                <select id="sKabDom" class="form-control myselect" style="width: 100%;" required>
-                                </select>
-                            </div>
-                            <div class="col-6" wire:ignore>
-                                <label for="kecamatan_dom">Kecamatan</label>
-                                <select id="sKecDom" class="form-control myselect" style="width: 100%;" required>
+                                <select id="sKabDom" class="form-control myselect" style="width: 100%;">
+                                    @if (Model.KabupatenDom is not null)
+                                    {
+                                        <option value="@Model.KabDomID" selected>@Model.KabupatenDom</option>
+                                    }
                                 </select>
                             </div>
                             <div class="col-6">
-                                <div class="form-group" wire:ignore>
+                                <label for="kecamatan_dom">Kecamatan</label>
+                                <select id="sKecDom" class="form-control myselect" style="width: 100%;">
+                                    @if (Model.KecamatanDom is not null)
+                                    {
+                                        <option value="@Model.KecDomID" selected>@Model.KecamatanDom</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
                                     <label for="kelurahan_dom">Kelurahan</label>
-                                    <select id="sKelDom" asp-for="Pegawai.KelurahanDomID" class="form-control myselect" style="width: 100%;" required>
+                                    <select id="sKelDom" asp-for="Pegawai.KelurahanDomID" class="form-control myselect" style="width: 100%;">
+                                        @if (Model.KelurahanDom is not null)
+                                        {
+                                            <option value="@Model.Pegawai.KelurahanDomID" selected>@Model.KelurahanDom</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -117,17 +177,17 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="kode-pos">Kode Pos</label>
-                                    <input type="text" class="form-control" required />
+                                    <input asp-for="Pegawai.KodePosDom" class="form-control" required />
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-primary">Update Alamat</button>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary">Update Alamat</button>
             </div>
         </div>
     </form>    

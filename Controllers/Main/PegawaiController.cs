@@ -37,7 +37,7 @@ public class PegawaiController : Controller
             .FirstOrDefaultAsync();
         if (peg is not null)
         {
-            string? lahir = peg.TglLahir.ToString();            
+            string? lahir = peg.TglLahir.ToString();
 
             return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", new PegawaiVM
             {
@@ -48,8 +48,19 @@ public class PegawaiController : Controller
                 TanggalLahir = DateTime.Parse(lahir!).ToString("dd-MM-yyyy"),
                 Kelurahan = peg.KelurahanID is null ? "" : peg.Kelurahan!.NamaKelurahan,
                 Kecamatan = peg.KelurahanID is null ? "" : peg.Kelurahan!.Kecamatan.NamaKecamatan,
+                KecID = peg.KelurahanID is null ? "" : peg.Kelurahan!.KecamatanID,
+                KabID= peg.KelurahanID is null ? "" : peg.Kelurahan!.Kecamatan.KabupatenID,
                 Kabupaten = peg.KelurahanID is null ? "" : peg.Kelurahan!.Kecamatan.Kabupaten.NamaKabupaten,
-                Provinsi = peg.KelurahanID is null ? "" : peg.Kelurahan!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi
+                ProvID = peg.KelurahanID is null ? "" : peg.Kelurahan!.Kecamatan.Kabupaten.ProvinsiID,
+                Provinsi = peg.KelurahanID is null ? "" : peg.Kelurahan!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
+                KelurahanDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.NamaKelurahan,
+                KecDomID = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.KecamatanID,
+                KecamatanDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.NamaKecamatan,
+                KabDomID = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.KabupatenID,
+                KabupatenDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.NamaKabupaten,
+                ProvDomID = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.ProvinsiID,
+                ProvinsiDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
+                IsSame = peg.AddressIsSame ? true : false
             });
         }
 
@@ -74,8 +85,19 @@ public class PegawaiController : Controller
     [HttpPost("/pegawai/alamat/update")]
     public async Task<IActionResult> UpdateAlamat(PegawaiVM model)
     {
-        if (ModelState.IsValid)
+        model.Pegawai.AddressIsSame = model.IsSame;
+
+        if (model.Pegawai.PegawaiID != Guid.Empty)
         {
+            if (model.IsSame)
+            {
+                model.Pegawai.AlamatDom = model.Pegawai.AlamatKTP;
+                model.Pegawai.RtDom = model.Pegawai.RtKTP;
+                model.Pegawai.RwDom = model.Pegawai.RwKTP;
+                model.Pegawai.KodePosDom = model.Pegawai.KodePosKTP;
+                model.Pegawai.KelurahanDomID = model.Pegawai.KelurahanID;
+            }
+
             await pegRepo.UpdateAlamat(model.Pegawai);
 
             return Json(Result.Success());

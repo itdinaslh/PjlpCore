@@ -1,49 +1,77 @@
 ﻿$(document).ready(function () {
     PopulateAgama();
     PopulateBidang();
-    PopulateProvinsi();
-    PopulateProvinsiDom();
+    PopulateProvinsi();    
     PopulatePendidikan();
     PopulateTanggungan();
+    checkAddrIsSame();
+
+    var provid = $('#provid').val();
+    var kabid = $('#kabid').val();
+    var kecid = $('#kecid').val();
+    var provdomid = $('#provdomid').val();
+    var kabdomid = $('#kabdomid').val();
+    var kecdomid = $('#kecdomid').val();
+
+    if ($('#chkSame').prop('checked')) {
+        $('#domisili').hide();            
+    } else {
+        $('#domisili').show();
+        PopulateProvinsiDom();        
+    }
 
     $('.dtpicker').datepicker({
         format: 'dd-mm-yyyy',
         orientation: 'bottom'
     });
 
-    $('#sKabKTP').select2({
-        placeholder: 'Pilih kota/kabupaten'
-    });
+    if (!provid) {
+        $('#sKabKTP').select2({
+            placeholder: 'Pilih kota/kabupaten'
+        });
+    } else {
+        PopulateKota(provid);
+    }
 
-    $('#sKecKTP').select2({
-        placeholder: 'Pilih kecamatan'
-    });
+    if (!kabid) {
+        $('#sKecKTP').select2({
+            placeholder: 'Pilih kecamatan'
+        });
+    } else {
+        PopulateKecamatan(kabid);
+    }
 
-    $('#sKelKTP').select2({
-        placeholder: 'Pilih kelurahan'
-    });
+    if (!kecid) {
+        $('#sKelKTP').select2({
+            placeholder: 'Pilih kelurahan'
+        });
+    } else {
+        PopulateKelurahan(kecid);
+    }
 
-    $('#sGolDarah').select2({
-        placeholder: 'Pilih Golongan Darah',
-        allowClear: true
-    });
+    if (!provdomid) {
+        $('#sKabDom').select2({
+            placeholder: 'Pilih kota/kabupaten'
+        });
+    } else {
+        PopulateKotaDom(provdomid);
+    }
 
-    $('#sKelamin').select2({
-        placeholder: 'Pilih Jenis Kelamin',
-        allowClear: true
-    });
+    if (!kabdomid) {
+        $('#sKecDom').select2({
+            placeholder: 'Pilih kecamatan'
+        });
+    } else {
+        PopulateKecamatanDom(kabdomid);
+    }
 
-    $('#sKabDom').select2({
-        placeholder: 'Pilih kota/kabupaten'
-    });
-
-    $('#sKecDom').select2({
-        placeholder: 'Pilih kecamatan'
-    });
-
-    $('#sKelDom').select2({
-        placeholder: 'Pilih kelurahan'
-    });
+    if (!kecdomid) {
+        $('#sKelDom').select2({
+            placeholder: 'Pilih kelurahan'
+        });
+    } else {
+        PopulateKelurahanDom(kecdomid);
+    }
 });
 
 $('.formdata').submit(function (e) {
@@ -61,254 +89,31 @@ $('.formdata').submit(function (e) {
     })
 });
 
-function PopulateAgama() {
-    $('#sAgama').select2({
-        placeholder: 'Pilih Agama...',        
-        allowClear: true,
-        ajax: {
-            url: "/api/master/agama/search",
-            contentType: "application/json; charset=utf-8",
-            data: function (params) {
-                var query = {
-                    term: params.term,
-                };
-                return query;
-            },
-            processResults: function (result) {
-                return {
-                    results: $.map(result, function (item) {
-                        return {
-                            text: item.namaAgama,
-                            id: item.id
-                        }
-                    })
-                }
-            },
-            cache: true
-        }
-    });
-}
+$('#chkSame').change(function () {
+    if (!this.checked) {
+        $('#domisili').show();
+        PopulateProvinsiDom();
+        $('#sProvDom').prop('required', true);
+        $('#sKabDom').prop('required', true);
+        $('#sKecDom').prop('required', true);
+        $('#sKelDom').prop('required', true);
+    } else {
+        $('#domisili').hide();
+        $('#sProvDom').prop('required', false);
+        $('#sKabDom').prop('required', false);
+        $('#sKecDom').prop('required', true);
+        $('#sKelDom').prop('required', true);
+    }
+});
 
-function PopulateBidang() {
-    $('#sBidang').select2({
-        placeholder: 'Pilih Bidang...',
-        allowClear: true,
-        ajax: {
-            url: "/api/master/bidang/search",
-            contentType: "application/json; charset=utf-8",
-            data: function (params) {
-                var query = {
-                    term: params.term,
-                };
-                return query;
-            },
-            processResults: function (result) {
-                return {
-                    results: $.map(result, function (item) {
-                        return {
-                            text: item.namaBidang,
-                            id: item.id
-                        }
-                    })
-                }
-            },
-            cache: true
+function checkAddrIsSame() {
+    $('#chkSame').change(function () {
+        if (!this.checked) {
+            $('#domisili').show();
+            PopulateProvinsiDom();
+        } else {
+            $('#domisili').hide();
         }
-    });
-}
-
-function PopulateProvinsi() {
-    $('#sProvKTP').select2({
-        placeholder: 'Pilih provinsi...',
-        allowClear: true,
-        ajax: {
-            url: "/api/wilayah/provinsi/search",
-            contentType: "application/json; charset=utf-8",
-            data: function (params) {
-                var query = {
-                    term: params.term,
-                };
-                return query;
-            },
-            processResults: function (result) {
-                return {
-                    results: $.map(result, function (item) {
-                        return {
-                            text: item.namaProvinsi,
-                            id: item.id
-                        }
-                    })
-                }
-            },
-            cache: true
-        }
-    }).on('change', function () {
-        $('#sKabKTP').val(null).trigger('change');
-        var theID = $('#sProvKTP option:selected').val();
-        PopulateKota(theID);
-        $('#sKabKTP').select2('focus');
-    });
-}
-
-function PopulateProvinsiDom() {
-    $('#sProvDom').select2({
-        placeholder: 'Pilih provinsi...',
-        allowClear: true,
-        ajax: {
-            url: "/api/wilayah/provinsi/search",
-            contentType: "application/json; charset=utf-8",
-            data: function (params) {
-                var query = {
-                    term: params.term,
-                };
-                return query;
-            },
-            processResults: function (result) {
-                return {
-                    results: $.map(result, function (item) {
-                        return {
-                            text: item.namaProvinsi,
-                            id: item.id
-                        }
-                    })
-                }
-            },
-            cache: true
-        }
-    }).on('change', function () {
-        $('#sKabDom').val(null).trigger('change');
-        var theID = $('#sProvDom option:selected').val();
-        PopulateKota(theID);
-        $('#sKabDom').select2('focus');
-    });
-}
-
-function PopulateKota(prov) {
-    $('#sKabKTP').select2({
-        placeholder: 'Pilih kota/kabupaten...',
-        allowClear: true,
-        ajax: {
-            url: "/api/wilayah/kabupaten/search?prov=" + prov,
-            contentType: "application/json; charset=utf-8",
-            data: function (params) {
-                var query = {
-                    term: params.term,
-                };
-                return query;
-            },
-            processResults: function (result) {
-                return {
-                    results: $.map(result, function (item) {
-                        return {
-                            text: item.namaKabupaten,
-                            id: item.id
-                        }
-                    })
-                }
-            },
-            cache: true
-        }
-    }).on('change', function () {
-        $('#sKecKTP').val(null).trigger('change');
-        var theID = $('#sKabKTP option:selected').val();
-        PopulateKecamatan(theID);
-        $('#sKecKTP').select2('focus');
-    });
-}
-
-function PopulateKecamatan(kab) {
-    $('#sKecKTP').select2({
-        placeholder: 'Pilih kecamatan...',
-        allowClear: true,
-        ajax: {
-            url: "/api/wilayah/kecamatan/search?kab=" + kab,
-            contentType: "application/json; charset=utf-8",
-            data: function (params) {
-                var query = {
-                    term: params.term,
-                };
-                return query;
-            },
-            processResults: function (result) {
-                return {
-                    results: $.map(result, function (item) {
-                        return {
-                            text: item.namaKecamatan,
-                            id: item.id
-                        }
-                    })
-                }
-            },
-            cache: true
-        }
-    }).on('change', function () {
-        $('#sKelKTP').val(null).trigger('change');
-        var theID = $('#sKecKTP option:selected').val();
-        PopulateKelurahan(theID);
-        $('#sKelKTP').select2('focus');
-    });
-}
-
-function PopulateKelurahan(kec) {
-    $('#sKelKTP').select2({
-        placeholder: 'Pilih kelurahan...',
-        allowClear: true,
-        ajax: {
-            url: "/api/wilayah/kelurahan/search?kec=" + kec,
-            contentType: "application/json; charset=utf-8",
-            data: function (params) {
-                var query = {
-                    term: params.term,
-                };
-                return query;
-            },
-            processResults: function (result) {
-                return {
-                    results: $.map(result, function (item) {
-                        return {
-                            text: item.namaKelurahan,
-                            id: item.id
-                        }
-                    })
-                }
-            },
-            cache: true
-        }
-    })
-}
-
-function PopulatePendidikan() {
-    $('#sPendidikan').select2({
-        placeholder: 'Pilih Pendidikan...',
-        allowClear: true,
-        ajax: {
-            url: "/api/master/pendidikan/search",
-            contentType: "application/json; charset=utf-8",
-            data: function (params) {
-                var query = {
-                    term: params.term,
-                };
-                return query;
-            },
-            processResults: function (result) {
-                return {
-                    results: $.map(result, function (item) {
-                        return {
-                            text: item.namaPendidikan,
-                            id: item.id
-                        }
-                    })
-                }
-            },
-            cache: true
-        }
-    });
-}
-
-function PopulateTanggungan() {
-    $('#sTanggungan').select2({
-        placeholder: 'Pilih Tanggungan...',
-        allowClear: true
     });
 }
 
@@ -317,6 +122,16 @@ function showUpdateSuccess() {
         position: 'top-end',
         type: 'success',
         title: 'Data berhasil update',
+        showConfirmButton: false,
+        timer: 1000
+    });
+}
+
+function showFailedMessage() {
+    swal({
+        position: 'top-end',
+        type: 'danger',
+        title: 'Data gagal diupdate',
         showConfirmButton: false,
         timer: 1000
     });

@@ -31,7 +31,7 @@
                     <button
                         x-on:click="modul = 1"
                         class="btn text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
-                        :class="modul == 1 ? 'orange' : ''">
+                        :class="modul == 1 ? 'violet-red' : ''">
                             Biodata
                      </button>
                 </li>
@@ -39,7 +39,7 @@
                     <button
                         x-on:click="modul = 2"
                         class="text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
-                            :class="modul == 2 ? 'orange' : ''">
+                            :class="modul == 2 ? 'violet-red' : ''">
                             Alamat
                     </button>
                 </li>
@@ -47,7 +47,7 @@
                     <button
                         x-on:click="modul = 3"
                         class="text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
-                        :class="modul == 3 ? 'orange' : 'btn-primary'">
+                            :class="modul == 3 ? 'violet-red' : 'btn-primary'">
                             Lainnya
                     </button>
                 </li>
@@ -55,8 +55,8 @@
             <div class="row mb-3">
                 <div class="col-md-12 text-right">
                     <a type="button" class="btn btn-warning mr-2" asp-action="PJLP" asp-controller="Pegawai">Kembali</a>
-                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="" data-original-title="Verifikasi"
-                        class="btn btn-success verify">Verifikasi</a>
+                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="" data-original-title="NonAktif"
+                        class="btn btn-danger verify">Non Aktifkan</a>
                 </div>
                 <div class="col-md-6">
 
@@ -90,6 +90,7 @@
     <script src="~/lib/sweetalert/sweetalert2.all.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/pages/main/population.js"></script>
     <script src="~/pages/main/detailpjlp.js"></script>    
 }
 

@@ -74,6 +74,9 @@ public class Pegawai
     [MaxLength(3)]
     public string? RwKTP { get; set; }
 
+    [MaxLength(5)]
+    public string? KodePosKTP { get; set; }
+
     // Handle Alamat Domisili
     [DataType(DataType.Text)]
     public string? AlamatDom { get; set; }
@@ -86,6 +89,11 @@ public class Pegawai
 
     [MaxLength(3)]
     public string? RwDom { get; set; }
+
+    [MaxLength(5)]
+    public string? KodePosDom { get; set; }
+
+    public bool AddressIsSame { get; set; } = false;
 
 #nullable disable
 

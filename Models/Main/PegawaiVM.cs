@@ -17,11 +17,35 @@ public class PegawaiVM
 
     public string? TanggalLahir { get; set; }
 
+    public string? ProvID { get; set; }
+
     public string? Provinsi { get; set; }
 
+    public string? KabID { get; set; }
+
     public string? Kabupaten { get; set; }
+
+    public string? KecID { get; set; }
 
     public string? Kecamatan { get; set; }
 
     public string? Kelurahan { get; set; }
+
+    public string? ProvDomID { get; set; }
+
+    public string? ProvinsiDom { get; set; }
+
+    public string? KabDomID { get; set; }
+
+    public string? KabupatenDom { get; set; }
+
+    public string? KecDomID { get; set; }
+
+    public string? KecamatanDom { get; set; }
+
+    public string? KelurahanDom { get; set; }
+
+#nullable disable
+    public bool IsSame { get; set; }
+
 }

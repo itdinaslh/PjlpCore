@@ -26,6 +26,7 @@ public class PegawaiService : IPegawai
             data.RtDom = peg.RtDom;
             data.RwDom = peg.RwDom;
             data.AlamatDom= peg.AlamatDom;
+            data.AddressIsSame = peg.AddressIsSame;
 
             context.Update(data);
 
