@@ -43,9 +43,11 @@ public class PegawaiVM
 
     public string? KecamatanDom { get; set; }
 
-    public string? KelurahanDom { get; set; }
+    public string? KelurahanDom { get; set; }    
 
 #nullable disable
     public bool IsSame { get; set; }
+
+    public UploadVM Upload { get; set; } = new UploadVM();
 
 }

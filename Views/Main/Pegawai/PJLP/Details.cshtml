@@ -17,7 +17,7 @@
 }
 
 <div x-data="{ modul: 1 }">
-    <div class="row">
+    <div class="row" x-data="{edit : false}">
         <div class="col-md-3 col-sm-12">
             <div class="card" style="width:100%; margin-bottom:20px;">
                 <div class="card-header violet-red d-flex align-items-center flex-wrap text-white">
@@ -51,12 +51,22 @@
                             Lainnya
                     </button>
                 </li>
+                <li style="border-bottom:1px solid white">
+                    <button x-on:click="modul = 4"
+                            class="text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
+                            :class="modul == 4 ? 'violet-red' : 'btn-primary'">
+                        Berkas
+                    </button>
+                </li>
             </ul>
             <div class="row mb-3">
                 <div class="col-md-12 text-right">
                     <a type="button" class="btn btn-warning mr-2" asp-action="PJLP" asp-controller="Pegawai">Kembali</a>
-                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="" data-original-title="NonAktif"
-                        class="btn btn-danger verify">Non Aktifkan</a>
+                    <button x-on:click="edit = !edit"
+                        class="btn btn-danger verify d-none"
+                        :class="modul == 4 ? 'd-inline-block' : 'd-none'">
+                        Tambah Berkas
+                    </button>
                 </div>
                 <div class="col-md-6">
 
@@ -77,6 +87,11 @@
                     <div x-show="modul == 3" x-transition>
                         <div class="d-none" :class="modul == 3 ? 'd-block' : 'd-none'">
                             <partial name="~/Views/Main/Pegawai/PJLP/Lainnya.cshtml" />
+                        </div>
+                    </div>
+                    <div x-show="modul == 4" x-transition>
+                        <div class="d-none" :class="modul == 4 ? 'd-block' : 'd-none'">
+                            <partial name="~/Views/Main/Pegawai/PJLP/Files.cshtml" />
                         </div>
                     </div>
                 </div>

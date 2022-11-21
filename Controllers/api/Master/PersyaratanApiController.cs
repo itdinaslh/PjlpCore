@@ -9,7 +9,7 @@ namespace PjlpCore.Controllers.api;
 
 [ApiController]
 [Route("[controller]")]
-// [Authorize(Roles = "SysAdmin, PjlpAdmin")]
+[Authorize]
 public class PersyaratanApiController : Controller {
     private IPersyaratanRepo repo;
 
@@ -46,5 +46,19 @@ public class PersyaratanApiController : Controller {
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result};
         
         return Ok(jsonData);
+    }
+
+    [HttpGet("/api/master/persyaratan/search")]
+    public async Task<IActionResult> Search(string? term)
+    {
+        var data = await repo.Persyaratans
+            .Where(k => !String.IsNullOrEmpty(term) ?
+                k.NamaPersyaratan.ToLower().Contains(term.ToLower()) : true
+            ).Select(s => new {
+                id = s.PersyaratanID,
+                namaPersyaratan = s.NamaPersyaratan
+            }).Take(10).ToListAsync();
+
+        return Ok(data);
     }
 }

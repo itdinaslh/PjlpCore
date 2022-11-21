@@ -22,10 +22,12 @@ public class PegawaiService : IPegawai
             data.AlamatKTP = peg.AlamatKTP;
             data.RtKTP= peg.RtKTP;
             data.RwKTP= peg.RwKTP;
+            data.KodePosKTP = peg.KodePosKTP;
             data.KelurahanDomID = peg.KelurahanDomID;
             data.RtDom = peg.RtDom;
             data.RwDom = peg.RwDom;
             data.AlamatDom= peg.AlamatDom;
+            data.KodePosDom = peg.KodePosDom;
             data.AddressIsSame = peg.AddressIsSame;
 
             context.Update(data);

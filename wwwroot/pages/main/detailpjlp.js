@@ -4,6 +4,7 @@
     PopulateProvinsi();    
     PopulatePendidikan();
     PopulateTanggungan();
+    PopulateFileTypes();
     checkAddrIsSame();
 
     var provid = $('#provid').val();
@@ -84,6 +85,25 @@ $('.formdata').submit(function (e) {
         url: this.action,
         type: this.method,
         data: $(this).serialize(),
+        success: function (result) {
+            if (result.success) {
+                showUpdateSuccess();
+            }
+        }
+    })
+});
+
+$('#UploadFile').submit(function (e) {
+    e.preventDefault();
+
+    var formdata = new FormData($('#UploadFile')[0]);
+
+    $.ajax({
+        url: this.action,
+        type: this.method,
+        data: formdata,
+        processData: false,
+        contentType: false,
         success: function (result) {
             if (result.success) {
                 showUpdateSuccess();

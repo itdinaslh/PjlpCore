@@ -6,6 +6,8 @@ using PjlpCore.Models;
 using PjlpCore.Repository;
 using PjlpCore.Helpers;
 using System.Globalization;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IWebHostEnvironment;
+using System.Text;
 
 namespace PjlpCore.Controllers;
 
@@ -13,10 +15,12 @@ namespace PjlpCore.Controllers;
 public class PegawaiController : Controller
 {
     private readonly IPegawai pegRepo;
+    private IHostingEnvironment Environment;
 
-    public PegawaiController(IPegawai pRepo)
+    public PegawaiController(IPegawai pRepo, IHostingEnvironment _env)
     {
         pegRepo = pRepo;
+        Environment = _env;
     }
 
     [HttpGet("/pegawai/pjlp")]
@@ -60,7 +64,7 @@ public class PegawaiController : Controller
                 KabupatenDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.NamaKabupaten,
                 ProvDomID = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.ProvinsiID,
                 ProvinsiDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
-                IsSame = peg.AddressIsSame ? true : false
+                IsSame = peg.AddressIsSame ? true : false                
             });
         }
 
@@ -104,5 +108,51 @@ public class PegawaiController : Controller
         }
 
         return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", model);
+    }
+
+    [HttpPost("/pegawai/files/upload")]
+    public IActionResult UploadFile(PegawaiVM model)
+    {
+        string wwwPath = @"/var/www/data";
+
+        string path = Path.Combine(wwwPath, @"uploads/", model.Pegawai.PegawaiID.ToString());
+
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        //string fileName = Path.GetFileName(model.Upload.TheFile.FileName);        
+        
+        string fileExt = Path.GetExtension(model.Upload.TheFile.FileName);
+        string fileName = GenerateRandomString() + "." + fileExt;
+
+        using (FileStream stream = new(Path.Combine(path, fileName), FileMode.Create))
+        {
+            model.Upload.TheFile.CopyTo(stream);
+        }
+
+        return Json(Result.Success());
+    }
+
+    private static string GenerateRandomString()
+    {
+        int length = 60;
+
+        StringBuilder builder = new();
+
+        Random random = new();
+
+        char letter;
+
+        for (int i = 0; i < length; i++)
+        {
+            double flt = random.NextDouble();
+            int shift = Convert.ToInt32(Math.Floor(25 * flt));
+            letter = Convert.ToChar(shift + 65);
+            builder.Append(letter);
+        }
+
+        return builder.ToString();
     }
 }

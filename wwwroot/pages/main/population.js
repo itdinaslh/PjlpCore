@@ -364,3 +364,32 @@ function PopulateTanggungan() {
         allowClear: true
     });
 }
+
+function PopulateFileTypes() {
+    $('#sFile').select2({
+        placeholder: 'Pilih Jenis Berkas...',
+        allowClear: true,
+        ajax: {
+            url: "/api/master/persyaratan/search",
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+                return query;
+            },
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (item) {
+                        return {
+                            text: item.namaPersyaratan,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
+    });
+}
+

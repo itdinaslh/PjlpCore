@@ -7,8 +7,9 @@ namespace PjlpCore.Entity;
 public class Pegawai
 {
     [Key]
-    public Guid PegawaiID { get; set; } = Guid.Empty;    
+    public Guid PegawaiID { get; set; } = Guid.Empty;
 
+    [MaxLength(255)]
     public string? Email { get; set; }
 
 #nullable disable
