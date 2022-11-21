@@ -137,7 +137,7 @@ function PopulateProvinsiDom() {
     }).on('change', function () {
         $('#sKabDom').val(null).trigger('change');
         var theID = $('#sProvDom option:selected').val();
-        PopulateKota(theID);
+        PopulateKotaDom(theID);
         $('#sKabDom').select2('focus');
     });
 }

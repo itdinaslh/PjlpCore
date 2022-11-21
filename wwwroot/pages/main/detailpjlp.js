@@ -14,10 +14,13 @@
     var kecdomid = $('#kecdomid').val();
 
     if ($('#chkSame').prop('checked')) {
-        $('#domisili').hide();            
+        $('#domisili').hide();
+        $('.domfield').removeAttr('required');
+        
     } else {
         $('#domisili').show();
-        PopulateProvinsiDom();        
+        $('.domfield').prop('required', true);
+        PopulateProvinsiDom();      
     }
 
     $('.dtpicker').datepicker({
@@ -97,12 +100,14 @@ $('#chkSame').change(function () {
         $('#sKabDom').prop('required', true);
         $('#sKecDom').prop('required', true);
         $('#sKelDom').prop('required', true);
+        $('.domfield').prop('required', true);
     } else {
         $('#domisili').hide();
         $('#sProvDom').prop('required', false);
         $('#sKabDom').prop('required', false);
         $('#sKecDom').prop('required', true);
         $('#sKelDom').prop('required', true);
+        $('.domfield').removeAttr('required');
     }
 });
 

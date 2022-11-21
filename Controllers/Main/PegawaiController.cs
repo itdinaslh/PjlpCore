@@ -43,7 +43,7 @@ public class PegawaiController : Controller
             {
                 Pegawai = peg,
                 NamaAgama = peg.Agama.NamaAgama,
-                NamaBidang = peg.Bidang.NamaBidang,
+                NamaBidang = peg.Bidang.NamaBidang,                
                 NamaPendidikan = peg.Pendidikan!.NamaPendidikan,
                 TanggalLahir = DateTime.Parse(lahir!).ToString("dd-MM-yyyy"),
                 Kelurahan = peg.KelurahanID is null ? "" : peg.Kelurahan!.NamaKelurahan,

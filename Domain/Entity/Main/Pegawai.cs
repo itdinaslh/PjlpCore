@@ -41,6 +41,9 @@ public class Pegawai
 
     // false 0 if woman or girl and true 1 if man
     public bool? Kelamin { get; set; }
+
+    [MaxLength(2)]
+    public string? GolDarah { get; set; }
     
     public int? AgamaID { get; set; }
 

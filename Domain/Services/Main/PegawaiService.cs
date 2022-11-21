@@ -47,6 +47,7 @@ public class PegawaiService : IPegawai
             data.TglLahir = peg.TglLahir;
             data.TempatLahir = peg.TempatLahir;
             data.Kelamin = peg.Kelamin;
+            data.GolDarah = peg.GolDarah;
             data.UpdatedAt = DateTime.Now;
 
             context.Update(data);

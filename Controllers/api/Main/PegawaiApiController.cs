@@ -53,7 +53,9 @@ public class PegawaiApiController : ControllerBase
             init = init
                 .Where(a => a.namaPegawai.ToLower()
                 .Contains(searchValue.ToLower()) ||
-                a.nik.ToLower().Contains(searchValue.ToLower()));
+                a.nik.ToLower().Contains(searchValue.ToLower()) ||
+                a.bidang.ToLower().Contains(searchValue.ToLower())
+           );
         }
 
         recordsTotal = init.Count();
