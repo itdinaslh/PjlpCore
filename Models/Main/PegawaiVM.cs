@@ -1,5 +1,4 @@
-﻿using PjlpCore.Domain.Entity.Main;
-using PjlpCore.Entity;
+﻿using PjlpCore.Entity;
 
 namespace PjlpCore.Models;
 

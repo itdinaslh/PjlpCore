@@ -9,8 +9,7 @@ using System.Globalization;
 using System.Text;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-using PjlpCore.Domain.Entity.Main;
-using PjlpCore.Domain.Repository;
+
 
 namespace PjlpCore.Controllers;
 
