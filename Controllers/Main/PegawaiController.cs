@@ -6,8 +6,10 @@ using PjlpCore.Models;
 using PjlpCore.Repository;
 using PjlpCore.Helpers;
 using System.Globalization;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IWebHostEnvironment;
 using System.Text;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+
 
 namespace PjlpCore.Controllers;
 
@@ -15,12 +17,10 @@ namespace PjlpCore.Controllers;
 public class PegawaiController : Controller
 {
     private readonly IPegawai pegRepo;
-    private IHostingEnvironment Environment;
 
-    public PegawaiController(IPegawai pRepo, IHostingEnvironment _env)
+    public PegawaiController(IPegawai pRepo)
     {
         pegRepo = pRepo;
-        Environment = _env;
     }
 
     [HttpGet("/pegawai/pjlp")]
@@ -110,12 +110,38 @@ public class PegawaiController : Controller
         return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", model);
     }
 
+    //[HttpPost("/pegawai/files/upload")]
+    //public IActionResult UploadFile(PegawaiVM model)
+    //{
+    //    string wwwPath = @"/var/www/data";
+
+    //    string path = Path.Combine(wwwPath, @"uploads/", model.Pegawai.PegawaiID.ToString());
+
+    //    if (!Directory.Exists(path))
+    //    {
+    //        Directory.CreateDirectory(path);
+    //    }
+
+    //    //string fileName = Path.GetFileName(model.Upload.TheFile.FileName);        
+        
+    //    string fileExt = Path.GetExtension(model.Upload.TheFile.FileName);
+    //    string fileName = GenerateRandomString() + fileExt;
+
+    //    using (FileStream stream = new(Path.Combine(path, fileName), FileMode.Create))
+    //    {
+    //        model.Upload.TheFile.CopyTo(stream);
+    //    }
+
+    //    return Json(Result.Success());
+    //}
+
     [HttpPost("/pegawai/files/upload")]
     public IActionResult UploadFile(PegawaiVM model)
     {
-        string wwwPath = @"/var/www/data";
+        string wwwPath = @"C:\Data";
 
         string path = Path.Combine(wwwPath, @"uploads/", model.Pegawai.PegawaiID.ToString());
+        string thumbImg = path + @"/thumbnail";
 
         if (!Directory.Exists(path))
         {
@@ -123,9 +149,23 @@ public class PegawaiController : Controller
         }
 
         //string fileName = Path.GetFileName(model.Upload.TheFile.FileName);        
-        
+
         string fileExt = Path.GetExtension(model.Upload.TheFile.FileName);
-        string fileName = GenerateRandomString() + "." + fileExt;
+        string fileName = GenerateRandomString() + fileExt;        
+        
+
+        if (!fileExt.Contains("pdf"))
+        {
+            if (!Directory.Exists(thumbImg))
+            {
+                Directory.CreateDirectory(thumbImg);
+            }
+
+            Image image = Image.Load(model.Upload.TheFile.OpenReadStream());
+            image.Mutate(x => x.Resize(600, 400));
+
+            image.Save(thumbImg + "/" + fileName);
+        }
 
         using (FileStream stream = new(Path.Combine(path, fileName), FileMode.Create))
         {
