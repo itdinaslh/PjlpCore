@@ -149,7 +149,7 @@ public class PegawaiController : Controller
     [HttpPost("/pegawai/files/upload")]
     public async Task<IActionResult> UploadFile(PegawaiVM model)
     {
-        string wwwPath = @"C:\Data";
+        string wwwPath = Uploads.Path;        
 
         string path = Path.Combine(wwwPath, @"uploads/", model.Pegawai.PegawaiID.ToString());
         string thumbImg = path + @"/thumbnail";
