@@ -1,8 +1,8 @@
 ﻿using PjlpCore.Data;
-using PjlpCore.Domain.Entity.Main;
-using PjlpCore.Domain.Repository;
+using PjlpCore.Entity;
+using PjlpCore.Repository;
 
-namespace PjlpCore.Domain.Services;
+namespace PjlpCore.Services;
 
 public class FilePegawaiService : IFilePegawai
 {

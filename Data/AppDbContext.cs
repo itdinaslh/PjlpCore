@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using PjlpCore.Domain.Entity.Main;
 using PjlpCore.Entity;
 
 namespace PjlpCore.Data;

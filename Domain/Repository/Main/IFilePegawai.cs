@@ -1,6 +1,6 @@
 ﻿using PjlpCore.Domain.Entity.Main;
 
-namespace PjlpCore.Domain.Repository;
+namespace PjlpCore.Repository;
 
 public interface IFilePegawai
 {

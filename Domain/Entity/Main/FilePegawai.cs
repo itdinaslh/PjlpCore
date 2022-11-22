@@ -1,7 +1,7 @@
 ﻿using PjlpCore.Entity;
 using System.ComponentModel.DataAnnotations;
 
-namespace PjlpCore.Domain.Entity.Main
+namespace PjlpCore.Entity
 {
     public class FilePegawai
     {
