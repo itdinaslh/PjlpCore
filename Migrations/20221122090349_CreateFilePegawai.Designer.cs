@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PjlpCore.Data;
 
@@ -10,9 +11,10 @@ using PjlpCore.Data;
 namespace PjlpCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221122090349_CreateFilePegawai")]
+    partial class CreateFilePegawai
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,9 +45,6 @@ namespace PjlpCore.Migrations
                     b.Property<Guid>("PegawaiID")
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("PersyaratanID")
-                        .HasColumnType("int");
-
                     b.Property<string>("RealName")
                         .HasColumnType("longtext");
 
@@ -55,8 +54,6 @@ namespace PjlpCore.Migrations
                     b.HasKey("FilePegawaiID");
 
                     b.HasIndex("PegawaiID");
-
-                    b.HasIndex("PersyaratanID");
 
                     b.ToTable("FilePegawais");
                 });
@@ -814,15 +811,7 @@ namespace PjlpCore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PjlpCore.Entity.Persyaratan", "Persyaratan")
-                        .WithMany("FilePegawais")
-                        .HasForeignKey("PersyaratanID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Pegawai");
-
-                    b.Navigation("Persyaratan");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Divisi", b =>
@@ -1053,11 +1042,6 @@ namespace PjlpCore.Migrations
                     b.Navigation("Pegawais");
 
                     b.Navigation("Pelamars");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.Persyaratan", b =>
-                {
-                    b.Navigation("FilePegawais");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Provinsi", b =>

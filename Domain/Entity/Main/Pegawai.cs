@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PjlpCore.Domain.Entity.Main;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PjlpCore.Entity;
@@ -120,4 +121,6 @@ public class Pegawai
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
+
+    public List<FilePegawai> FilePegawais { get; set; }
 }

@@ -12,4 +12,6 @@ public class UploadVM
     public string? Extension { get; set; }
 
     public IFormFile? TheFile { get; set; }
+
+    public int PersyaratanID { get; set; }
 }

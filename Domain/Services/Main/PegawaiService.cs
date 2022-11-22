@@ -10,11 +10,11 @@ public class PegawaiService : IPegawai
 
     public PegawaiService(AppDbContext context) { this.context = context; }
 
-    public IQueryable<Pegawai> Pegawais => context.Karyawans;
+    public IQueryable<Pegawai> Pegawais => context.Pegawais;
 
     public async Task UpdateAlamat(Pegawai peg)
     {
-        Pegawai? data = await context.Karyawans.FindAsync(peg.PegawaiID);
+        Pegawai? data = await context.Pegawais.FindAsync(peg.PegawaiID);
 
         if (data is not null)
         {
@@ -38,7 +38,7 @@ public class PegawaiService : IPegawai
 
     public async Task UpdateBiodata(Pegawai peg)
     {
-        Pegawai? data = await context.Karyawans.FindAsync(peg.PegawaiID);
+        Pegawai? data = await context.Pegawais.FindAsync(peg.PegawaiID);
 
         if (data is not null)
         {

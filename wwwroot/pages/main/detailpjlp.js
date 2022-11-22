@@ -106,7 +106,7 @@ $('#UploadFile').submit(function (e) {
         contentType: false,
         success: function (result) {
             if (result.success) {
-                showUpdateSuccess();
+                showUploadSuccess();
             }
         }
     })
@@ -149,6 +149,18 @@ function showUpdateSuccess() {
         title: 'Data berhasil update',
         showConfirmButton: false,
         timer: 1000
+    });
+}
+
+function showUploadSuccess() {
+    swal({
+        position: 'top-end',
+        type: 'success',
+        title: 'Data berhasil upload',
+        showConfirmButton: false,
+        timer: 1000
+    }).then((result) => {
+        $('#AllFiles').load(location.href + " #AllFiles")
     });
 }
 

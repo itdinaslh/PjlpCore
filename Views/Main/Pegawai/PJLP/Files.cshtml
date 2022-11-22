@@ -15,7 +15,7 @@
                                 <div class="col-md-6 col-xs-12">
                                     <div class="form-group">
                                         <label for="">Jenis Berkas</label>
-                                        <select id="sFile" class="form-control" style="width:100%;">
+                                        <select id="sFile" asp-for="Upload.PersyaratanID" class="form-control" style="width:100%;" required>
                                         </select>
                                     </div>
                                 </div>
@@ -24,7 +24,7 @@
                                         <label for="fileUpload" class="form-label">Pilih File</label>
                                         <div class="input-group">
                                             <div class="custom-file">
-                                                <input type="file" asp-for="Upload!.TheFile" class="custom-file-input" accept="application/pdf, image/*" aria-describedby="fileUploadAddon" />
+                                                <input type="file" asp-for="Upload!.TheFile" class="custom-file-input" accept="application/pdf, image/*" aria-describedby="fileUploadAddon" required />
                                                 <label for="fileUpload" class="custom-file-label"></label>
                                             </div>
                                         </div>
@@ -45,137 +45,37 @@
             </div>
         </div>                
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="row">
-                <!-- File -->
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-header text-center bg-primary-500 bg-success-gradient">
-                            <h5>KTP</h5>
-                        </div>
-                        <img class="card-img-top" src="~/img/user.png" alt="file" style="height: 250px;">
-                        <div class="card-body">
-                            <table class="table">                                
-                                <tr>
-                                    <td>Tgl Upload</td>
-                                    <td style="padding-left:5px;padding-right:5px;">:</td>
-                                    <td>31-03-22 11:59:41</td>
-                                </tr>
-                            </table>
-                            <div class="text-center">
-                                <button class="btn btn-primary">Download</button>
+    <div id="AllFiles">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <!-- File -->
+                    @foreach (var p in Model.Files!)
+                    {
+                        string fullPath = p.FilePath + "/" + p.FileName;
+                        <div class="col-lg-4">
+                            <div class="card mb-4">
+                                <div class="card-header text-center bg-primary-500 bg-success-gradient">
+                                    <h5>@p.Persyaratan.NamaPersyaratan</h5>
+                                </div>
+                                <img class="card-img-top" src="@fullPath" alt="file" style="height: 250px;">
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tr>
+                                            <td>Tgl Upload</td>
+                                            <td style="padding-left:5px;padding-right:5px;">:</td>
+                                            <td>@p.CreatedAt</td>
+                                        </tr>
+                                    </table>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary">Download</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-header text-center bg-primary-500 bg-success-gradient">
-                            <h5>Pas Foto</h5>
-                        </div>
-                        <img class="card-img-top" src="~/img/user.png" alt="file" style="height: 250px;">
-                        <div class="card-body">
-                            <table class="table">                                
-                                <tr>
-                                    <td>Tgl Upload</td>
-                                    <td style="padding-left:5px;padding-right:5px;">:</td>
-                                    <td>31-03-22 11:59:41</td>
-                                </tr>
-                            </table>
-                            <div class="text-center">
-                                <button class="btn btn-primary">Download</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-header text-center bg-primary-500 bg-success-gradient">
-                            <h5>NPWP</h5>
-                        </div>
-                        <img class="card-img-top" src="~/img/user.png" alt="file" style="height: 250px;">
-                        <div class="card-body">
-                            <table class="table">                                
-                                <tr>
-                                    <td>Tgl Upload</td>
-                                    <td style="padding-left:5px;padding-right:5px;">:</td>
-                                    <td>31-03-22 11:59:41</td>
-                                </tr>
-                            </table>
-                            <div class="text-center">
-                                <button class="btn btn-primary">Download</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-header text-center bg-primary-500 bg-success-gradient">
-                            <h5>Kartu Keluarga</h5>
-                        </div>
-                        <img class="card-img-top" src="~/img/user.png" alt="file" style="height: 250px;">
-                        <div class="card-body">
-                            <table class="table">                                
-                                <tr>
-                                    <td>Tgl Upload</td>
-                                    <td style="padding-left:5px;padding-right:5px;">:</td>
-                                    <td>31-03-22 11:59:41</td>
-                                </tr>
-                            </table>
-                            <div class="text-center">
-                                <button class="btn btn-primary">Download</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-header text-center bg-primary-500 bg-success-gradient">
-                            <h5>Surat Pernyataan</h5>
-                        </div>
-                        <img class="card-img-top" src="~/img/user.png" alt="file" style="height: 250px;">
-                        <div class="card-body">
-                            <table class="table">                                
-                                <tr>
-                                    <td>Tgl Upload</td>
-                                    <td style="padding-left:5px;padding-right:5px;">:</td>
-                                    <td>31-03-22 11:59:41</td>
-                                </tr>
-                            </table>
-                            <div class="text-center">
-                                <button class="btn btn-primary">Download</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-header text-center bg-primary-500 bg-success-gradient">
-                            <h5>Daftar Riwayat Hidup</h5>
-                        </div>
-                        <img class="card-img-top" src="~/img/user.png" alt="file" style="height: 250px;">
-                        <div class="card-body">
-                            <table class="table">                                
-                                <tr>
-                                    <td>Tgl Upload</td>
-                                    <td style="padding-left:5px;padding-right:5px;">:</td>
-                                    <td>31-03-22 11:59:41</td>
-                                </tr>
-                            </table>
-                            <div class="text-center">
-                                <button class="btn btn-primary">Download</button>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
-            
         </div>
-    </div>
+    </div>    
 </div>

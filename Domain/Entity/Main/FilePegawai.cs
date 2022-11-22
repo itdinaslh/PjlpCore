@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PjlpCore.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace PjlpCore.Domain.Entity.Main
 {
@@ -8,6 +9,10 @@ namespace PjlpCore.Domain.Entity.Main
         public Guid FilePegawaiID { get; set; } = Guid.Empty;
 
 #nullable disable
+
+        public Guid PegawaiID { get; set; }
+
+        public int PersyaratanID { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -21,5 +26,13 @@ namespace PjlpCore.Domain.Entity.Main
 
         [MaxLength(10)]
         public string FileExtension { get; set; }
+
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+
+        public DateTime? UpdatedAt { get; set; } = DateTime.Now;
+
+        public Pegawai Pegawai { get; set; }
+
+        public Persyaratan Persyaratan { get; set; }
     }
 }

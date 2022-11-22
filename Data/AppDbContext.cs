@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PjlpCore.Domain.Entity.Main;
 using PjlpCore.Entity;
 
 namespace PjlpCore.Data;
@@ -24,7 +25,8 @@ public class AppDbContext : DbContext {
     public DbSet<FileType> FileTypes { get; set; }
     public DbSet<Status> Statuses { get; set; }
     public DbSet<Pelamar> Pelamars { get; set; }
-    public DbSet<Pegawai> Karyawans { get; set; }
+    public DbSet<Pegawai> Pegawais { get; set; }
+    public DbSet<FilePegawai> FilePegawais { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

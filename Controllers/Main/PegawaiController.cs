@@ -9,7 +9,8 @@ using System.Globalization;
 using System.Text;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-
+using PjlpCore.Domain.Entity.Main;
+using PjlpCore.Domain.Repository;
 
 namespace PjlpCore.Controllers;
 
@@ -17,10 +18,12 @@ namespace PjlpCore.Controllers;
 public class PegawaiController : Controller
 {
     private readonly IPegawai pegRepo;
+    private readonly IFilePegawai fileRepo;
 
-    public PegawaiController(IPegawai pRepo)
+    public PegawaiController(IPegawai pRepo, IFilePegawai fRepo)
     {
         pegRepo = pRepo;
+        fileRepo = fRepo;
     }
 
     [HttpGet("/pegawai/pjlp")]
@@ -39,6 +42,13 @@ public class PegawaiController : Controller
             .Include(k => k.Kelurahan!.Kecamatan.Kabupaten.Provinsi)
             .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
             .FirstOrDefaultAsync();
+
+        List<FilePegawai>? filePegawai = await fileRepo.FilePegawais
+            .Where(x => x.PegawaiID == pid)
+            .Include(p => p.Persyaratan)
+            .OrderByDescending(p => p.CreatedAt)
+            .ToListAsync();
+
         if (peg is not null)
         {
             string? lahir = peg.TglLahir.ToString();
@@ -64,7 +74,8 @@ public class PegawaiController : Controller
                 KabupatenDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.NamaKabupaten,
                 ProvDomID = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.ProvinsiID,
                 ProvinsiDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
-                IsSame = peg.AddressIsSame ? true : false                
+                IsSame = peg.AddressIsSame ? true : false,
+                Files = filePegawai
             });
         }
 
@@ -136,7 +147,7 @@ public class PegawaiController : Controller
     //}
 
     [HttpPost("/pegawai/files/upload")]
-    public IActionResult UploadFile(PegawaiVM model)
+    public async Task<IActionResult> UploadFile(PegawaiVM model)
     {
         string wwwPath = @"C:\Data";
 
@@ -151,7 +162,9 @@ public class PegawaiController : Controller
         //string fileName = Path.GetFileName(model.Upload.TheFile.FileName);        
 
         string fileExt = Path.GetExtension(model.Upload.TheFile.FileName);
-        string fileName = GenerateRandomString() + fileExt;        
+        string fileName = GenerateRandomString() + fileExt;
+        string realName = model.Upload.TheFile.FileName;
+        string filePath = "/uploads/" + model.Pegawai.PegawaiID.ToString();        
         
 
         if (!fileExt.Contains("pdf"))
@@ -161,16 +174,32 @@ public class PegawaiController : Controller
                 Directory.CreateDirectory(thumbImg);
             }
 
+            filePath = "/uploads/" + model.Pegawai.PegawaiID.ToString() + "/thumbnail";
+
             Image image = Image.Load(model.Upload.TheFile.OpenReadStream());
             image.Mutate(x => x.Resize(600, 400));
 
-            image.Save(thumbImg + "/" + fileName);
+            image.Save(thumbImg + "/" + fileName);            
         }
+
+        FilePegawai file = new FilePegawai
+        {
+            FileName = fileName,
+            RealName = realName,
+            FileExtension = fileExt,
+            FilePath = filePath,
+            PegawaiID = model.Pegawai.PegawaiID,
+            PersyaratanID = model.Upload.PersyaratanID,
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now
+        };
 
         using (FileStream stream = new(Path.Combine(path, fileName), FileMode.Create))
         {
             model.Upload.TheFile.CopyTo(stream);
         }
+
+        await fileRepo.SaveDataAsync(file);
 
         return Json(Result.Success());
     }
