@@ -120,30 +120,17 @@ public class PegawaiController : Controller
         return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", model);
     }
 
-    //[HttpPost("/pegawai/files/upload")]
-    //public IActionResult UploadFile(PegawaiVM model)
-    //{
-    //    string wwwPath = @"/var/www/data";
+    [HttpPost("/pegawai/lainnya/update")]
+    public async Task<IActionResult> UpdateLain(PegawaiVM model)
+    {
+        if (model.Pegawai.PegawaiID != Guid.Empty)
+        {
 
-    //    string path = Path.Combine(wwwPath, @"uploads/", model.Pegawai.PegawaiID.ToString());
+        }
 
-    //    if (!Directory.Exists(path))
-    //    {
-    //        Directory.CreateDirectory(path);
-    //    }
+        return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", model);
+    }
 
-    //    //string fileName = Path.GetFileName(model.Upload.TheFile.FileName);        
-        
-    //    string fileExt = Path.GetExtension(model.Upload.TheFile.FileName);
-    //    string fileName = GenerateRandomString() + fileExt;
-
-    //    using (FileStream stream = new(Path.Combine(path, fileName), FileMode.Create))
-    //    {
-    //        model.Upload.TheFile.CopyTo(stream);
-    //    }
-
-    //    return Json(Result.Success());
-    //}
 
     [HttpPost("/pegawai/files/upload")]
     public async Task<IActionResult> UploadFile(PegawaiVM model)
