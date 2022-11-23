@@ -73,7 +73,7 @@ public class PegawaiController : Controller
                 KabupatenDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.NamaKabupaten,
                 ProvDomID = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.ProvinsiID,
                 ProvinsiDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
-                IsSame = peg.AddressIsSame ? true : false,
+                IsSame = peg.AddressIsSame,
                 Files = filePegawai
             });
         }
@@ -181,7 +181,7 @@ public class PegawaiController : Controller
             image.Save(thumbImg + "/" + fileName);            
         }
 
-        FilePegawai file = new FilePegawai
+        FilePegawai file = new()
         {
             FileName = fileName,
             RealName = realName,

@@ -24,4 +24,6 @@ public class Jabatan {
     public Bidang Bidang { get; set; }
 
     public List<Pelamar> Pelamars { get; set; }
+
+    public List<DetailPjlp> DetailPjlps { get; set; }
 }

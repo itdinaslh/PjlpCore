@@ -9,4 +9,6 @@ public interface IPegawai
     Task UpdateBiodata(Pegawai peg);
 
     Task UpdateAlamat(Pegawai peg);
+
+    Task UpdateDataLain(Pegawai peg);
 }

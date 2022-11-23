@@ -64,6 +64,12 @@ public class Pegawai
     [MaxLength(100)]
     public string? CabangBank { get; set; }
 
+    [MaxLength(50)]
+    public string? NoBPJS { get; set; }
+
+    public int? StatusBPJS { get; set; }
+    
+
     // Handle Alamat KTP
 
     [DataType(DataType.Text)]

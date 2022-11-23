@@ -26,6 +26,7 @@ public class AppDbContext : DbContext {
     public DbSet<Pelamar> Pelamars { get; set; }
     public DbSet<Pegawai> Pegawais { get; set; }
     public DbSet<FilePegawai> FilePegawais { get; set; }
+    public DbSet<DetailPjlp> DetailPjlps { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

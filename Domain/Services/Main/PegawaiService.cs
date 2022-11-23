@@ -57,4 +57,17 @@ public class PegawaiService : IPegawai
             await context.SaveChangesAsync();
         }        
     }
+
+    public async Task UpdateDataLain(Pegawai peg)
+    {
+        Pegawai? data = await context.Pegawais.FindAsync(peg.PegawaiID);
+
+        if (data is not null)
+        {
+            data.PendidikanID = peg.PendidikanID;
+            data.JurusanPendidikan = peg.JurusanPendidikan;
+            data.NamaSekolah = peg.NamaSekolah;
+            data.NPWP = peg.NPWP;   
+        }
+    }
 }

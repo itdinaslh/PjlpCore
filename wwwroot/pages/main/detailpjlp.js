@@ -76,6 +76,10 @@
     } else {
         PopulateKelurahanDom(kecdomid);
     }
+
+    $('#sStatusBPJS').select2({
+        placeholder: 'Pilih Status BPJS'
+    });
 });
 
 $('.formdata').submit(function (e) {
