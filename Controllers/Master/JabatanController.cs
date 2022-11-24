@@ -10,7 +10,7 @@ namespace PjlpCore.Controllers;
 
 [Authorize(Roles = "SysAdmin, PjlpAdmin")]
 public class JabatanController : Controller {
-    private IJabatanRepo repo;    
+    private readonly IJabatanRepo repo;    
 
     public JabatanController(IJabatanRepo jRepo) {
         repo = jRepo;

@@ -6,7 +6,7 @@ using PjlpCore.Models.Master;
 namespace PjlpCore.Services;
 
 public class JabatanService : IJabatanRepo {
-    private AppDbContext context;
+    private readonly AppDbContext context;
 
     public JabatanService(AppDbContext ctx) {
         context = ctx;
