@@ -1,9 +1,9 @@
 @model JabatanViewModel
 
 <form action="/master/jabatan/save" method="post">
-    <input type="hidden" asp-for="ExistingID" />
-    <input type="hidden" asp-for="IsNew" />    <div class="modal-header bg-primary-700 bg-success-gradient">
-        @if (Model.IsNew)
+    <input type="hidden" asp-for="Jabatan.JabatanID" />  
+    <div class="modal-header bg-primary-700 bg-success-gradient">
+        @if (Model.Jabatan.JabatanID == Guid.Empty)
         {
             <h4 class="modal-title">Tambah Data Jabatan</h4>
         }

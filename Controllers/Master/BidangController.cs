@@ -5,16 +5,15 @@ using PjlpCore.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Authorization;
+using PjlpCore.Helpers;
 
 namespace PjlpCore.Controllers;
 
 public class BidangController : Controller {
-    private IBidangRepo repo;
-    private readonly IHubContext<BidangHub> _bidangHubContext;
+    private IBidangRepo repo;    
 
-    public BidangController(IBidangRepo bRepo, IHubContext<BidangHub> bidangHubContext) {
-        repo = bRepo;
-        _bidangHubContext = bidangHubContext;
+    public BidangController(IBidangRepo bRepo) {
+        repo = bRepo;        
     } 
 
     [HttpGet("/master/bidang")]
@@ -34,10 +33,7 @@ public class BidangController : Controller {
     public async Task<IActionResult> SaveBidangAsync(Bidang bidang) {
         if (ModelState.IsValid) {
             await repo.SaveBidangAsync(bidang);
-            await _bidangHubContext.Clients.All.SendAsync("TableUpdated");
-            var result = new Dictionary<string, bool>();
-            result.Add("success", true);
-            return Json(result);
+            return Json(Result.Success());
         } else {
             return PartialView("~/Views/Master/Bidang/AddEdit.cshtml", bidang);
         }

@@ -10,11 +10,10 @@ namespace PjlpCore.Controllers;
 
 [Authorize(Roles = "SysAdmin, PjlpAdmin")]
 public class JabatanController : Controller {
-    private IJabatanRepo repo;
-    private IBidangRepo jabRepo;
+    private IJabatanRepo repo;    
 
-    public JabatanController(IJabatanRepo kRepo, IBidangRepo pRepo) {
-        repo = kRepo; jabRepo = pRepo;
+    public JabatanController(IJabatanRepo jRepo) {
+        repo = jRepo;
     }
 
     [HttpGet("/master/jabatan")]
@@ -24,21 +23,18 @@ public class JabatanController : Controller {
 
     [HttpGet("/master/jabatan/create")]    
     public IActionResult Create() => PartialView("~/Views/Master/Jabatan/AddEdit.cshtml", 
-        new JabatanViewModel { Jabatan = new Jabatan { 
-            JabatanID = Guid.NewGuid() 
-        }, IsNew = true });
+        new JabatanViewModel());
 
     #nullable disable
     [HttpGet("/master/jabatan/edit")]    
     public async Task<IActionResult> Edit(Guid jabatanID) {
-        Jabatan div = await repo.Jabatans.FirstOrDefaultAsync(k => k.JabatanID == jabatanID);
-        Bidang jab = await jabRepo.Bidangs.FirstOrDefaultAsync(p => p.BidangID == div.BidangID);
+        Jabatan div = await repo.Jabatans
+            .Include(b => b.Bidang)
+            .FirstOrDefaultAsync(k => k.JabatanID == jabatanID);        
 
         return PartialView("~/Views/Master/Jabatan/AddEdit.cshtml", new JabatanViewModel {
             Jabatan = div,
-            NamaBidang = jab.NamaBidang,
-            IsNew = false,
-            ExistingID = div.JabatanID
+            NamaBidang = div.Bidang.NamaBidang
         });
     }
 

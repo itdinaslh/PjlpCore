@@ -16,7 +16,7 @@ public class BidangService : IBidangRepo {
     
     #nullable disable
     public async Task SaveBidangAsync(Bidang bidang) {
-        if(bidang.BidangID == Guid.Empty || bidang.BidangID.ToString() == string.Empty) {
+        if(bidang.BidangID == Guid.Empty) {
             await context.AddAsync(bidang);
         } else {
             Bidang bid = await context.Bidangs.FindAsync(bidang.BidangID);

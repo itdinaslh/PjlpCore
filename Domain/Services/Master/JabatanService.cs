@@ -16,7 +16,7 @@ public class JabatanService : IJabatanRepo {
     
     #nullable disable
     public async Task SaveJabatanAsync(JabatanViewModel model) {
-        if(model.IsNew == true) {
+        if(model.Jabatan.JabatanID == Guid.Empty) {
             await context.AddAsync(model.Jabatan);
         } else {
             Jabatan div = await context.Jabatans.FindAsync(model.Jabatan.JabatanID);

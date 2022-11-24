@@ -7,7 +7,7 @@ namespace PjlpCore.Entity;
 [Table("jabatan")]
 public class Jabatan {
     [Key]
-    public Guid JabatanID { get; set; } = new Guid();
+    public Guid JabatanID { get; set; } = Guid.Empty;
 
     #nullable disable
     [MaxLength(100)]
