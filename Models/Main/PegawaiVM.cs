@@ -8,6 +8,8 @@ public class PegawaiVM
 
     public Pegawai Pegawai { get; set; }
 
+    public DetailPjlp DetailPJLP { get; set; }
+
 #nullable enable
     public string? NamaAgama { get; set; }    
 

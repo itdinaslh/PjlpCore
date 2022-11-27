@@ -61,7 +61,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="">No. BPJS Kesehatan</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" asp-for="Pegawai.NoBPJS" class="form-control" />
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-lg-4">
                             <label for="">Status BPJS</label>
-                            <select id="sStatusBPJS" class="form-control" style="width:100%;">
+                            <select id="sStatusBPJS" asp-for="Pegawai.StatusBPJS" class="form-control" style="width:100%;">
                                 <option value=""></option>
                                 <option value="0">Tidak Punya BPJS</option>
                                 <option value="1">Dinas Lingkungan Hidup Prov. DKI Jakarta</option>

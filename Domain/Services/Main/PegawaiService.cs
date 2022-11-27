@@ -12,6 +12,8 @@ public class PegawaiService : IPegawai
 
     public IQueryable<Pegawai> Pegawais => context.Pegawais;
 
+    public IQueryable<DetailPjlp> DetailPjlps => context.DetailPjlps;
+
     public async Task UpdateAlamat(Pegawai peg)
     {
         Pegawai? data = await context.Pegawais.FindAsync(peg.PegawaiID);

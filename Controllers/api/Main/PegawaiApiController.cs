@@ -5,12 +5,13 @@ using PjlpCore.Repository;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using PjlpCore.Models;
+using PjlpCore.Helpers;
 
 namespace PjlpCore.Controllers.api;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "SysAdmin")]
 public class PegawaiApiController : ControllerBase
 {
     private readonly IPegawai repo;
@@ -18,6 +19,8 @@ public class PegawaiApiController : ControllerBase
     public PegawaiApiController(IPegawai repo) { this.repo = repo; }
 
 #nullable disable
+
+    [Authorize(Roles = "SysAdmin")]
     [HttpPost("/api/pegawai/pjlp")]
     public async Task<IActionResult> PjlpTable()
     {
@@ -65,5 +68,41 @@ public class PegawaiApiController : ControllerBase
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result };
 
         return Ok(jsonData);
+    }
+
+    [HttpGet("/api/pegawai/search")]    
+    public async Task<IActionResult> SearchByNIK(string nik) {
+        var peg = await repo.Pegawais
+            .Where(p => p.NIK == nik)
+            .Select(x => new {
+                x.PegawaiID,
+                x.NIK,
+                x.NamaPegawai,
+                x.NoHP,
+                x.Email,
+                x.AlamatKTP,
+                x.Bidang.BidangID,
+                x.Bidang.NamaBidang,
+                x.TglLahir
+            })
+            .FirstOrDefaultAsync();
+
+        if (peg is not null) {
+            PegApiVM data = new PegApiVM {
+                PegawaiID = peg.PegawaiID,
+                NIK = peg.NIK,
+                NamaPegawai = peg.NamaPegawai,
+                NoHP = peg.NoHP,
+                Email = peg.Email,
+                AlamatKTP = peg.AlamatKTP,
+                BidangID = peg.BidangID,
+                NamaBidang = peg.NamaBidang,
+                TglLahir = DateTime.Parse(peg.TglLahir.ToString()).ToString("dd-MM-yyyy")
+            };
+
+            return Ok(data);
+        }
+
+        return new JsonResult(Result.Failed());
     }
 }
