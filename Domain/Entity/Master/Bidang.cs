@@ -30,5 +30,7 @@ public class Bidang {
     public List<Pelamar> Pelamars { get; set; }
 
     public List<Pegawai> Pegawais { get; set; }
+
+    public ICollection<User> Users { get; set; }
     
 }

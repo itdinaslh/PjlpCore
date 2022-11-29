@@ -27,6 +27,7 @@ public class AppDbContext : DbContext {
     public DbSet<Pegawai> Pegawais { get; set; }
     public DbSet<FilePegawai> FilePegawais { get; set; }
     public DbSet<DetailPjlp> DetailPjlps { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -39,6 +40,6 @@ public class AppDbContext : DbContext {
         builder.Entity<Pegawai>()
             .HasOne(p => p.KelurahanDom)
             .WithMany(k => k.Pegawais)
-            .HasForeignKey(p => p.KelurahanDomID);
+            .HasForeignKey(p => p.KelurahanDomID);             
     }
 }

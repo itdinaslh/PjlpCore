@@ -81,18 +81,30 @@
                 </li>
             </ul>
         </li>
-    }    
+    }
 
-    <li class='@(ViewBag.Title == "Data PJLP" ? "active" : "")'>
-        <a asp-action="PJLP" asp-controller="Pegawai" title="Data PJLP" data-filter-tags="data pjlp">
-            <i class="fal fa-user-alt"></i>
-            <span class="nav-link-text" data-i18n="nav.data_pjlp">Data PJLP</span>
+    <li class='@(ViewBag.Parent == "Pegawai" ? "active open" : "")'>
+        <a href="#" title="Pegawai" data-filter-tags="pegawai">
+            <i class="fal fa-id-badge"></i>
+            <span class="nav-link-text" data-i18n="nav.pegawai">Pegawai</span>
         </a>
+        <ul>
+            <li class='@(ViewBag.Title == "Data PJLP" ? "active" : "")'>
+                <a asp-action="PJLP" asp-controller="Pegawai" title="Data PJLP" data-filter-tags="data pjlp">                    
+                    <span class="nav-link-text" data-i18n="nav.data_pjlp">Data PJLP</span>
+                </a>
+            </li>
+            <li class='@(ViewBag.Title == "Data PNS" ? "active" : "")'>
+                <a asp-action="PNS" asp-controller="Pegawai" title="Data PNS" data-filter-tags="data pns">                    
+                    <span class="nav-link-text" data-i18n="nav.data_pns">Data PNS</span>
+                </a>
+            </li>
+        </ul>
     </li>
 
     <li class='@(ViewBag.Parent == "Pelamar" ? "active open" : "")'>
         <a href="#" title="Pelamar" data-filter-tags="pelamar">
-            <i class="fal fa-id-badge"></i>
+            <i class="fal fa-list-alt"></i>
             <span class="nav-link-text" data-i18n="nav.pelamar">Pelamar</span>            
         </a>
         <ul>
@@ -122,6 +134,12 @@
             <i class="fal fa-clipboard-list"></i>
             <span class="nav-link-text" data-i18n="nav.recruitment">Recruitment</span>
         </a>
-    </li>     
+    </li>
+    <li class="">
+        <a href="#" title="User Bidang" data-filter-tags="user bidang">
+            <i class="fal fa-user"></i>
+            <span class="nav-link-text" data-i18n="nav.user_bidang">User Bidang (Admin)</span>
+        </a>
+    </li>
 </ul>
 <div class="filter-message js-filter-message bg-success-600"></div>
