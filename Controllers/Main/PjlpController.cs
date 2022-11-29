@@ -38,6 +38,18 @@ public class PjlpController : Controller
             .OrderByDescending(p => p.CreatedAt)
             .ToListAsync();
 
+        string pasfoto = "";
+
+        if (filePegawai is not null)
+        {
+            if (filePegawai.Any(x => x.PersyaratanID == 2))
+            {
+                #nullable disable
+                pasfoto = filePegawai.Where(x => x.PersyaratanID == 2).Select(x => x.FilePath + "/" + x.FileName).FirstOrDefault();
+                #nullable enable
+            }
+        }
+
         if (peg is not null)
         {
             string? lahir = peg.TglLahir.ToString();
@@ -64,7 +76,8 @@ public class PjlpController : Controller
                 ProvDomID = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.ProvinsiID,
                 ProvinsiDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
                 IsSame = peg.AddressIsSame,
-                Files = filePegawai
+                Files = filePegawai,
+                PasFoto = pasfoto != "" ? pasfoto : null
             });
         }
 

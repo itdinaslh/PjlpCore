@@ -10,6 +10,10 @@ public class User
     public Guid UserID { get; set; } = Guid.Empty;
 
 #nullable disable
+    
+    [Required(ErrorMessage = "Username wajib diisi!")]
+    [MaxLength(100)]
+    public string UserName { get; set; }
 
     [MaxLength(100)]
     [Required(ErrorMessage = "Nama User Wajib Diisi")]
@@ -34,5 +38,5 @@ public class User
 
     #nullable disable
 
-    public ICollection<Bidang> Bidangs { get; set; }
+    public List<Bidang> Bidangs { get; set; }
 }

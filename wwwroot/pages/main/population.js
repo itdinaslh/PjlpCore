@@ -390,6 +390,8 @@ function PopulateFileTypes() {
             },
             cache: true
         }
+    }).on('change', function () {
+        $('#typeName').val($('#sFile option:selected').text());
     });
 }
 

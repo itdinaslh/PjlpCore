@@ -40,7 +40,7 @@
 
 .green-gradient {
     background: rgb(2,0,36) !important;
-    background: linear-gradient(90deg, rgba(2,0,36,1) 10%, rgba(0,129,1,1) 99%) !important;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 20%, rgba(0,129,1,1) 99%) !important;
 }
 
 .orange-gradient {
@@ -78,4 +78,8 @@ input.input-validation-error {
 
 .validation-summary-valid {
     display: none;
+}
+
+.standard-header {
+    background: rgb(21,13,13) !important;
 }

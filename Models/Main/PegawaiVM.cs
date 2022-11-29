@@ -46,6 +46,8 @@ public class PegawaiVM
     public string? KecamatanDom { get; set; }
 
     public string? KelurahanDom { get; set; }
+
+    public string? PasFoto { get; set; }
     
     public List<FilePegawai>? Files { get; set; }
 

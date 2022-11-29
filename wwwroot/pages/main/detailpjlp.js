@@ -109,8 +109,20 @@ $('#UploadFile').submit(function (e) {
         processData: false,
         contentType: false,
         success: function (result) {
-            if (result.success) {
+            if (result.success == "yes") {
                 showUploadSuccess();
+
+                if (result.isnew == "no") {
+                    $('#' + result.oldid).remove();                    
+                }
+
+                if (result.isnewfoto == "yes") {
+                    $('#pas-foto').attr('src', result.path);
+                }
+
+                addFiles(result.path, result.created_at, result.newid, result.type);
+
+                clearUpload();
             }
         }
     })
@@ -163,8 +175,6 @@ function showUploadSuccess() {
         title: 'Data berhasil upload',
         showConfirmButton: false,
         timer: 1000
-    }).then((result) => {
-        $('#AllFiles').load(location.href + " #AllFiles")
     });
 }
 
@@ -176,4 +186,34 @@ function showFailedMessage() {
         showConfirmButton: false,
         timer: 1000
     });
+}
+
+function addFiles(filePath, created, newid, type) {
+    var newFile = `<div class="col-lg-4" id="` + newid + `">
+                            <div class="card mb-4">
+                                <div class="card-header text-center bg-primary-500 bg-success-gradient">
+                                    <h5>` + type + `</h5>
+                                </div>
+                                <img class="card-img-top" src="` + filePath + `" alt="file" style="height: 250px; ">
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tr>
+                                            <td>Tgl Upload</td>
+                                            <td style="padding-left:5px;padding-right:5px;">:</td>
+                                            <td>` + created + `</td>
+                                        </tr>
+                                    </table>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary">Download</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+
+    $('#AllFiles').prepend(newFile);
+}
+
+function clearUpload() {
+    $('#sFile').val(null).trigger('change');
+    $('#filePilih').val(null).change();
 }

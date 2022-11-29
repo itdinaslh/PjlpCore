@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using PjlpCore.Models;
 using PjlpCore.Helpers;
+using PjlpCore.Entity;
+using System.Linq;
 
 namespace PjlpCore.Controllers.api;
 
@@ -15,15 +17,39 @@ namespace PjlpCore.Controllers.api;
 public class PegawaiApiController : ControllerBase
 {
     private readonly IPegawai repo;
+    private readonly IUser userRepo;
+    private readonly IBidangRepo bidangRepo;
 
-    public PegawaiApiController(IPegawai repo) { this.repo = repo; }
+    public PegawaiApiController(IPegawai repo, IUser userRepo, IBidangRepo bidangRepo)
+    {
+        this.repo = repo;
+        this.userRepo = userRepo;
+        this.bidangRepo = bidangRepo;
+    }
 
 #nullable disable
 
-    [Authorize(Roles = "SysAdmin")]
+    [Authorize(Roles = "SysAdmin, PjlpAdmin, PPBJ")]
     [HttpPost("/api/pegawai/pjlp")]
     public async Task<IActionResult> PjlpTable()
     {
+        bool isBidang = User.IsInRole("PjlpAdmin") || User.IsInRole("PPBJ");        
+        List<Guid> bidangs = new();
+        List<Bidang> bids = new();
+
+        if (isBidang)
+        {            
+            bids = await userRepo.Users
+                .Where(u => u.UserName == User.Identity.Name)
+                .SelectMany(u => u.Bidangs)                
+                .ToListAsync();
+
+            foreach (Bidang bidang in bids)
+            {
+                bidangs.Add(bidang.BidangID);
+            }
+        }        
+
         var draw = Request.Form["draw"].FirstOrDefault();
         var start = Request.Form["start"].FirstOrDefault();
         var length = Request.Form["length"].FirstOrDefault();
@@ -36,6 +62,7 @@ public class PegawaiApiController : ControllerBase
 
         var init = repo.Pegawais
           .Where(p => p.JenisPegawaiID == 2)
+          .Where(p => isBidang ? bidangs.Contains(p.BidangID) : true)
           .Select(k => new {
             pegawaiID = k.PegawaiID,
             bidangID = k.BidangID,
@@ -44,7 +71,7 @@ public class PegawaiApiController : ControllerBase
             bidang = k.Bidang.NamaBidang,
             tglLahir = DateTime.Parse(k.TglLahir.ToString()).ToString("dd MMMM yyyy", new CultureInfo("id-ID")),
             noHP = k.NoHP
-        });
+        });        
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
         {

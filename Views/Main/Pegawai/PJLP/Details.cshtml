@@ -11,19 +11,26 @@
 @section styles {    
     <link rel="stylesheet" href="~/lib/sweetalert/sweetalert2.min.css" />
     <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
-    <link rel="stylesheet" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />    
+    <script defer src="~/js/alpine.min.js"></script>    
     <link rel="stylesheet" href="~/css/addon.css" />
-    <script defer src="~/js/alpine.min.js"></script>
 }
 
 <div x-data="{ modul: 1 }">
     <div class="row" x-data="{edit : false}">
         <div class="col-md-3 col-sm-12">
             <div class="card" style="width:100%; margin-bottom:20px;">
-                <div class="card-header violet-red d-flex align-items-center flex-wrap text-white">
+                <div class="card-header violet-gradient d-flex align-items-center flex-wrap text-white">
                     @Model.Pegawai.NamaPegawai
                 </div>
-                <img class="card-img-top" src="/img/user.png" alt="Card image cap">
+                @if (Model.PasFoto is not null)
+                {
+                    <img id="pas-foto" class="card-img-top" src='@Model.PasFoto' alt="Card image cap">
+                } else
+                {
+                    <img id="pas-foto" class="card-img-top" src='~/img/user.png' alt="Card image cap">
+                }
+
             </div>
 
             <ul class="nav-menu" style="margin-bottom:20px;">

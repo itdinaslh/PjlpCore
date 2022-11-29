@@ -12,13 +12,22 @@ public class FilePegawaiService : IFilePegawai
 
     public IQueryable<FilePegawai> FilePegawais => context.FilePegawais;
 
-    public async Task SaveDataAsync(FilePegawai file)
+    public async Task DeleteDataAsync(Guid id)
     {
-        if (file.FilePegawaiID == Guid.Empty)
+        FilePegawai? file = await context.FilePegawais.FindAsync(id);
+
+        if (file != null)
         {
-            await context.AddAsync(file);
+            context.Remove(file);
 
             await context.SaveChangesAsync();
         }
+    }
+
+    public async Task SaveDataAsync(FilePegawai file)
+    {
+        await context.AddAsync(file);
+
+        await context.SaveChangesAsync();
     }
 }

@@ -14,4 +14,6 @@ public class UploadVM
     public IFormFile? TheFile { get; set; }
 
     public int PersyaratanID { get; set; }
+
+    public string? TypeName { get; set; }
 }

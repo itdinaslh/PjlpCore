@@ -13,7 +13,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PjlpCore.Controllers;
 
-[Authorize(Roles = "SysAdmin, PjlpAdmin")]
+[Authorize(Roles = "SysAdmin, PjlpAdmin, PPBJ")]
 public class PegawaiController : Controller
 {
     private readonly IPegawai pegRepo;
@@ -68,8 +68,39 @@ public class PegawaiController : Controller
             image.Save(thumbImg + "/" + fileName);            
         }
 
+        List<FilePegawai>? filePegawai = await fileRepo.FilePegawais
+            .Where(x => x.PegawaiID == model.Pegawai.PegawaiID)
+            .Include(p => p.Persyaratan)
+            .OrderByDescending(p => p.CreatedAt)
+            .ToListAsync();
+
+        bool isNewFoto = false;
+        bool isNew = true;
+        string newPath = "";
+        string oldID = "";
+
+        isNewFoto = model.Upload.PersyaratanID == 2 ? true : false;
+
+        if (filePegawai is not null)
+        {
+            if (filePegawai.Any(x => x.PersyaratanID == model.Upload.PersyaratanID))
+            {
+                var FileToDelete = filePegawai.Where(x => x.PersyaratanID == model.Upload.PersyaratanID)                    
+                    .FirstOrDefault();
+
+                oldID = FileToDelete!.FilePegawaiID.ToString();
+                isNew = false;                
+
+                await fileRepo.DeleteDataAsync(FileToDelete!.FilePegawaiID);
+
+                System.IO.File.Delete(path + "/" + FileToDelete.FileName);
+                System.IO.File.Delete(thumbImg + "/" + FileToDelete.FileName);
+            }
+        }
+
         FilePegawai file = new()
         {
+            FilePegawaiID = Guid.NewGuid(),
             FileName = fileName,
             RealName = realName,
             FileExtension = fileExt,
@@ -78,7 +109,9 @@ public class PegawaiController : Controller
             PersyaratanID = model.Upload.PersyaratanID,
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now
-        };
+        };        
+
+        newPath = file.FilePath + "/" + file.FileName;
 
         using (FileStream stream = new(Path.Combine(path, fileName), FileMode.Create))
         {
@@ -87,8 +120,14 @@ public class PegawaiController : Controller
 
         await fileRepo.SaveDataAsync(file);
 
-        return Json(Result.Success());
+        #nullable disable
+
+        return Json(Result.SuccessUpload(isNew, isNewFoto, oldID, file.FilePegawaiID.ToString(), model.Upload.TypeName, file.CreatedAt.ToString(), newPath));
+
+   
     }
+
+#nullable enable
 
     private static string GenerateRandomString()
     {
