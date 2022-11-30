@@ -42,7 +42,7 @@ public class PnsController : Controller
             if (filePegawai.Any(x => x.PersyaratanID == 2))
             {
 #nullable disable
-                pasfoto = filePegawai.Where(x => x.PersyaratanID == 2).Select(x => x.FilePath + "/" + x.FileName).FirstOrDefault();
+                pasfoto = "/" + filePegawai.Where(x => x.PersyaratanID == 2).Select(x => x.FilePath + "/" + x.FileName).FirstOrDefault();
 #nullable enable
             }
         }
