@@ -25,6 +25,9 @@ public class FilePegawai
     [DataType(DataType.Text)]
     public string FilePath { get; set; }
 
+    [DataType(DataType.Text)]
+    public string RealPath { get; set; }
+
     [MaxLength(10)]
     public string FileExtension { get; set; }
 

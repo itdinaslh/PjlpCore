@@ -56,8 +56,9 @@ public class PegawaiController : Controller
         string fileExt = Path.GetExtension(model.Upload.TheFile!.FileName);
         string fileName = GenerateRandomString() + fileExt;
         string realName = model.Upload.TheFile.FileName;
-        string filePath = "/uploads/" + model.Pegawai.PegawaiID.ToString();        
-        
+        string filePath = "/uploads/" + model.Pegawai.PegawaiID.ToString();
+        string realPath = "/uploads/" + model.Pegawai.PegawaiID.ToString();
+
 
         if (!fileExt.Contains("pdf"))
         {
@@ -111,6 +112,7 @@ public class PegawaiController : Controller
             RealName = realName,
             FileExtension = fileExt,
             FilePath = filePath,
+            RealPath = realPath,
             PegawaiID = model.Pegawai.PegawaiID,
             PersyaratanID = model.Upload.PersyaratanID,
             CreatedAt = DateTime.Now,
