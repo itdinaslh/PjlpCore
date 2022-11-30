@@ -123,18 +123,22 @@
 
     <li class="nav-title">Administrasi</li>
 
-    <li class="">
+    @*<li class="">
         <a href="#" title="Time" data-filter-tags="time">
             <i class="fal fa-clock"></i>
             <span class="nav-link-text" data-i18n="nav.time">Absensi</span>
         </a>
-    </li>
-    <li class="">
-        <a href="#" title="Recruitment" data-filter-tags="recruitment">
-            <i class="fal fa-clipboard-list"></i>
-            <span class="nav-link-text" data-i18n="nav.recruitment">Recruitment</span>
-        </a>
-    </li>
+    </li>*@
+    @if(User.IsInRole("PjlpUser"))
+    {
+        <li class="">
+            <a href="#" title="Recruitment" data-filter-tags="recruitment">
+                <i class="fal fa-clipboard-list"></i>
+                <span class="nav-link-text" data-i18n="nav.recruitment">Recruitment</span>
+            </a>
+        </li>
+    }
+    
     <li class="">
         <a href="#" title="User Bidang" data-filter-tags="user bidang">
             <i class="fal fa-user"></i>

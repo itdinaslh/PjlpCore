@@ -1,4 +1,4 @@
-﻿@model PjlpVM
+﻿@model PnsVM
 
 <div>
     <div class="panel">
@@ -7,7 +7,7 @@
         </div>
         <div class="panel-container show">
             <div class="panel-content">
-                <form id="formBiodata" class="formdata" action="/pegawai/pjlp/biodata/update" method="post">
+                <form id="formBiodata" class="formdata" action="/pegawai/pns/biodata/update" method="post">
                     <input type="hidden" asp-for="Pegawai.PegawaiID" />
                     <!-- 1st row -->
                     <div class="form-group">
@@ -34,6 +34,23 @@
                     <!-- 3rd row -->
                     <div class="form-group">
                         <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label>NIP</label>
+                                    <input asp-for="Pegawai.DetailAsn!.NIP" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label>NRK</label>
+                                    <input asp-for="Pegawai.DetailAsn!.NRK" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--4th row -->
+                    <div class="form-group">
+                        <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="">Agama</label>
@@ -53,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 4th row -->
+                    <!-- 5th row -->
                     <div class="form-group">
                         <div class="row">
                             <div class="col-lg-6">
@@ -70,7 +87,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 5th row -->
+                    <!-- 6th row -->
                     <div class="form-group">
                         <div class="row">
                             <div class="col-lg-6">
@@ -98,14 +115,15 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 6th save -->
+                    <!-- 7th save -->
                     <div class="form-group">
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary">Update Biodata</button>
                         </div>
                     </div>
-                </form>                
+                </form>
             </div>
         </div>
     </div>
 </div>
+

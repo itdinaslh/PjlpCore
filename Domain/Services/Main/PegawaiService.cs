@@ -1,4 +1,5 @@
-﻿using PjlpCore.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PjlpCore.Data;
 using PjlpCore.Entity;
 using PjlpCore.Repository;
 
@@ -69,7 +70,39 @@ public class PegawaiService : IPegawai
             data.PendidikanID = peg.PendidikanID;
             data.JurusanPendidikan = peg.JurusanPendidikan;
             data.NamaSekolah = peg.NamaSekolah;
-            data.NPWP = peg.NPWP;   
+            data.NPWP = peg.NPWP;
+            data.NoBPJS = peg.NoBPJS;
+            data.StatusBPJS = peg.StatusBPJS;
+            data.CabangBank = peg.CabangBank;
+            data.NoRekening = peg.NoRekening;
+            data.BidangID = peg.BidangID;
+
+            DetailPjlp? detail = await context.DetailPjlps.Where(p => p.PegawaiID == data.PegawaiID).FirstOrDefaultAsync();
+
+            if (detail is not null)
+            {
+                data.DetailPjlp!.Tanggungan = peg.DetailPjlp!.Tanggungan;
+                data.DetailPjlp!.NoBPJSK = peg.DetailPjlp!.NoBPJSK;
+                data.DetailPjlp!.NoSIM = peg.DetailPjlp!.NoSIM;
+                data.DetailPjlp!.MasaBerlakuSIM = peg.DetailPjlp!.MasaBerlakuSIM;                
+            } else
+            {
+                data.DetailPjlp = new DetailPjlp {
+                    DetailPjlpID = Guid.NewGuid(),
+                    PegawaiID = data.PegawaiID,
+                    Tanggungan = peg.DetailPjlp!.Tanggungan,
+                    NoBPJSK = peg.DetailPjlp!.NoBPJSK,
+                    NoSIM = peg.DetailPjlp!.NoSIM,
+                    MasaBerlakuSIM = peg.DetailPjlp!.MasaBerlakuSIM,
+                    CreatedAt = DateTime.Now
+                };                               
+
+                await context.AddAsync(data.DetailPjlp);
+            }
+
+            context.Update(data);
         }
+
+        await context.SaveChangesAsync();
     }
 }

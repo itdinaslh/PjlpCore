@@ -1,11 +1,11 @@
-﻿@model PjlpVM
+﻿@model PnsVM
 
 @{
-    ViewData["Title"] = "Data PJLP";
-    ViewData["PageName"] = "data_pjlp";
+    ViewData["Title"] = "Data PNS";
+    ViewData["PageName"] = "data_pns";
     ViewData["Category1"] = "Pegawai";
     ViewBag.Category = "Pegawai";
-    ViewBag.Title = "Data PJLP";
+    ViewBag.Title = "Data PNS";
     ViewBag.Parent = "Pegawai";
 }
 
@@ -27,7 +27,8 @@
                 @if (Model.PasFoto is not null)
                 {
                     <img id="pas-foto" class="card-img-top" src='@Model.PasFoto' alt="Card image cap" style="height: 275px;">
-                } else
+                }
+                else
                 {
                     <img id="pas-foto" class="card-img-top" src='~/img/user.png' alt="Card image cap" style="height: 275px;">
                 }
@@ -36,27 +37,24 @@
 
             <ul class="nav-menu" style="margin-bottom:20px;">
                 <li style="border-bottom:1px solid white">
-                    <button
-                        x-on:click="modul = 1"
-                        class="btn text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
-                        :class="modul == 1 ? 'violet-red' : ''">
-                            Biodata
-                     </button>
-                </li>
-                <li style="border-bottom:1px solid white">
-                    <button
-                        x-on:click="modul = 2"
-                        class="text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
-                            :class="modul == 2 ? 'violet-red' : ''">
-                            Alamat
+                    <button x-on:click="modul = 1"
+                            class="btn text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
+                            :class="modul == 1 ? 'violet-red' : ''">
+                        Biodata
                     </button>
                 </li>
                 <li style="border-bottom:1px solid white">
-                    <button
-                        x-on:click="modul = 3"
-                        class="text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
+                    <button x-on:click="modul = 2"
+                            class="text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
+                            :class="modul == 2 ? 'violet-red' : ''">
+                        Alamat
+                    </button>
+                </li>
+                <li style="border-bottom:1px solid white">
+                    <button x-on:click="modul = 3"
+                            class="text-white btn-primary" style="width:100%; height: 45px; font-size:14px;"
                             :class="modul == 3 ? 'violet-red' : 'btn-primary'">
-                            Lainnya
+                        Lainnya
                     </button>
                 </li>
                 <li style="border-bottom:1px solid white">
@@ -69,15 +67,14 @@
             </ul>
             <div class="row mb-3">
                 <div class="col-md-12 text-right">
-                    <a type="button" class="btn btn-warning mr-2" asp-action="PJLP" asp-controller="Pegawai">Kembali</a>
+                    <a type="button" class="btn btn-warning mr-2" asp-action="PNS" asp-controller="Pegawai">Kembali</a>
                     <button x-on:click="edit = !edit"
-                        class="btn btn-danger verify d-none"
-                        :class="modul == 4 ? 'd-inline-block' : 'd-none'">
+                            class="btn btn-danger verify d-none"
+                            :class="modul == 4 ? 'd-inline-block' : 'd-none'">
                         Tambah Berkas
                     </button>
                 </div>
                 <div class="col-md-6">
-
                 </div>
             </div>
         </div>
@@ -85,26 +82,26 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div x-show="modul == 1" x-transition>
-                        <partial name="~/Views/Main/Pegawai/PJLP/Biodata.cshtml" />
+                        <partial name="~/Views/Main/Pegawai/ASN/Biodata.cshtml" />
                     </div>
-                    <div x-show="modul == 2" x-transition>                        
+                    <div x-show="modul == 2" x-transition>
                         <div class="d-none" :class="modul == 2 ? 'd-block' : 'd-none'">
-                            <partial name="~/Views/Main/Pegawai/PJLP/Alamat.cshtml" />
+                            <partial name="~/Views/Main/Pegawai/ASN/Alamat.cshtml" />
                         </div>
                     </div>
                     <div x-show="modul == 3" x-transition>
                         <div class="d-none" :class="modul == 3 ? 'd-block' : 'd-none'">
-                            <partial name="~/Views/Main/Pegawai/PJLP/Lainnya.cshtml" />
+                            <partial name="~/Views/Main/Pegawai/ASN/Lainnya.cshtml" />
                         </div>
                     </div>
                     <div x-show="modul == 4" x-transition>
                         <div class="d-none" :class="modul == 4 ? 'd-block' : 'd-none'">
-                            <partial name="~/Views/Main/Pegawai/PJLP/Files.cshtml" />
+                            <partial name="~/Views/Main/Pegawai/ASN/Files.cshtml" />
                         </div>
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>
@@ -114,5 +111,5 @@
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
     <script src="~/pages/main/population.js"></script>
-    <script src="~/pages/main/detailpjlp.js"></script>    
+    <script src="~/pages/main/detailpjlp.js"></script>
 }

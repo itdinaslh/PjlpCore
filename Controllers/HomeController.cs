@@ -26,7 +26,7 @@ namespace PjlpCore.Controllers
         [HttpGet("/")]
         public IActionResult Index()
         {            
-            return View();
+            return View("~/Views/Home/Main.cshtml");
         }
         
         [HttpGet("/dashboard")]
@@ -45,10 +45,10 @@ namespace PjlpCore.Controllers
 
             return View(new DashboardVM
             {
-                CountJabatan = jabRepo.Jabatans.Count(),
+                CountPNS = pegRepo.Pegawais.Where(x => x.JenisPegawaiID == 1).Count(),
                 CountDivisi = divRepo.Divisis.Count(),
                 CountBidang = bidRepo.Bidangs.Count(),
-                CountPendidikan = pegRepo.Pegawais.Where(x => x.JenisPegawaiID == 2).Count(),
+                CountPJLP = pegRepo.Pegawais.Where(x => x.JenisPegawaiID == 2).Count(),
             });
         }
 

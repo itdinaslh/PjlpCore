@@ -1,0 +1,82 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="~/css/home.css" />
+  </head>
+
+  <body id="body">
+    <!-- Header -->
+    <header>
+      <nav>
+        <a href="/">
+            <div id="logo">
+                <img src="~/images/logo/logo-dinas-50.png" />
+            </div>
+        </a>
+        <ul>
+          <li>Tentang</li>
+          <li>Lowongan</li>
+          <li>
+             <a href="/login">Login</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main -->
+    <main>
+      <h1>Recruitment 2022</h1>
+      <h2>Dinas Lingkungan Hidup Provinsi DKI Jakarta</h2>
+      <a href="#lowongan">Cek Sekarang</a>
+    </main>
+
+    <!-- Section -->
+    <section id="lowongan">
+      <h1>Lowongan</h1>
+      <div class="row">
+        <div class="card">
+          <div class="card-title">
+            <div class="header">
+              <h2>UPST</h2>
+              <div class="kuota">30</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="detail-jabatan">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Consectetur, dignissimos!
+              </p>
+              <p>123</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>©2022 - <a href="/">Dinas Lingkungan Hidup</a></footer>
+
+    <a href="#body" class="top">🔝</a>
+
+    <script>
+      // Script ketika scroll (navbar dan to the top)
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 130) {
+          document.querySelector("header").classList.add("solid");
+          document.querySelector(".top").style.opacity = "1";
+        } else {
+          document.querySelector("header").classList.remove("solid");
+          document.querySelector(".top").style.opacity = "0";
+        }
+      });
+    </script>
+  </body>
+</html>

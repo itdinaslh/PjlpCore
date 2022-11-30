@@ -2,20 +2,19 @@
 
 namespace PjlpCore.Models;
 
-public class PegawaiVM
+public class PnsVM
 {
 #nullable disable
 
     public Pegawai Pegawai { get; set; }
 
-    public DetailPjlp DetailPJLP { get; set; }
-
 #nullable enable
-    public string? NamaAgama { get; set; }    
+
+    public string? PasFoto { get; set; }
+
+    public string? NamaAgama { get; set; }
 
     public string? NamaBidang { get; set; }
-
-    public string? NamaPendidikan { get; set; }
 
     public string? TanggalLahir { get; set; }
 
@@ -47,13 +46,12 @@ public class PegawaiVM
 
     public string? KelurahanDom { get; set; }
 
-    public string? PasFoto { get; set; }
-    
+    public string? NamaPendidikan { get; set; }
+
     public List<FilePegawai>? Files { get; set; }
 
 #nullable disable
     public bool IsSame { get; set; }
 
     public UploadVM Upload { get; set; } = new UploadVM();
-
 }

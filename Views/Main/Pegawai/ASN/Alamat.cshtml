@@ -1,7 +1,7 @@
-﻿@model PjlpVM
+﻿@model PnsVM
 
 <div>
-    <form id="formAlamat" class="formdata" action="/pegawai/pjlp/alamat/update" method="post">
+    <form id="formAlamat" class="formdata" action="/pegawai/pns/alamat/update" method="post">
         <input type="hidden" asp-for="Pegawai.PegawaiID" />
         <input type="hidden" asp-for="ProvID" id="provid" />
         <input type="hidden" asp-for="KabID" id="kabid" />
@@ -95,18 +95,19 @@
                                 @if (Model.IsSame)
                                 {
                                     <input id="chkSame" asp-for="IsSame" class="form-check-input chkAlamat" type="checkbox" checked />
-                                } else
+                                }
+                                else
                                 {
                                     <input id="chkSame" asp-for="IsSame" class="form-check-input chkAlamat" type="checkbox" />
-                                }                             
+                                }
                                 <label class="form-check-label lblAlamat" for="chkSame">Alamat domisili sama dengan alamat KTP</label>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-                
+
         <!-- Alamat Domisili -->
         <div class="panel" id="domisili" style="display:none;">
             <div class="panel-hdr green-gradient " role="heading">
@@ -125,7 +126,7 @@
                                     }
                                 </select>
                             </div>
-                            <div class="col-6 mb-3"e>
+                            <div class="col-6 mb-3" e>
                                 <label for="kota_dom">Kota/Kabupaten</label>
                                 <select id="sKabDom" class="form-control myselect" style="width: 100%;">
                                     @if (Model.KabupatenDom is not null)
@@ -181,7 +182,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
@@ -190,5 +191,5 @@
                 <button type="submit" class="btn btn-primary">Update Alamat</button>
             </div>
         </div>
-    </form>    
+    </form>
 </div>

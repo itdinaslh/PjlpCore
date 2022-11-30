@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PjlpCore.Data;
 
@@ -10,9 +11,10 @@ using PjlpCore.Data;
 namespace PjlpCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221130104821_AlterContstraintDetailPjlp")]
+    partial class AlterContstraintDetailPjlp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,37 +82,6 @@ namespace PjlpCore.Migrations
                     b.HasKey("BidangID");
 
                     b.ToTable("bidang");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.DetailAsn", b =>
-                {
-                    b.Property<Guid>("DetailAsnID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("NIP")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("NRK")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<Guid>("PegawaiID")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("DetailAsnID");
-
-                    b.HasIndex("PegawaiID")
-                        .IsUnique();
-
-                    b.ToTable("detailasn");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.DetailPjlp", b =>
@@ -928,17 +899,6 @@ namespace PjlpCore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PjlpCore.Entity.DetailAsn", b =>
-                {
-                    b.HasOne("PjlpCore.Entity.Pegawai", "Pegawai")
-                        .WithOne("DetailAsn")
-                        .HasForeignKey("PjlpCore.Entity.DetailAsn", "PegawaiID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pegawai");
-                });
-
             modelBuilder.Entity("PjlpCore.Entity.DetailPjlp", b =>
                 {
                     b.HasOne("PjlpCore.Entity.Jabatan", "Jabatan")
@@ -1191,8 +1151,6 @@ namespace PjlpCore.Migrations
 
             modelBuilder.Entity("PjlpCore.Entity.Pegawai", b =>
                 {
-                    b.Navigation("DetailAsn");
-
                     b.Navigation("DetailPjlp");
 
                     b.Navigation("FilePegawais");

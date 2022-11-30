@@ -30,6 +30,7 @@ public class PjlpController : Controller
             .Include(p => p.Pendidikan)
             .Include(k => k.Kelurahan!.Kecamatan.Kabupaten.Provinsi)
             .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
+            .Include(x => x.DetailPjlp)
             .FirstOrDefaultAsync();
 
         List<FilePegawai>? filePegawai = await fileRepo.FilePegawais
@@ -53,8 +54,16 @@ public class PjlpController : Controller
         if (peg is not null)
         {
             string? lahir = peg.TglLahir.ToString();
+            string? sim = "";
 
-            return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", new PegawaiVM
+            if (peg.DetailPjlp is null)
+            {
+                peg.DetailPjlp = new DetailPjlp();                
+            }
+
+            sim = peg.DetailPjlp.MasaBerlakuSIM!.ToString();
+
+            return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", new PjlpVM
             {
                 Pegawai = peg,
                 NamaAgama = peg.Agama.NamaAgama,
@@ -77,7 +86,8 @@ public class PjlpController : Controller
                 ProvinsiDom = peg.KelurahanDomID is null ? "" : peg.KelurahanDom!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
                 IsSame = peg.AddressIsSame,
                 Files = filePegawai,
-                PasFoto = pasfoto != "" ? pasfoto : null
+                PasFoto = pasfoto != "" ? pasfoto : null,
+                MasaBerlakuSIM = sim
             });
         }
 
@@ -85,7 +95,7 @@ public class PjlpController : Controller
     }
 
     [HttpPost("/pegawai/pjlp/biodata/update")]
-    public async Task<IActionResult> UpdateBiodata(PegawaiVM model)
+    public async Task<IActionResult> UpdateBiodata(PjlpVM model)
     {
     #nullable disable
         if (ModelState.IsValid)
@@ -100,7 +110,7 @@ public class PjlpController : Controller
     }
 
     [HttpPost("/pegawai/pjlp/alamat/update")]
-    public async Task<IActionResult> UpdateAlamat(PegawaiVM model)
+    public async Task<IActionResult> UpdateAlamat(PjlpVM model)
     {
         model.Pegawai.AddressIsSame = model.IsSame;
 
@@ -124,11 +134,18 @@ public class PjlpController : Controller
     }
 
     [HttpPost("/pegawai/pjlp/lainnya/update")]
-    public async Task<IActionResult> UpdateLain(PegawaiVM model)
+    public async Task<IActionResult> UpdateLain(PjlpVM model)
     {
         if (model.Pegawai.PegawaiID != Guid.Empty)
         {
+            if (model.MasaBerlakuSIM is not null)
+            {
+                model.Pegawai.DetailPjlp!.MasaBerlakuSIM = DateOnly.Parse(model.MasaBerlakuSIM, new CultureInfo("id-ID"));
+            }
 
+            await pegRepo.UpdateDataLain(model.Pegawai);
+
+            return Json(Result.Success());
         }
 
         return View("~/Views/Main/Pegawai/PJLP/Details.cshtml", model);

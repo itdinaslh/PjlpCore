@@ -54,9 +54,7 @@ public class Pegawai
     public string? JurusanPendidikan { get; set; }
 
     [MaxLength(150)]
-    public string? NamaSekolah { get; set; }
-
-    public int? StatusKawinID { get; set; }
+    public string? NamaSekolah { get; set; }    
 
     [MaxLength(30)]
     public string? NoRekening { get; set; }
@@ -117,8 +115,6 @@ public class Pegawai
 
     public Pendidikan? Pendidikan { get; set; }
 
-    public StatusKawin? StatusKawin { get; set; }
-
     public Kelurahan? Kelurahan { get; set; }
 
     public Kelurahan? KelurahanDom { get; set; }
@@ -128,4 +124,8 @@ public class Pegawai
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
     public List<FilePegawai>? FilePegawais { get; set; }
+
+    public DetailPjlp? DetailPjlp { get; set; }
+
+    public DetailAsn? DetailAsn { get; set; }
 }

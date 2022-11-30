@@ -1,4 +1,4 @@
-﻿@model PjlpVM
+﻿@model PnsVM
 
 <div>
     <div class="panel">
@@ -6,7 +6,7 @@
             <h2 class="text-white">Data Lainnya</h2>
         </div>
         <div class="panel-container show">
-            <form action="/pegawai/pjlp/lainnya/update" class="formdata" method="post">
+            <form action="/pegawai/pns/lainnya/update" class="formdata" method="post">
                 <input type="hidden" asp-for="Pegawai.PegawaiID" />
                 <div class="panel-content">
                     <div class="form-group">
@@ -60,17 +60,13 @@
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="">No. BPJS Kesehatan</label>
                                     <input type="text" asp-for="Pegawai.NoBPJS" class="form-control" />
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <label for="">No. BPJS Ketenagakerjaan</label>
-                                <input type="text" asp-for="Pegawai.DetailPjlp!.NoBPJSK" class="form-control" />
-                            </div>
-                            <div class="col-lg-4">
+                            <div class="col-12 col-lg-6">
                                 <label for="">Status BPJS</label>
                                 <select id="sStatusBPJS" asp-for="Pegawai.StatusBPJS" class="form-control" style="width:100%;">
                                     <option value=""></option>
@@ -78,23 +74,6 @@
                                     <option value="1">Dinas Lingkungan Hidup Prov. DKI Jakarta</option>
                                     <option value="2">Non Dinas Lingkungan Hidup Prov. DKI Jakarta</option>
                                 </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="sim_data">SIM/SIO/Sertifikat</label>
-                                    <input type="text" asp-for="Pegawai.DetailPjlp!.NoSIM" class="form-control" />
-                                    <span>Contoh : SIM C</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group" wire:ignore>
-                                    <label for="sim-date">Berlaku Hingga</label>
-                                    <input type="text" id="TglSIM" asp-for="MasaBerlakuSIM" class="form-control dtpicker" />
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -144,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-            </form>            
+            </form>
         </div>
     </div>
 </div>

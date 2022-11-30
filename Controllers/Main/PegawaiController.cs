@@ -29,11 +29,17 @@ public class PegawaiController : Controller
     public IActionResult Pjlp()
     {
         return View("~/Views/Main/Pegawai/PJLP/Index.cshtml");
-    }    
+    }
+
+    [HttpGet("/pegawai/pns")]
+    public IActionResult PNS()
+    {
+        return View("~/Views/Main/Pegawai/ASN/Index.cshtml");
+    }
 
 
     [HttpPost("/pegawai/files/upload")]
-    public async Task<IActionResult> UploadFile(PegawaiVM model)
+    public async Task<IActionResult> UploadFile(PjlpVM model)
     {
         string wwwPath = Uploads.Path;        
 

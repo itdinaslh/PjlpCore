@@ -15,8 +15,7 @@ public class AppDbContext : DbContext {
     public DbSet<Kelurahan> Kelurahans { get; set; }
     public DbSet<Divisi> Divisis { get; set; }
     public DbSet<Jabatan> Jabatans { get; set; }
-    public DbSet<Pendidikan> Pendidikans { get; set; }
-    public DbSet<StatusKawin> StatusKawins { get; set; }
+    public DbSet<Pendidikan> Pendidikans { get; set; }    
     public DbSet<Persyaratan> Persyaratans { get; set; }
     public DbSet<Tupoksi> Tupoksis { get; set; }
     public DbSet<LokasiKerja> LokasiKerjas { get; set; }
@@ -27,6 +26,7 @@ public class AppDbContext : DbContext {
     public DbSet<Pegawai> Pegawais { get; set; }
     public DbSet<FilePegawai> FilePegawais { get; set; }
     public DbSet<DetailPjlp> DetailPjlps { get; set; }
+    public DbSet<DetailAsn> DetailAsns { get; set; }
     public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
