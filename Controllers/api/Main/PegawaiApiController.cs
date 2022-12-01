@@ -30,7 +30,7 @@ public class PegawaiApiController : ControllerBase
 
 #nullable disable
 
-    [Authorize(Roles = "SysAdmin, PjlpAdmin, PPBJ")]
+    [Authorize(Roles = "SysAdmin, PjlpAdmin, PPBJ, Kepeg")]
     [HttpPost("/api/pegawai/pjlp")]
     public async Task<IActionResult> PjlpTable()
     {
