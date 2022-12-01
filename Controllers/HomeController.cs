@@ -30,7 +30,7 @@ namespace PjlpCore.Controllers
         }
         
         [HttpGet("/dashboard")]
-        [Authorize(Roles = "SysAdmin, PjlpAdmin, PjlpUser, PPBJ")]
+        [Authorize(Roles = "SysAdmin, PjlpAdmin, Kepeg, PPBJ")]
         public async Task<IActionResult> Dashboard()
         {
             if (User.IsInRole("PjlpUser"))
