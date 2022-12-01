@@ -28,6 +28,7 @@ public class AppDbContext : DbContext {
     public DbSet<DetailPjlp> DetailPjlps { get; set; }
     public DbSet<DetailAsn> DetailAsns { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<EventFile> EventFiles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

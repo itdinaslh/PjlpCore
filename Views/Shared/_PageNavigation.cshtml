@@ -118,6 +118,11 @@
                     <span class="nav-link-text" data-i18n="nav.pelamar_lama">Pelamar Lama</span>
                 </a>
             </li>
+            <li class='@(ViewBag.Title == "File Wajib Pelamar" ? "active" : "")'>
+                <a asp-controller="Pelamar" asp-action="FileWajib" title="File Wajib Pelamar" data-filter-tags="file wajib pelamar">
+                    <span class="nav-link-text" data-i18n="nav.file_wajib_pelamar">File Wajib Pelamar</span>
+                </a>
+            </li>
         </ul>
     </li>
 

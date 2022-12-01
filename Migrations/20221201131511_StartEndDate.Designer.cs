@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PjlpCore.Data;
 
@@ -10,9 +11,10 @@ using PjlpCore.Data;
 namespace PjlpCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221201131511_StartEndDate")]
+    partial class StartEndDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,35 +208,6 @@ namespace PjlpCore.Migrations
                     b.HasKey("EventId");
 
                     b.ToTable("events");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.EventFile", b =>
-                {
-                    b.Property<Guid>("EventFileID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("EventID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsNew")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<Guid>("JabatanID")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("PersyaratanID")
-                        .HasColumnType("int");
-
-                    b.HasKey("EventFileID");
-
-                    b.HasIndex("EventID");
-
-                    b.HasIndex("JabatanID");
-
-                    b.HasIndex("PersyaratanID");
-
-                    b.ToTable("eventfiles");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.FilePegawai", b =>
@@ -818,8 +791,8 @@ namespace PjlpCore.Migrations
 
                     b.Property<string>("NamaPersyaratan")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
+                        .HasMaxLength(25)
+                        .HasColumnType("varchar(25)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
@@ -1001,33 +974,6 @@ namespace PjlpCore.Migrations
                         .HasForeignKey("BidangID");
 
                     b.Navigation("Bidang");
-                });
-
-            modelBuilder.Entity("PjlpCore.Entity.EventFile", b =>
-                {
-                    b.HasOne("PjlpCore.Entity.Event", "Event")
-                        .WithMany("EventFiles")
-                        .HasForeignKey("EventID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PjlpCore.Entity.Jabatan", "Jabatan")
-                        .WithMany("EventFiles")
-                        .HasForeignKey("JabatanID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PjlpCore.Entity.Persyaratan", "Persyaratan")
-                        .WithMany("EventFiles")
-                        .HasForeignKey("PersyaratanID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-
-                    b.Navigation("Jabatan");
-
-                    b.Navigation("Persyaratan");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.FilePegawai", b =>
@@ -1227,16 +1173,12 @@ namespace PjlpCore.Migrations
 
             modelBuilder.Entity("PjlpCore.Entity.Event", b =>
                 {
-                    b.Navigation("EventFiles");
-
                     b.Navigation("Pelamars");
                 });
 
             modelBuilder.Entity("PjlpCore.Entity.Jabatan", b =>
                 {
                     b.Navigation("DetailPjlps");
-
-                    b.Navigation("EventFiles");
 
                     b.Navigation("Pelamars");
                 });
@@ -1276,8 +1218,6 @@ namespace PjlpCore.Migrations
 
             modelBuilder.Entity("PjlpCore.Entity.Persyaratan", b =>
                 {
-                    b.Navigation("EventFiles");
-
                     b.Navigation("FilePegawais");
                 });
 

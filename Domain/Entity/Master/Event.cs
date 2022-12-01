@@ -14,9 +14,15 @@ public class Event
     [Required]
     public string EventName { get; set; }
 
+    public DateOnly? StartDate { get; set; }
+
+    public DateOnly? EndDate { get; set; }
+
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
     public List<Pelamar> Pelamars { get; set; }
+
+    public List<EventFile> EventFiles { get; set; }
 }

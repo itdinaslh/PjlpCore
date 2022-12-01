@@ -10,7 +10,7 @@ public class Persyaratan {
     public int PersyaratanID { get; set; }
 
     #nullable disable
-    [MaxLength(25)]
+    [MaxLength(150)]
     [Required(ErrorMessage = "Nama Persyaratan Wajib Diisi")]
     public string NamaPersyaratan { get; set; }
 
@@ -19,4 +19,6 @@ public class Persyaratan {
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
     public List<FilePegawai> FilePegawais { get; set; }
+
+    public List<EventFile> EventFiles { get; set; }
 }

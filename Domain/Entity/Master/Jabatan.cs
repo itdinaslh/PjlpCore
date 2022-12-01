@@ -26,4 +26,6 @@ public class Jabatan {
     public List<Pelamar> Pelamars { get; set; }
 
     public List<DetailPjlp> DetailPjlps { get; set; }
+
+    public List<EventFile> EventFiles { get; set; }
 }
