@@ -147,7 +147,8 @@ public class PegawaiApiController : ControllerBase
         return Ok(jsonData);
     }
 
-    [HttpGet("/api/pegawai/search")]    
+    [HttpGet("/api/pegawai/search")]
+    [AllowAnonymous]
     public async Task<IActionResult> SearchByNIK(string nik) {
         var peg = await repo.Pegawais
             .Where(p => p.NIK == nik)
