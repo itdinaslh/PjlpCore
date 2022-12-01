@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace PjlpCore.Controllers;
 
-[Authorize(Roles = "SysAdmin, PjlpAdmin")]
+[Authorize(Roles = "SysAdmin, PjlpAdmin, Kepeg")]
 public class PjlpController : Controller
 {
     private readonly IPegawai pegRepo;

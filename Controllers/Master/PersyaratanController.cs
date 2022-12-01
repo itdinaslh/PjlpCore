@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PjlpCore.Controllers;
 
-[Authorize(Roles = "SysAdmin, PjlpAdmin")]
+[Authorize(Roles = "SysAdmin, Kepeg")]
 public class PersyaratanController : Controller {
     private IPersyaratanRepo repo;
 

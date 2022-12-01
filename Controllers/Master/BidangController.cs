@@ -9,6 +9,7 @@ using PjlpCore.Helpers;
 
 namespace PjlpCore.Controllers;
 
+[Authorize(Roles = "SysAdmin, Kepeg")]
 public class BidangController : Controller {
     private IBidangRepo repo;    
 

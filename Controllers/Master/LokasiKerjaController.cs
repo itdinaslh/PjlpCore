@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using PjlpCore.Entity;
 using PjlpCore.Repository;
 using PjlpCore.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PjlpCore.Controllers;
 
+[Authorize(Roles = "SysAdmin, Kepeg")]
 public class LokasiKerjaController : Controller
 {
     private readonly ILokasiKerja repo;

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PjlpCore.Controllers;
 
+[Authorize]
 public class ProvinsiController : Controller {
     private IProvinsiRepo repo;
 

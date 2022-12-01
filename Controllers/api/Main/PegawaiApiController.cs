@@ -99,7 +99,7 @@ public class PegawaiApiController : ControllerBase
     }
 
     [HttpPost("/api/pegawai/pns")]
-    [Authorize(Roles = "SysAdmin, KepegDLH")]
+    [Authorize(Roles = "SysAdmin, Kepeg")]
     public async Task<IActionResult> PnsTable()
     {
         var draw = Request.Form["draw"].FirstOrDefault();

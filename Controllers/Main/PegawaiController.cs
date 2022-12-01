@@ -13,7 +13,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PjlpCore.Controllers;
 
-[Authorize(Roles = "SysAdmin, PjlpAdmin, PPBJ")]
+[Authorize(Roles = "SysAdmin, PjlpAdmin, PPBJ, Kepeg")]
 public class PegawaiController : Controller
 {
     private readonly IPegawai pegRepo;

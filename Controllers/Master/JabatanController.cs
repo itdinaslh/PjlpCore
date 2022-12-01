@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PjlpCore.Controllers;
 
-[Authorize(Roles = "SysAdmin, PjlpAdmin")]
+[Authorize(Roles = "SysAdmin, Kepeg")]
 public class JabatanController : Controller {
     private readonly IJabatanRepo repo;    
 
