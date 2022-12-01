@@ -30,7 +30,7 @@ namespace PjlpCore.Controllers
         }
         
         [HttpGet("/dashboard")]
-        [Authorize(Roles = "SysAdmin, PjlpAdmin, Kepeg, PPBJ")]
+        [Authorize(Roles = "SysAdmin, PjlpUser, PjlpAdmin, Kepeg, PPBJ")]
         public async Task<IActionResult> Dashboard()
         {
             if (User.IsInRole("PjlpUser"))
@@ -40,6 +40,9 @@ namespace PjlpCore.Controllers
                 if (pelamar is null)
                 {
                     return RedirectToAction("Index", "Pendaftaran");
+                } else
+                {
+                    return RedirectToAction("Overview", "Pendaftaran");
                 }
             }
 

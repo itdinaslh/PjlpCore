@@ -5,7 +5,14 @@
     <nav id="js-primary-nav" class="primary-nav" role="navigation">
         <partial name="_NavFilter" />
         <partial name="_NavInfoCard" />
-        <partial name="_PageNavigation" />        
+        @if (User.IsInRole("PjlpUser"))
+        {
+            <partial name="_NavPJLP" />
+        } else
+        {
+            <partial name="_PageNavigation" />
+        }
+               
     </nav>
     <!-- END PRIMARY NAVIGATION -->
 

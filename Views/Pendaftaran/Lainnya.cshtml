@@ -1,0 +1,150 @@
+﻿@model PelamarVM
+
+<div>
+    <div class="panel">
+        <div class="panel-hdr orange-gradient " role="heading">
+            <h2 class="text-white">Data Lainnya</h2>
+        </div>
+        <div class="panel-container show">
+            <form action="/pegawai/pjlp/lainnya/update" class="formdata" method="post">
+                <input type="hidden" asp-for="Pelamar.PelamarId" />
+                <div class="panel-content">
+                    <div class="form-group">
+                        <label for="pendidikan">Pendidikan Terakhir</label>
+                        <select asp-for="Pelamar.PendidikanId" id="sPendidikan" class="form-control myselect" style="width:100%;" required>
+                            @if (Model.NamaPendidikan is not null)
+                            {
+                                <option value="@Model.Pelamar.PendidikanId">@Model.NamaPendidikan</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="jurusan">Jurusan Pendidikan</label>
+                                    <input asp-for="Pelamar.JurusanSekolah" class="form-control" />
+                                    <!-- Isi aja jurusan lebak bulus - Rambutan klo bingung coy, wkwkwkwkw... -->
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="namaSekolah">Nama Sekolah / Universitas / Institusi Pendidikan</label>
+                                    <input asp-for="Pelamar.NamaSekolah" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="npwp">No. NPWP</label>
+                                    <input asp-for="Pelamar.NoNPWP" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tanggungan">Tanggungan</label>
+                                    <select id="sTanggungan" asp-for="Pelamar.Tanggungan" class="form-control" style="width:100%;">
+                                        <option value=""></option>
+                                        <option value="TK">(TK) Belum Menikah</option>
+                                        <option value="K0">(K0) Menikah Belum Punya Anak</option>
+                                        <option value="K1">(K1) Menikah Anak 1</option>
+                                        <option value="K2">(K2) Menikah Anak 2</option>
+                                        <option value="K3">(K3) Menikah Anak Lebih Dari 2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="">No. BPJS Kesehatan</label>
+                                    <input type="text" asp-for="Pelamar.NoBPJS" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="">No. BPJS Ketenagakerjaan</label>
+                                <input type="text" asp-for="Pelamar.NoBPJSK" class="form-control" />
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="">Status BPJS</label>
+                                <select id="sStatusBPJS" asp-for="Pelamar.StatusBPJS" class="form-control" style="width:100%;">
+                                    <option value=""></option>
+                                    <option value="0">Tidak Punya BPJS</option>
+                                    <option value="1">Dinas Lingkungan Hidup Prov. DKI Jakarta</option>
+                                    <option value="2">Non Dinas Lingkungan Hidup Prov. DKI Jakarta</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="sim_data">SIM/SIO/Sertifikat</label>
+                                    <input type="text" asp-for="Pelamar.NoSIM" class="form-control" />
+                                    <span>Contoh : SIM C</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group" wire:ignore>
+                                    <label for="sim-date">Berlaku Hingga</label>
+                                    <input type="text" id="TglSIM" asp-for="Pelamar.TglAkhirSIM" class="form-control dtpicker" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="nama_bank">Cabang Bank DKI</label>
+                                    <input asp-for="Pelamar.CabangRekening" class="form-control" />
+                                    <span>Contoh : Dinas Lingkungan Hidup</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="no_rek">No. Rekening</label>
+                                    <input asp-for="Pelamar.NoRekening" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group" wire:ignore>
+                                    <label for="bidang_lain">Bidang</label>
+                                    <select id="sBidang" asp-for="Pelamar.BidangId" class="form-control" style="width: 100%;" required>
+                                        @if (Model.NamaBidang is not null)
+                                        {
+                                            <option value="@Model.Pelamar.BidangId" selected>@Model.NamaBidang</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group" wire:ignore>
+                                    <label for="jabatan">Jabatan</label>
+                                    <select id="jabatan" class="form-control" style="width: 100%;">
+                                        <option value="@Model.Pelamar.JabatanId">@Model.Pelamar.Jabatan.NamaJabatan</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary">Update Data Lainnya</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

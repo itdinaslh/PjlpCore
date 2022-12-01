@@ -68,11 +68,15 @@ $(document).ready(function() {
         placeholder: 'Pilih Kelurahan Domisili...'
     });
 
-    PopulateBidang();
-
     $('#jabatan').select2({
         placeholder: 'Pilih Jabatan...'
     });
+
+    PopulateBidang();
+
+    var bidang = $('#bidang option:selected').val();
+
+    PopulateJabatan(bidang);
 
     $('.dtpicker').datepicker({
         format: 'dd-mm-yyyy',

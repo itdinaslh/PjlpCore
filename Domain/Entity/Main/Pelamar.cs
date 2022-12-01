@@ -7,7 +7,7 @@ namespace PjlpCore.Entity;
 public class Pelamar
 {
     [Key]
-    public Guid PelamarId { get; set; } = Guid.NewGuid();
+    public Guid PelamarId { get; set; } = Guid.Empty;
 
     public Guid UserId { get; set; }
 
@@ -44,7 +44,7 @@ public class Pelamar
 
     // 1 untuk laki-laki dan 0 untuk perempuan, jenis kelamin diciptain cuma 2 jd gak ada kelamin selain 2 itu
     [Required(ErrorMessage = "Jenis kelamin wajib dipilih")]
-    public bool Kelamin { get; set; }
+    public bool? Kelamin { get; set; }
 
     [Required(ErrorMessage = "Alamat wajib diisi")]
     public string Alamat { get; set; }

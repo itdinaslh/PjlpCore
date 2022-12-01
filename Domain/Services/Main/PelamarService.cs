@@ -14,4 +14,17 @@ public class PelamarService : IPelamar
     }
 
     public IQueryable<Pelamar> Pelamars => context.Pelamars;
+
+    public async Task SaveDataAsync(Pelamar pelamar)
+    {
+        if (pelamar.PelamarId == Guid.Empty)
+        {
+            await context.AddAsync(pelamar);
+        } else
+        {
+
+        }
+
+        await context.SaveChangesAsync();
+    }
 }
