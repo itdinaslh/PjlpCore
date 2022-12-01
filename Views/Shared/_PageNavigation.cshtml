@@ -5,7 +5,7 @@
             <span class="nav-link-text" data-i18n="nav.dashboard">Dashboard</span>
         </a>
     </li>
-    @if (User.IsInRole("SysAdmin") || User.IsInRole("PjlpAdmin")) {
+    @if (User.IsInRole("SysAdmin") || User.IsInRole("PjlpAdmin") || User.IsInRole("Kepeg")) {
         <li class='@(ViewBag.Parent == "Master" ? "active open" : "")'>
             <a href="#" title="Master Data" data-filter-tags="master data">
                 <i class="fal fa-database"></i>
