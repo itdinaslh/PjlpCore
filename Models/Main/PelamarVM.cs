@@ -50,4 +50,8 @@ public class PelamarVM
     public string? ProvinsiDom { get; set; }
 
     public Pegawai? Pegawai { get; set; }
+
+    public List<FilePelamar>? FilePelamars { get; set; }
+
+    public UploadVM? Upload { get; set; }
 }

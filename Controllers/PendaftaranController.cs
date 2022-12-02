@@ -7,7 +7,9 @@ using PjlpCore.Repository;
 using Microsoft.EntityFrameworkCore;
 using PjlpCore.Helpers;
 using System.Globalization;
-using System.Drawing;
+using System.Text;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace PjlpCore.Controllers;
 
@@ -16,6 +18,7 @@ public class PendaftaranController : Controller
 {
     private readonly IPegawai repo;
     private readonly IPelamar pelamarRepo;
+
 
     public PendaftaranController(IPegawai repo, IPelamar pRepo)
     {
@@ -98,12 +101,14 @@ public class PendaftaranController : Controller
         model.Pelamar.StatusLamaranId = 1;
         model.Pelamar.TglLahir = DateOnly.Parse(model.TanggalLahir!, new CultureInfo("id-ID"));
 
-        if (ModelState.IsValid) {
-            await pelamarRepo.SaveDataAsync(model.Pelamar);
-            return Json(Result.Success());
-        }
+        //if (ModelState.IsValid) {
+            
+        //}
 
-        return Json(Result.Failed());
+        await pelamarRepo.SaveDataAsync(model.Pelamar);
+        return Json(Result.Success());
+
+        //return Json(Result.Failed());
     }
 
     [HttpGet("/pendaftaran/overview")]
@@ -148,5 +153,72 @@ public class PendaftaranController : Controller
         }
 
         return NotFound();
+    }
+
+    [HttpGet("/pendaftaran/files")]
+    public async Task<IActionResult> Berkas()
+    {
+        return View("~/Views/Pendaftaran/Files.cshtml");
+    }
+
+    //public async Task<IActionResult> UploadFiles(PelamarVM model)
+    //{
+    //    string wwwPath = Uploads.Path;
+
+    //    string path = Path.Combine(wwwPath, @"uploads/pelamar/", model.Pelamar.PelamarId.ToString());
+    //    string thumbImg = path + @"/thumbnail";
+
+    //    if (!Directory.Exists(path))
+    //    {
+    //        Directory.CreateDirectory(path);
+    //    }
+
+    //    string fileExt = Path.GetExtension(model.Upload!.TheFile!.FileName);
+    //    string fileName = GenerateRandomString() + fileExt;
+    //    string realName = model.Upload!.TheFile!.FileName;
+    //    string filePath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString();
+    //    string realPath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString();
+
+    //    if (!fileExt.Contains("pdf"))
+    //    {
+    //        if (!Directory.Exists(thumbImg))
+    //        {
+    //            Directory.CreateDirectory(thumbImg);
+    //        }
+
+    //        filePath = "/uploads/" + model.Pegawai.PegawaiID.ToString() + "/thumbnail";
+
+    //        Image image = Image.Load(model.Upload.TheFile.OpenReadStream());
+    //        image.Mutate(x => x.Resize(600, 400));
+
+    //        image.Save(thumbImg + "/" + fileName);
+    //    }
+
+    //    List<FilePelamar>? filePelamar = await fileRepo.FilePegawais
+    //        .Where(x => x.PegawaiID == model.Pegawai.PegawaiID)
+    //        .Include(p => p.Persyaratan)
+    //        .OrderByDescending(p => p.CreatedAt)
+    //        .ToListAsync();
+    //}
+
+    private static string GenerateRandomString()
+    {
+        int length = 60;
+
+        StringBuilder builder = new();
+
+        Random random = new();
+
+        char letter;
+
+        for (int i = 0; i < length; i++)
+        {
+            double flt = random.NextDouble();
+            int shift = Convert.ToInt32(Math.Floor(25 * flt));
+            letter = Convert.ToChar(shift + 65);
+            builder.Append(letter);
+        }
+
+        return builder.ToString();
     }
 }

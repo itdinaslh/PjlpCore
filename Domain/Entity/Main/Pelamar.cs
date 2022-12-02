@@ -166,5 +166,9 @@ public class Pelamar
     public Status StatusLamaran { get; set; }
 
     public Kelurahan KelurahanDom { get; set; }
+
+#nullable enable
+
+    public List<FilePelamar>? FilePelamars { get; set; }
     
 }

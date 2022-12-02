@@ -20,5 +20,7 @@ public class Persyaratan {
 
     public List<FilePegawai> FilePegawais { get; set; }
 
+    public List<FilePelamar> FilePelamars { get; set; }
+
     public List<EventFile> EventFiles { get; set; }
 }
