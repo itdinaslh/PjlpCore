@@ -4,11 +4,11 @@ using PjlpCore.Repository;
 
 namespace PjlpCore.Services;
 
-public class FIlePelamarService : IFilePelamar
+public class FilePelamarService : IFilePelamar
 {
     private readonly AppDbContext context;
 
-    public FIlePelamarService (AppDbContext context)
+    public FilePelamarService (AppDbContext context)
     {
         this.context = context;
     }

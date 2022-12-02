@@ -18,12 +18,14 @@ public class PendaftaranController : Controller
 {
     private readonly IPegawai repo;
     private readonly IPelamar pelamarRepo;
+    private readonly IFilePelamar fileRepo;
 
 
     public PendaftaranController(IPegawai repo, IPelamar pRepo)
     {
         this.repo = repo; 
         this.pelamarRepo = pRepo;
+
     }
 
     [HttpGet("/pendaftaran/index")]    
@@ -161,45 +163,97 @@ public class PendaftaranController : Controller
         return View("~/Views/Pendaftaran/Files.cshtml");
     }
 
-    //public async Task<IActionResult> UploadFiles(PelamarVM model)
-    //{
-    //    string wwwPath = Uploads.Path;
+    [HttpPost("/pelamar/files/upload")]
+    public async Task<IActionResult> UploadFiles(PelamarVM model)
+    {
+        string wwwPath = Uploads.Path;
 
-    //    string path = Path.Combine(wwwPath, @"uploads/pelamar/", model.Pelamar.PelamarId.ToString());
-    //    string thumbImg = path + @"/thumbnail";
+        string path = Path.Combine(wwwPath, @"uploads/pelamar/", model.Pelamar.PelamarId.ToString());
+        string thumbImg = path + @"/thumbnail";
 
-    //    if (!Directory.Exists(path))
-    //    {
-    //        Directory.CreateDirectory(path);
-    //    }
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
 
-    //    string fileExt = Path.GetExtension(model.Upload!.TheFile!.FileName);
-    //    string fileName = GenerateRandomString() + fileExt;
-    //    string realName = model.Upload!.TheFile!.FileName;
-    //    string filePath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString();
-    //    string realPath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString();
+        string fileExt = Path.GetExtension(model.Upload!.TheFile!.FileName);
+        string fileName = GenerateRandomString() + fileExt;
+        string realName = model.Upload!.TheFile!.FileName;
+        string filePath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString();
+        string realPath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString();
 
-    //    if (!fileExt.Contains("pdf"))
-    //    {
-    //        if (!Directory.Exists(thumbImg))
-    //        {
-    //            Directory.CreateDirectory(thumbImg);
-    //        }
+        if (!fileExt.Contains("pdf"))
+        {
+            if (!Directory.Exists(thumbImg))
+            {
+                Directory.CreateDirectory(thumbImg);
+            }
 
-    //        filePath = "/uploads/" + model.Pegawai.PegawaiID.ToString() + "/thumbnail";
+            filePath = "/uploads/" + model.Pegawai.PegawaiID.ToString() + "/thumbnail";
 
-    //        Image image = Image.Load(model.Upload.TheFile.OpenReadStream());
-    //        image.Mutate(x => x.Resize(600, 400));
+            Image image = Image.Load(model.Upload.TheFile.OpenReadStream());
+            image.Mutate(x => x.Resize(600, 400));
 
-    //        image.Save(thumbImg + "/" + fileName);
-    //    }
+            image.Save(thumbImg + "/" + fileName);
+        }
 
-    //    List<FilePelamar>? filePelamar = await fileRepo.FilePegawais
-    //        .Where(x => x.PegawaiID == model.Pegawai.PegawaiID)
-    //        .Include(p => p.Persyaratan)
-    //        .OrderByDescending(p => p.CreatedAt)
-    //        .ToListAsync();
-    //}
+        List<FilePelamar>? filePelamar = await fileRepo.FilePelamars
+            .Where(x => x.PelamarId == model.Pelamar.PelamarId)
+            .Include(p => p.Persyaratan)
+            .OrderByDescending(p => p.CreatedAt)
+            .ToListAsync();
+
+        bool isNewFoto = false;
+        bool isNew = true;
+        string newPath = "";
+        string oldID = "";
+
+        isNewFoto = model.Upload.PersyaratanID == 2 ? true : false;
+
+        if (filePelamar is not null)
+        {
+            if (filePelamar.Any(x => x.PersyaratanID == model.Upload.PersyaratanID))
+            {
+                var FileToDelete = filePelamar.Where(x => x.PersyaratanID == model.Upload.PersyaratanID)
+                    .FirstOrDefault();
+
+                oldID = FileToDelete!.FilePelamarID.ToString();
+                isNew = false;
+
+                await fileRepo.DeleteDataAsync(FileToDelete!.FilePelamarID);
+
+                System.IO.File.Delete(path + "/pelamar/" + FileToDelete.FileName);
+                System.IO.File.Delete(thumbImg + "/pelamar/" + FileToDelete.FileName);
+            }
+        }
+
+        FilePelamar file = new()
+        {
+            FilePelamarID = Guid.NewGuid(),
+            FileName = fileName,
+            RealName = realName,
+            FileExtension = fileExt,
+            FilePath = filePath,
+            RealPath = realPath,
+            PelamarId = model.Pelamar.PelamarId,
+            PersyaratanID = model.Upload.PersyaratanID,
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now
+        };
+
+        newPath = file.FilePath + "/" + file.FileName;
+
+        using (FileStream stream = new(Path.Combine(path, fileName), FileMode.Create))
+        {
+            model.Upload.TheFile.CopyTo(stream);
+        }
+
+        await fileRepo.SaveDataAsync(file);
+
+#nullable disable
+
+        return Json(Result.SuccessUpload(isNew, isNewFoto, oldID, file.FilePelamarID.ToString(), model.Upload.TypeName, file.CreatedAt.ToString(), newPath));
+    }
 
     private static string GenerateRandomString()
     {
