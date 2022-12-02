@@ -20,8 +20,10 @@ public class FilePelamarService : IFilePelamar
         throw new NotImplementedException();
     }
 
-    public Task SaveDataAsync(FilePelamar file)
+    public async Task SaveDataAsync(FilePelamar file)
     {
-        throw new NotImplementedException();
+        await context.AddAsync(file);
+
+        await context.SaveChangesAsync();
     }
 }

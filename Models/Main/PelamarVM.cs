@@ -13,6 +13,8 @@ public class PelamarVM
 
 # nullable enable
 
+    public string? PasFoto { get; set; }
+
     public string? TanggalLahir { get; set; }
 
     public string? NamaAgama { get; set; }
@@ -51,7 +53,7 @@ public class PelamarVM
 
     public Pegawai? Pegawai { get; set; }
 
-    public List<FilePelamar>? FilePelamars { get; set; }
+    public List<FilePelamar>? Files { get; set; }
 
-    public UploadVM? Upload { get; set; }
+    public UploadVM? Upload { get; set; } = new UploadVM();
 }

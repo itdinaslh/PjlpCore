@@ -1,4 +1,6 @@
-﻿@{
+﻿@model PelamarVM
+
+@{
     ViewData["Title"] = "Data PJLP";
     ViewData["PageName"] = "data_pjlp";
     ViewData["Category1"] = "Pelamar";
@@ -27,32 +29,66 @@
                 </div>
                 <div class="panel-container show">
                     <div class="panel-content">
-                        <div class="form-group">
-                            <label for="">Jenis File</label>
-                            <select class="form-control">
-                                
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="fileUpload" class="form-label">Pilih File</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" id="fileUpload" class="custom-file-input" accept="application/pdf, image/*" aria-describedby="fileUploadAddon" />
-                                    <label for="fileUpload" class="custom-file-label"></label>
+                        <form method="post" id="UploadFile" action="/pelamar/files/upload" enctype="multipart/form-data">
+                            <input type="hidden" asp-for="Pelamar.PelamarId" />
+                            <input type="hidden" id="typeName" asp-for="Upload.TypeName" />
+                            <div class="form-group">
+                                <label for="">Jenis File</label>
+                                <select id="sFile" asp-for="Upload.PersyaratanID" class="form-control" style="width:100%;">
+                                </select>
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for="fileUpload" class="form-label">Pilih File</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" asp-for="Upload!.TheFile" class="custom-file-input" id="filePilih" accept="application/pdf, image/*" aria-describedby="fileUploadAddon" required />
+                                        <label for="fileUpload" class="custom-file-label"></label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="text-right">
-                                <button class="btn btn-danger" x-on:click="edit = false">Tutup</button>
-                                <button class="btn btn-primary">Tambah / Update File</button>
-                            </div>
-                        </div>
+                            <div class="form-group">
+                                <div class="text-right">
+                                    <button class="btn btn-danger" x-on:click="edit = false">Tutup</button>
+                                    <button class="btn btn-primary">Tambah / Update File</button>
+                                </div>
+                            </div>                        
+                        </form>                        
                     </div>
                 </div>
 
         </div>
     </div>
+        <div class="col-xs-12" :class="edit ? 'col-md-8' : 'col-md-12'">
+            <div class="row" id="AllFiles">
+                <!-- File -->
+                @foreach (var p in Model.Files!)
+                {
+                    string fullPath = p.FileExtension.ToLower().Contains("pdf") ? "/img/pdf.jpg" : p.FilePath + "/" + p.FileName;
+
+                    <div class="col-lg-4" id="@p.FilePelamarID">
+                        <div class="card mb-4">
+                            <div class="card-header text-center bg-primary-500 bg-success-gradient">
+                                <h5>@p.Persyaratan.NamaPersyaratan</h5>
+                            </div>
+                            <img class="card-img-top" src="@fullPath" alt="file" style="height: 250px;">
+                            <div class="card-body">
+                                <table class="table">
+                                    <tr>
+                                        <td>Tgl Upload</td>
+                                        <td style="padding-left:5px;padding-right:5px;">:</td>
+                                        <td>@p.CreatedAt</td>
+                                    </tr>
+                                </table>
+                                <div class="text-center">
+                                    <button class="btn btn-primary">Download</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
 </div>
 
 @section scripts {

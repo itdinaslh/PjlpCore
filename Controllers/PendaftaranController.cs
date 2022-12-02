@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Text;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using System.Security.Cryptography;
 
 namespace PjlpCore.Controllers;
 
@@ -21,11 +22,11 @@ public class PendaftaranController : Controller
     private readonly IFilePelamar fileRepo;
 
 
-    public PendaftaranController(IPegawai repo, IPelamar pRepo)
+    public PendaftaranController(IPegawai repo, IPelamar pRepo, IFilePelamar fRepo)
     {
         this.repo = repo; 
         this.pelamarRepo = pRepo;
-
+        this.fileRepo = fRepo;
     }
 
     [HttpGet("/pendaftaran/index")]    
@@ -126,6 +127,24 @@ public class PendaftaranController : Controller
             .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
             .FirstOrDefaultAsync();
 
+        List<FilePelamar>? filePelamar = await fileRepo.FilePelamars
+            .Where(x => x.PelamarId == data!.PelamarId)
+            .Include(p => p.Persyaratan)
+            .OrderByDescending(p => p.CreatedAt)
+            .ToListAsync();
+
+        string pasfoto = "";
+
+        if (filePelamar is not null)
+        {
+            if (filePelamar.Any(x => x.PersyaratanID == 2))
+            {
+#nullable disable
+                pasfoto = filePelamar.Where(x => x.PersyaratanID == 2).Select(x => x.FilePath + "/" + x.FileName).FirstOrDefault();
+#nullable enable
+            }
+        }
+
         if (data is not null)
         {
             string? lahir = data.TglLahir.ToString();
@@ -151,6 +170,7 @@ public class PendaftaranController : Controller
                 KabupatenDom = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.NamaKabupaten,
                 ProvDomID = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.ProvinsiID,
                 ProvinsiDom = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
+                PasFoto = pasfoto != "" ? pasfoto : null
             });
         }
 
@@ -160,7 +180,21 @@ public class PendaftaranController : Controller
     [HttpGet("/pendaftaran/files")]
     public async Task<IActionResult> Berkas()
     {
-        return View("~/Views/Pendaftaran/Files.cshtml");
+        Pelamar? data = await pelamarRepo.Pelamars
+            .Where(x => x.NoKTP == User.Identity!.Name)
+            .FirstOrDefaultAsync();
+
+        List<FilePelamar> filePelamars = await fileRepo.FilePelamars
+            .Where(x => x.PelamarId == data!.PelamarId)
+            .Include(p => p.Persyaratan)
+            .OrderByDescending(p => p.CreatedAt)
+            .ToListAsync();
+
+        return View("~/Views/Pendaftaran/Files.cshtml", new PelamarVM
+        {
+            Pelamar = data,
+            Files = filePelamars
+        });
     }
 
     [HttpPost("/pelamar/files/upload")]
@@ -189,7 +223,7 @@ public class PendaftaranController : Controller
                 Directory.CreateDirectory(thumbImg);
             }
 
-            filePath = "/uploads/" + model.Pegawai.PegawaiID.ToString() + "/thumbnail";
+            filePath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString() + "/thumbnail";
 
             Image image = Image.Load(model.Upload.TheFile.OpenReadStream());
             image.Mutate(x => x.Resize(600, 400));
@@ -222,8 +256,8 @@ public class PendaftaranController : Controller
 
                 await fileRepo.DeleteDataAsync(FileToDelete!.FilePelamarID);
 
-                System.IO.File.Delete(path + "/pelamar/" + FileToDelete.FileName);
-                System.IO.File.Delete(thumbImg + "/pelamar/" + FileToDelete.FileName);
+                System.IO.File.Delete(path + "/" + FileToDelete.FileName);
+                System.IO.File.Delete(thumbImg + "/" + FileToDelete.FileName);
             }
         }
 
