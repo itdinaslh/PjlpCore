@@ -17,12 +17,14 @@ public class UserController : Controller
 {
     private readonly IBidangRepo bidangRepo;
     private readonly IUser userRepo;
+    private readonly IUserBidang userBidangRepo;
     private readonly IHttpClientFactory _clientFactory;
 
-    public UserController(IBidangRepo repo, IUser user, IHttpClientFactory factory) {
+    public UserController(IBidangRepo repo, IUser user, IHttpClientFactory factory, IUserBidang usr) {
         bidangRepo = repo;
         userRepo = user;
         _clientFactory = factory;
+        userBidangRepo = usr;
     }
 
     [HttpGet("/userbidang/list")]
@@ -65,7 +67,9 @@ public class UserController : Controller
     }
 
     [HttpPost("/userbidang/manage/store")]
-    public async Task<IActionResult> SaveDataUser(UserVM model, Guid[] bidangs) {
+    public async Task<IActionResult> SaveDataUser(UserVM model, Guid[] Bidangs) {
+        model.Bidangs = Bidangs;
+
         try {
             var inject = new UserInject {                
                 UserName = model.User.UserName,
@@ -89,6 +93,14 @@ public class UserController : Controller
             if (!response.IsSuccessStatusCode) {
                 return StatusCode(500, "Something Error...!");
             }
+
+            Guid ThisID = Guid.NewGuid();
+
+            model.User.UserID = ThisID;
+            
+            await userRepo.SaveDataAsync(model.User);
+
+            await userBidangRepo.SaveDataAsync(model);
 
             return Json(Result.Success());
 

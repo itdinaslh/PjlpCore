@@ -15,10 +15,14 @@ namespace PjlpCore.Controllers.api;
 // [Authorize(Roles = "SysAdmin")]
 public class BidangApiController : Controller {
     private IBidangRepo repo;
+    private readonly IUser userRepo;
+    private readonly IUserBidang userBidangRepo;
     private readonly IHubContext<BidangHub> _bidangHubContext;
 
-    public BidangApiController(IBidangRepo bRepo, IHubContext<BidangHub> bidangHubContext) {
+    public BidangApiController(IBidangRepo bRepo, IHubContext<BidangHub> bidangHubContext, IUser user, IUserBidang userBidang) {
         repo = bRepo;
+        userRepo = user;
+        userBidangRepo = userBidang;
         _bidangHubContext = bidangHubContext;
     }
 
@@ -103,6 +107,39 @@ public class BidangApiController : Controller {
     [HttpGet("/api/master/bidang/search")]    
     public async Task<IActionResult> SearchBidang(string? term) {
         var data = await repo.Bidangs            
+            .Where(k => !String.IsNullOrEmpty(term) ?
+                k.NamaBidang.ToLower().Contains(term.ToLower()) : true
+            ).Select(s => new {
+                id = s.BidangID,
+                namaBidang = s.NamaBidang
+            }).Take(10).ToListAsync();
+
+        return Ok(data);
+    }
+
+    [HttpGet("/api/master/bidang/searchbycriteria")]
+    public async Task<IActionResult> SearchBidangByRoles(string? term)
+    {
+        bool isBidang = User.IsInRole("PjlpAdmin") || User.IsInRole("PPBJ");
+
+        List<Guid> bidangs = new();
+
+        if (isBidang)
+        {
+            var user = await userRepo.Users.Where(x => x.UserName == User.Identity!.Name).FirstOrDefaultAsync();
+
+            var bids = await userBidangRepo.UserBidangs
+                .Where(x => x.UserID == user!.UserID)
+                .ToListAsync();
+
+            foreach (var p in bids)
+            {
+                bidangs.Add(p.BidangID);
+            }
+        }
+
+        var data = await repo.Bidangs
+            .Where(p => isBidang ? bidangs.Contains(p.BidangID) : true)
             .Where(k => !String.IsNullOrEmpty(term) ?
                 k.NamaBidang.ToLower().Contains(term.ToLower()) : true
             ).Select(s => new {

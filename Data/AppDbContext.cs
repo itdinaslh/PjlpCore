@@ -30,6 +30,7 @@ public class AppDbContext : DbContext {
     public DbSet<DetailAsn> DetailAsns { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<EventFile> EventFiles { get; set; }
+    public DbSet<UserBidang> UserBidangs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

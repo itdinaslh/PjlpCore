@@ -10,7 +10,14 @@
         <div class="page-inner">
             <partial name="_LeftPanel" />
             <div class="page-content-wrapper">
-                <partial name="_PageHeader" />
+                @if (User.IsInRole("SysAdmin"))
+                {
+                    <partial name="_PageHeaderAdmin" />
+                } else
+                {
+                    <partial name="_PageHeaderUser" />
+                }
+
                 <main id="js-page-content" role="main" class="page-content">
                     <partial name="_PageBreadCrumb" />                  
                     @RenderBody()

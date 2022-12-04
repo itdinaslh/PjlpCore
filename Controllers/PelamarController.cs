@@ -84,14 +84,14 @@ public class PelamarController : Controller
         return Json(Result.Failed());
     }
 
-    [HttpGet("/pelamar/lama")]
+    [HttpGet("/pelamar")]
     [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
-    public IActionResult Lama()
+    public IActionResult Index()
     {
         return View();
     }
 
-    [HttpGet("/pelamar/lama/details")]
+    [HttpGet("/pelamar/details")]
     [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
     public async Task<IActionResult> Details(Guid bid, Guid pid)
     {

@@ -22,36 +22,41 @@ public class PegawaiApiController : ControllerBase
     private readonly IPegawai repo;
     private readonly IUser userRepo;
     private readonly IBidangRepo bidangRepo;
+    private readonly IUserBidang userBidangRepo;
 
     private const string cacheKey = "pjlpList";
 
-    public PegawaiApiController(IPegawai repo, IUser userRepo, IBidangRepo bidangRepo, IMemoryCache memCache, AppDbContext context)
+    public PegawaiApiController(IPegawai repo, IUser userRepo, IBidangRepo bidangRepo, IMemoryCache memCache, IUserBidang userBidang)
     {
         this.repo = repo;
         this.userRepo = userRepo;
         this.bidangRepo = bidangRepo;
+        this.userBidangRepo = userBidang;
     }
 
 #nullable disable
 
-    // [Authorize(Roles = "SysAdmin, PjlpAdmin, PPBJ, Kepeg")]
+    [Authorize(Roles = "SysAdmin, PjlpAdmin, PPBJ, Kepeg")]
     [HttpPost("/api/pegawai/pjlp")]
     public async Task<IActionResult> PjlpTable(CancellationToken cancellationToken)
     {
         bool isBidang = User.IsInRole("PjlpAdmin") || User.IsInRole("PPBJ");        
         List<Guid> bidangs = new();
-        List<Bidang> bids = new();
+        List<UserBidang> bids = new();
 
         if (isBidang)
-        {            
-            bids = await userRepo.Users
-                .Where(u => u.UserName == User.Identity.Name)
-                .SelectMany(u => u.Bidangs)                
+        {
+            User user = await userRepo.Users
+                .Where(x => x.UserName == User.Identity!.Name)
+                .FirstOrDefaultAsync();
+
+            bids = await userBidangRepo.UserBidangs
+                .Where(x => x.UserID == user.UserID)
                 .ToListAsync();
 
-            foreach (Bidang bidang in bids)
+            foreach (var p in bids)
             {
-                bidangs.Add(bidang.BidangID);
+                bidangs.Add(p.BidangID);
             }
         }        
 
@@ -69,7 +74,7 @@ public class PegawaiApiController : ControllerBase
 
         var data = repo.Pegawais
             .Where(p => p.JenisPegawaiID == 2)
-            .Where(p => isBidang ? bidangs.Contains(p.BidangID) : true)            
+            .Where(p => isBidang ? bidangs.Contains(p.BidangID) : true)        
             .Select(k => new {
                 pegawaiID = k.PegawaiID,
                 bidangID = k.BidangID,

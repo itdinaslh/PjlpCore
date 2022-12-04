@@ -17,7 +17,7 @@ function loadTable() {
         stateSave: true,
         orderMulti: false,
         ajax: {
-            url: "/api/pelamar/lama",
+            url: "/api/pelamar",
             type: "POST",
             dataType: "json"
         },
@@ -28,7 +28,7 @@ function loadTable() {
             { data: "jabatan", name: "jabatan", autoWidth: true },
             { data: "status", name: "status", autoWidth: true },
             {
-                render: function (data, type, row) { return "<a class='btn btn-sm btn-outline-success mr-2' href='/pelamar/lama/details/?bid=" + row.bidangID + "&pid=" + row.pelamarId + "'><i class='fal fa-edit'></i> Detail</a>" }
+                render: function (data, type, row) { return "<a class='btn btn-sm btn-outline-success mr-2' href='/pelamar/details/?bid=" + row.bidangID + "&pid=" + row.pelamarId + "'><i class='fal fa-edit'></i> Detail</a>" }
             }
         ]
     })

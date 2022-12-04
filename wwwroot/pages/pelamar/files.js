@@ -13,7 +13,7 @@ function PopulateBidang() {
         placeholder: 'Pilih Bidang...',
         allowClear: true,
         ajax: {
-            url: "/api/master/bidang/search",
+            url: "/api/master/bidang/searchbycriteria",
             contentType: "application/json; charset=utf-8",
             data: function (params) {
                 var query = {

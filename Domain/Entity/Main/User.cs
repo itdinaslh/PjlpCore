@@ -43,5 +43,7 @@ public class User
 
     #nullable disable
 
-    public List<Bidang> Bidangs { get; set; }
+    public List<UserBidang> UserBidangs { get; set; }
+
+
 }

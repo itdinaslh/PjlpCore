@@ -5,7 +5,7 @@
             <span class="nav-link-text" data-i18n="nav.dashboard">Dashboard</span>
         </a>
     </li>
-    @if (User.IsInRole("SysAdmin") || User.IsInRole("Kepeg")) {
+    @if (User.IsInRole("SysAdmin") || User.IsInRole("Kepeg") || User.IsInRole("PjlpAdmin")) {
         <li class='@(ViewBag.Parent == "Master" ? "active open" : "")'>
             <a href="#" title="Master Data" data-filter-tags="master data">
                 <i class="fal fa-database"></i>
@@ -94,11 +94,14 @@
                     <span class="nav-link-text" data-i18n="nav.data_pjlp">Data PJLP</span>
                 </a>
             </li>
-            <li class='@(ViewBag.Title == "Data PNS" ? "active" : "")'>
-                <a asp-action="PNS" asp-controller="Pegawai" title="Data PNS" data-filter-tags="data pns">                    
-                    <span class="nav-link-text" data-i18n="nav.data_pns">Data PNS</span>
-                </a>
-            </li>
+            @if (User.IsInRole("SysAdmin") || User.IsInRole("Kepeg"))
+            {
+                <li class='@(ViewBag.Title == "Data PNS" ? "active" : "")'>
+                    <a asp-action="PNS" asp-controller="Pegawai" title="Data PNS" data-filter-tags="data pns">
+                        <span class="nav-link-text" data-i18n="nav.data_pns">Data PNS</span>
+                    </a>
+                </li>
+            }            
         </ul>
     </li>
 

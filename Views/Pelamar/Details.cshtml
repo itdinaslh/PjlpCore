@@ -67,7 +67,7 @@
             </ul>
             <div class="row mb-3">
                 <div class="col-md-12 text-right">
-                    <a type="button" class="btn btn-warning mr-2" asp-action="Lama" asp-controller="Pelamar">Kembali</a>
+                    <a type="button" class="btn btn-warning mr-2" asp-action="Index" asp-controller="Pelamar">Kembali</a>
                     @if (User.IsInRole("SysAdmin")) {
                         <button x-on:click="edit = !edit"
                             class="btn btn-danger verify d-none"

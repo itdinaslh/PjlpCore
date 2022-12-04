@@ -13,7 +13,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PjlpCore.Controllers;
 
-[Authorize(Roles = "PjlpUser")]
+[Authorize]
 public class PendaftaranController : Controller
 {
     private readonly IPegawai repo;
@@ -28,7 +28,8 @@ public class PendaftaranController : Controller
         this.fileRepo = fRepo;
     }
 
-    [HttpGet("/pendaftaran/index")]    
+    [HttpGet("/pendaftaran/index")]
+    [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> Index()
     {
         string? uid = ((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "sub").Select(c => c.Value).SingleOrDefault();
@@ -89,6 +90,7 @@ public class PendaftaranController : Controller
     }
 
     [HttpPost("/pendaftaran/store")]
+    [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> SavePendaftaran(PelamarVM model)
     {
         if (model.AddressIsSame)
@@ -115,6 +117,7 @@ public class PendaftaranController : Controller
     }
 
     [HttpGet("/pendaftaran/overview")]
+    [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> Overview()
     {
         Pelamar? data = await pelamarRepo.Pelamars
@@ -179,6 +182,7 @@ public class PendaftaranController : Controller
     }
 
     [HttpGet("/pendaftaran/files")]
+    [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> Berkas()
     {
         Pelamar? data = await pelamarRepo.Pelamars
@@ -199,6 +203,7 @@ public class PendaftaranController : Controller
     }
 
     [HttpPost("/pelamar/files/upload")]
+    [Authorize(Roles = "PjlpUser, SysAdmin")]
     public async Task<IActionResult> UploadFiles(PelamarVM model)
     {
         string wwwPath = Uploads.Path;
@@ -291,6 +296,7 @@ public class PendaftaranController : Controller
     }
 
     [HttpPost("/pendaftaran/biodata/update")]
+    [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> UpdateBiodata(PelamarVM model) {
         if (model.Pelamar.PelamarId != Guid.Empty) {
             model.Pelamar.TglLahir = DateOnly.Parse(model.TanggalLahir, new CultureInfo("id-ID"));
@@ -304,6 +310,7 @@ public class PendaftaranController : Controller
     }
 
     [HttpPost("/pendaftaran/alamat/update")]
+    [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> UpdateAlamat(PelamarVM model) {
         model.Pelamar.AddressIsSame = model.AddressIsSame;
 

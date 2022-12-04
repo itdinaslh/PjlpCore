@@ -16,31 +16,34 @@ public class PelamarApiController : ControllerBase
 {
     private readonly IPelamar pelamarRepo;
     private readonly IUser userRepo;
+    private readonly IUserBidang userBidangRepo;
 
-    public PelamarApiController(IPelamar pelamarRepo, IUser userRepo)
+    public PelamarApiController(IPelamar pelamarRepo, IUser userRepo, IUserBidang userBidangRepo)
     {
         this.pelamarRepo = pelamarRepo;
         this.userRepo = userRepo;
+        this.userBidangRepo = userBidangRepo;
     }
 
     [Authorize(Roles = "SysAdmin, PPBJ, Kepeg, PjlpAdmin")]
-    [HttpPost("/api/pelamar/lama")]
-    public async Task<IActionResult> PelamarLama()
+    [HttpPost("/api/pelamar")]
+    public async Task<IActionResult> Pelamar()
     {
         bool isBidang = User.IsInRole("PjlpAdmin") || User.IsInRole("PPBJ");
         List<Guid> bidangs = new();
-        List<Bidang> bids = new();
+        List<UserBidang> bids = new();
 
         if (isBidang)
         {
-            bids = await userRepo.Users
-                .Where(u => u.UserName == User.Identity!.Name)
-                .SelectMany(u => u.Bidangs)
+            var user = await userRepo.Users.Where(x => x.UserName == User.Identity!.Name).FirstOrDefaultAsync();
+
+            bids = await userBidangRepo.UserBidangs
+                .Where(x => x.UserID == user!.UserID)
                 .ToListAsync();
 
-            foreach (Bidang bidang in bids)
+            foreach (var p in bids)
             {
-                bidangs.Add(bidang.BidangID);
+                bidangs.Add(p.BidangID);
             }
         }
 

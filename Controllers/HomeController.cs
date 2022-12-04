@@ -65,5 +65,13 @@ namespace PjlpCore.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet("/daftar")]
+        public IActionResult Daftar()
+        {
+            Uri uri = new Uri(Simpanan.AuthServer + Simpanan.ReturnUrl);
+
+            return Redirect(uri.ToString());
+        }
     }
 }

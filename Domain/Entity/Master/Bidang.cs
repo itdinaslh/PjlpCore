@@ -31,6 +31,6 @@ public class Bidang {
 
     public List<Pegawai> Pegawais { get; set; }
 
-    public ICollection<User> Users { get; set; }
+    public List<UserBidang> UserBidangs { get; set; }
     
 }

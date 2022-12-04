@@ -5,12 +5,18 @@
     <nav id="js-primary-nav" class="primary-nav" role="navigation">
         <partial name="_NavFilter" />
         <partial name="_NavInfoCard" />
-        @if (User.IsInRole("PjlpUser"))
+        @if (User.IsInRole("SysAdmin"))
         {
-            <partial name="_NavPJLP" />
+            <partial name="~/Views/Sidebar/SysAdmin.cshtml" />
+        } else if (User.IsInRole("PPBJ"))
+        {
+            <partial name="~/Views/Sidebar/PPBJ.cshtml" />
+        } else if (User.IsInRole("PjlpAdmin"))
+        {
+            <partial name="~/Views/Sidebar/PjlpAdmin.cshtml" />
         } else
         {
-            <partial name="_PageNavigation" />
+            <partial name="~/Views/Sidebar/Pjlp.cshtml" />
         }
                
     </nav>
