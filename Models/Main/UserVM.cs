@@ -14,6 +14,8 @@ public class UserVM {
     #nullable enable
     public string? Password { get; set; }
 
+    public Guid[]? Bidangs { get; set; }
+
     #nullable disable
     public List<SelectedList> ListBidang { get; set;}
     

@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using PjlpCore.Repository;
@@ -5,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using PjlpCore.Models;
 using PjlpCore.Entity;
 using PjlpCore.Helpers;
+using System.Text.Json;
+using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PjlpCore.Controllers;
 
@@ -13,10 +17,12 @@ public class UserController : Controller
 {
     private readonly IBidangRepo bidangRepo;
     private readonly IUser userRepo;
+    private readonly IHttpClientFactory _clientFactory;
 
-    public UserController(IBidangRepo repo, IUser user) {
+    public UserController(IBidangRepo repo, IUser user, IHttpClientFactory factory) {
         bidangRepo = repo;
         userRepo = user;
+        _clientFactory = factory;
     }
 
     [HttpGet("/userbidang/list")]
@@ -58,12 +64,38 @@ public class UserController : Controller
         });
     }
 
+    [HttpPost("/userbidang/manage/store")]
+    public async Task<IActionResult> SaveDataUser(UserVM model, Guid[] bidangs) {
+        try {
+            var inject = new UserInject {                
+                UserName = model.User.UserName,
+                FullName = model.User.Name,
+                Email = model.User.Email,
+                Roles = model.User.RoleName,
+                Password = model.Password
+            };
 
-    public IActionResult SaveDataUser(UserVM model) {
-        if (ModelState.IsValid) {
-            
+            var jsonInject = JsonSerializer.Serialize(inject);
+
+            var user = new StringContent(
+                JsonSerializer.Serialize(inject),
+                Encoding.UTF8,
+                Application.Json
+            );
+
+            var client = _clientFactory.CreateClient("AuthClient");
+            using HttpResponseMessage response = await client.PostAsync("/api/user/pjlp/store", user);
+
+            if (!response.IsSuccessStatusCode) {
+                return StatusCode(500, "Something Error...!");
+            }
+
+            return Json(Result.Success());
+
+            // return Json(user);
+
+        } catch (Exception) {
+            throw;
         }
-
-        return Json(Result.Success());
     }
 }

@@ -20,7 +20,12 @@ public class User
     public string Name { get; set; }
 
     [Required(ErrorMessage = "Role wajib!")]
+    [MaxLength(100)]
     public string RoleName { get; set; }
+
+    [Required(ErrorMessage = "Data Email Wajib Diisi")]
+    [MaxLength(255)]
+    public string Email { get; set; }
 
     public bool IsActive { get; set; } = true;
 
