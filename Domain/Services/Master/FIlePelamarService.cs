@@ -15,9 +15,16 @@ public class FilePelamarService : IFilePelamar
 
     public IQueryable<FilePelamar> FilePelamars => context.FilePelamars;
 
-    public Task DeleteDataAsync(Guid id)
+    public async Task DeleteDataAsync(Guid id)
     {
-        throw new NotImplementedException();
+        FilePelamar? file = await context.FilePelamars.FindAsync(id);
+
+        if (file != null)
+        {
+            context.Remove(file);
+
+            await context.SaveChangesAsync();
+        }
     }
 
     public async Task SaveDataAsync(FilePelamar file)

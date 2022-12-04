@@ -20,7 +20,7 @@ public class User
     public string Name { get; set; }
 
     [Required(ErrorMessage = "Role wajib!")]
-    public int RoleID { get; set; }
+    public string RoleName { get; set; }
 
     public bool IsActive { get; set; } = true;
 

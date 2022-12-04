@@ -1,0 +1,104 @@
+@model UserVM
+
+@{
+    ViewData["Title"] = "User Bidang";
+    ViewData["PageName"] = "manage_user_bidang";
+    ViewData["Category1"] = "User Bidang";
+    ViewBag.Title = "User Bidang";
+}
+
+@section styles {    
+    <link rel="stylesheet" href="~/lib/sweetalert/sweetalert2.min.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="~/css/addon.css" />
+}
+
+<div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="panel">
+                <div class="panel-hdr bg-primary-700 bg-success-gradient" role="heading">
+                    <h2>Manage User Bidang (Used only for Admin Bidang &amp; PPBJ)</h2>
+                </div>
+                <div class="panel-container show">
+                    <form id="formdata" method="post" action="/userbidang/manage/store">
+                        <input type="hidden" asp-for="User.UserID" />
+                        <div class="panel-content">
+                            <div class="row">
+                                <div class="col-xl-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="">Username</label>
+                                        <input class="form-control myInput" asp-for="User.UserName" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Full Name</label>
+                                        <input class="form-control myInput" asp-for="User.Name" />
+                                    </div>
+                                    @if (Model.IsNew) {
+                                        <div class="form-group">
+                                            <label for="">Password</label>
+                                            <input type="password" asp-for="Password" class="form-control myInput" />
+                                        </div>
+                                    }
+                                    <div class="form-group">
+                                        <label for="">Role</label>
+                                        <select id="myRole" class="form-control">
+                                            <option value="PjlpAdmin">Admin Bidang</option>
+                                            <option value="PPBJ">PPBJ</option>
+                                            <option value="Kepeg">Kepegawaian DLH</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="text-right">
+                                                    <button class="btn btn-success" type="button">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-xs-12">
+                                    <div class="frame-wrap" style="margin-top:23px; padding-left: 25px;">
+                                        <div class="demo">
+                                            @{ int x = 1; }
+
+                                            @foreach (var item in Model.ListBidang)
+                                            {
+                                                if (x <= Model.Batas) {                                                    
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="Files" class="custom-control-input myChk" value="@item.OtherID" id="@item.OtherID" checked="@item.Selected" />
+                                                        <label class="custom-control-label" for="@item.OtherID">@item.Text</label>
+                                                    </div>                                                                                                       
+                                                }
+                                                x++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-xs-12">
+                                    <div class="frame-wrap" style="margin-top:23px; padding-left: 25px;">
+                                        <div class="demo">
+                                            @{ int y = 1; }
+
+                                            @foreach (var item in Model.ListBidang)
+                                            {
+                                                if (y > Model.Batas) {                                                    
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="Files" class="custom-control-input myChk" value="@item.OtherID" id="@item.OtherID" checked="@item.Selected" />
+                                                        <label class="custom-control-label" for="@item.OtherID">@item.Text</label>
+                                                    </div>                                           
+                                                }
+                                                y++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

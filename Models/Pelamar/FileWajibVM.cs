@@ -12,6 +12,8 @@ namespace PjlpCore.Models
 
         public bool IsNew { get; set; }
 
+        public int Batas { get; set; }
+
         public int[]? Files { get; set; }
     }
 }

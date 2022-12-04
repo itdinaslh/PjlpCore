@@ -82,6 +82,8 @@ public class Pelamar
     [MaxLength(10)]
     public string? DomKodePos { get; set; }
 
+    public bool? AddressIsSame { get; set; } = true;
+
 #nullable disable
 
     public Guid JabatanId { get; set; }

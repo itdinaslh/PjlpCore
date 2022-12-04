@@ -3,12 +3,6 @@
 <div>
     <form id="formAlamat" class="formdata" action="/pendaftaran/alamat/update" method="post">
         <input type="hidden" asp-for="Pelamar.PelamarId" />
-        <input type="hidden" asp-for="ProvID" id="provid" />
-        <input type="hidden" asp-for="KabID" id="kabid" />
-        <input type="hidden" asp-for="KecID" id="kecid" />
-        <input type="hidden" asp-for="ProvDomID" id="provdomid" />
-        <input type="hidden" asp-for="KabDomID" id="kabdomid" />
-        <input type="hidden" asp-for="KecDomID" id="kecdomid" />
         <!-- Alamat KTP -->
         <div class="panel">
             <div class="panel-hdr green-gradient " role="heading">
@@ -56,7 +50,7 @@
                                     <select id="sKelKTP" asp-for="Pelamar.KelurahanId" class="form-control myselect" style="width: 100%;" required>
                                         @if (Model.Kelurahan is not null)
                                         {
-                                            <option value="@Model.Pelamar.KelurahanId\">@Model.Kelurahan</option>
+                                            <option value="@Model.Pelamar.KelurahanId" selected>@Model.Kelurahan</option>
                                         }
                                     </select>
                                 </div>

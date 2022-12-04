@@ -1,0 +1,82 @@
+﻿@model PelamarVM
+
+<div>
+    <div class="row" x-show="edit" x-transition>
+        <div class="col-lg-12">
+            <div class="panel">
+                <div class="panel-hdr" role="heading">
+                    <h2>Tambah / Ubah Berkas</h2>
+                </div>
+                <div class="panel-container show">
+                    <div class="panel-content">
+                        <form method="post" id="UploadFile" action="/pegawai/files/upload" enctype="multipart/form-data">
+                            <input type="hidden" asp-for="Pegawai.PegawaiID" />
+                            <input type="hidden" id="typeName" asp-for="Upload.TypeName" />
+                            <div class="row">
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="">Jenis Berkas</label>
+                                        <select id="sFile" asp-for="Upload.PersyaratanID" class="form-control" style="width:100%;" required>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="fileUpload" class="form-label">Pilih File</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" asp-for="Upload!.TheFile" class="custom-file-input" id="filePilih" accept="application/pdf, image/*" aria-describedby="fileUploadAddon" required />
+                                                <label for="fileUpload" class="custom-file-label"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="text-center mt-4">
+                                        <button type="submit" class="btn btn-success">Upload</button>
+                                        <button type="button" class="btn btn-danger ml-2" x-on:click="edit = false">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row" id="AllFiles">
+                    <!-- File -->
+                    @foreach (var p in Model.Files!)
+                    {
+                        string fullPath = p.FileExtension.ToLower().Contains("pdf") ? "/img/pdf.jpg" : p.FilePath + "/" + p.FileName;
+                        <div class="col-lg-4" id="@p.FilePelamarID">
+                            <div class="card mb-4">
+                                <div class="card-header text-center bg-primary-500 bg-success-gradient">
+                                    <h5>@p.Persyaratan.NamaPersyaratan</h5>
+                                </div>
+                                <img class="card-img-top" src="@fullPath" alt="file" style="height: 250px;">
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tr>
+                                            <td>Tgl Upload</td>
+                                            <td style="padding-left:5px;padding-right:5px;">:</td>
+                                            <td>@p.CreatedAt</td>
+                                        </tr>
+                                    </table>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary">Download</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

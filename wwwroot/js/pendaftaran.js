@@ -279,8 +279,8 @@ $('#chkSame').change(function () {
             }
         }).on('change', function () {
             $('#kota_dom').val(null).trigger('change');
-            var theID = $('#provinsi option:selected').val();
-            PopulateCity(theID);
+            var theID = $('#provinsi_dom option:selected').val();
+            PopulateCityDom(theID);
             $('#kota_dom').select2('focus');
         });
     }

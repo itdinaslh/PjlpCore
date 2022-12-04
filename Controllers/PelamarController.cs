@@ -4,17 +4,25 @@ using PjlpCore.Models;
 using Microsoft.EntityFrameworkCore;
 using PjlpCore.Entity;
 using PjlpCore.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PjlpCore.Controllers;
 
+[Authorize]
 public class PelamarController : Controller
 {
     private readonly IPersyaratanRepo pRepo;
-    private readonly IEventFile fileRepo;
+    private readonly IEventFile eventRepo;
+    private readonly IPegawai pegRepo;
+    private readonly IPelamar pelamarRepo;
+    private readonly IFilePelamar fileRepo;
 
-    public PelamarController(IPersyaratanRepo pRepo, IEventFile fRepo) { 
+    public PelamarController(IPersyaratanRepo pRepo, IEventFile fRepo, IPegawai pegRepo, IPelamar pelamarRepo, IFilePelamar fileLamar) { 
         this.pRepo = pRepo;
-        this.fileRepo = fRepo;
+        this.eventRepo = fRepo;
+        this.pegRepo = pegRepo;
+        this.pelamarRepo = pelamarRepo;
+        this.fileRepo = fileLamar; 
     }
 
     [HttpGet("/pelamar/files")]
@@ -25,13 +33,17 @@ public class PelamarController : Controller
 
         if (jab is not null && isNew is not null)
         {
-            events = await fileRepo.EventFiles
+            events = await eventRepo.EventFiles
                 .Where(x => x.IsNew == isNew)
                 .Where(x => x.JabatanID == jab)
                 .ToListAsync();
         }
 
         dataList = await pRepo.Persyaratans.ToListAsync();
+
+        double bagi = dataList.Count() / 2;
+
+        int batas = bagi % 2 == 0 ? (int)bagi : (int)Math.Ceiling(bagi);
 
         List<SelectedList> syaratList = new List<SelectedList>();
 
@@ -51,8 +63,9 @@ public class PelamarController : Controller
 
         return View("~/Views/Pelamar/FileWajib/Index.cshtml", new FileWajibVM
         {
-            ListSyarat = syaratList
-        });;
+            ListSyarat = syaratList,
+            Batas = batas
+        });
     }
 
     [HttpPost("/pelamar/files/update")]
@@ -62,12 +75,84 @@ public class PelamarController : Controller
 
         if (ModelState.IsValid)
         {
-            await fileRepo.SaveDataAsync(model);
+            await eventRepo.SaveDataAsync(model);
 
             return Json(Result.Success());
         }        
 
         
         return Json(Result.Failed());
+    }
+
+    [HttpGet("/pelamar/lama")]
+    [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
+    public IActionResult Lama()
+    {
+        return View();
+    }
+
+    [HttpGet("/pelamar/lama/details")]
+    [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
+    public async Task<IActionResult> Details(Guid bid, Guid pid)
+    {
+        Pelamar? data = await pelamarRepo.Pelamars
+            .Where(x => x.PelamarId == pid)
+            .Include(a => a.Agama)
+            .Include(b => b.Bidang)
+            .Include(p => p.Pendidikan)
+            .Include(j => j.Jabatan)
+            .Include(k => k.Kelurahan!.Kecamatan.Kabupaten.Provinsi)
+            .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
+            .FirstOrDefaultAsync();
+
+        List<FilePelamar>? filePelamar = await fileRepo.FilePelamars
+            .Where(x => x.PelamarId == pid)
+            .Include(p => p.Persyaratan)
+            .OrderByDescending(p => p.CreatedAt)
+            .ToListAsync();
+
+        string pasfoto = "";
+
+        if (filePelamar is not null)
+        {
+            if (filePelamar.Any(x => x.PersyaratanID == 2))
+            {
+                #nullable disable
+                pasfoto = filePelamar.Where(x => x.PersyaratanID == 2).Select(x => x.FilePath + "/" + x.FileName).FirstOrDefault();
+                #nullable enable
+            }
+        }
+
+        if (data is not null)
+        {
+            string? lahir = data.TglLahir.ToString();
+
+            return View("~/Views/Pelamar/Details.cshtml", new PelamarVM
+            {
+                Pelamar = data,
+                NamaAgama = data.Agama.NamaAgama,
+                NamaBidang = data.Bidang.NamaBidang,
+                NamaPendidikan = data.Pendidikan!.NamaPendidikan,
+                TanggalLahir = DateTime.Parse(lahir!).ToString("dd-MM-yyyy"),
+                Kelurahan = data.KelurahanId is null ? "" : data.Kelurahan!.NamaKelurahan,
+                Kecamatan = data.KelurahanId is null ? "" : data.Kelurahan!.Kecamatan.NamaKecamatan,
+                KecID = data.KelurahanId is null ? "" : data.Kelurahan!.KecamatanID,
+                KabID = data.KelurahanId is null ? "" : data.Kelurahan!.Kecamatan.KabupatenID,
+                Kabupaten = data.KelurahanId is null ? "" : data.Kelurahan!.Kecamatan.Kabupaten.NamaKabupaten,
+                ProvID = data.KelurahanId is null ? "" : data.Kelurahan!.Kecamatan.Kabupaten.ProvinsiID,
+                Provinsi = data.KelurahanId is null ? "" : data.Kelurahan!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
+                KelurahanDom = data.DomKelurahanId is null ? "" : data.KelurahanDom!.NamaKelurahan,
+                KecDomID = data.DomKelurahanId is null ? "" : data.KelurahanDom!.KecamatanID,
+                KecamatanDom = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.NamaKecamatan,
+                KabDomID = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.KabupatenID,
+                KabupatenDom = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.NamaKabupaten,
+                ProvDomID = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.ProvinsiID,
+                ProvinsiDom = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
+                PasFoto = pasfoto != "" ? pasfoto : null,
+                Files = filePelamar
+            });
+        }
+
+        return NotFound();
     }
 }

@@ -20,12 +20,15 @@
     <div class="row" x-data="{edit : false}">
         <div class="col-md-3 col-sm-12">
             <div class="card" style="width:100%; margin-bottom:20px;">
+                <div class="card-header violet-gradient d-flex align-items-center flex-wrap text-white">
+                    @Model.Pelamar.Nama
+                </div>
                 @if (Model.PasFoto is not null)
                 {
-                    <img id="pas-foto" class="card-img-top" src='@Model.PasFoto' alt="Card image cap" style="height: 275px;">
+                    <img id="pas-foto" class="card-img-top" src='@Model.PasFoto' alt="Card image cap" style="min-height: 275px; max-height: 275px;">
                 } else
                 {
-                    <img id="pas-foto" class="card-img-top" src='~/img/user.png' alt="Card image cap" style="height: 275px;">
+                    <img id="pas-foto" class="card-img-top" src='~/img/user.png' alt="Card image cap" style="min-height: 275px; max-height: 275px;">
                 }
 
             </div>

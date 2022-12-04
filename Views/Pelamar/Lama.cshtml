@@ -2,9 +2,9 @@
     ViewData["Title"] = "Data PJLP";
     ViewData["PageName"] = "data_pjlp";
     //ViewData["Category1"] = "Pegawai";
-    ViewBag.Parent = "Pegawai";
-    ViewBag.Category = "Pegawai";    
-    ViewBag.Title = "Data PJLP";
+    ViewBag.Parent = "Pelamar";
+    ViewBag.Category = "Pelamar";    
+    ViewBag.Title = "Data Pelamar Lama";
 }
 
 @section styles {
@@ -16,7 +16,7 @@
     <div class="col-xl-12">        
         <div id="panel-1" class="panel">
             <div class="panel-hdr" role="heading">
-                <h2>Tabel Data PJLP</h2>                
+                <h2>Tabel Data Pelamar Lama</h2>                
             </div>
             <div class="panel-container show">
                 <div id="listContent" class="panel-content">
@@ -26,7 +26,8 @@
                                 <th>Nama</th>
                                 <th>NIK</th>
                                 <th>Bidang</th>                                
-                                <th>No HP</th>
+                                <th>Nama Jabatan</th>
+                                <th>Status Verifikasi</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -37,10 +38,9 @@
     </div>
 </div>
 
-
-@section scripts {    
+@section scripts {
     <script src="~/js/datagrid/datatables/datatables.bundle.js"></script>
-    <script src="~/pages/main/pjlp.js"></script>
+    <script src="~/pages/pelamar/index.js"></script>
     <script>
         $('#js-page-content').smartPanel();
     </script>

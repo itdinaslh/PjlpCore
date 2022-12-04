@@ -59,12 +59,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 col-xs-6">
+                                <div class="col-xl-4 col-xs-12">
                                     <div class="frame-wrap" style="margin-top:23px; padding-left: 25px;">
                                         <div class="demo">
+                                            @{ int x = 1; }
+
                                             @foreach (var file in Model.ListSyarat!)
-                                            {                                                
-                                                @if (file.ID <= 15)
+                                            {                                    
+                                                @if (x <= Model.Batas)
                                                 {
                                                     string myID = "chk" + file.ID;
                                                     <div class="custom-control custom-checkbox">
@@ -72,6 +74,7 @@
                                                         <label class="custom-control-label" for="@myID">@file.Text</label>
                                                     </div>
                                                 }
+                                                x++;
                                             }
                                         </div>
                                     </div>
@@ -79,9 +82,11 @@
                                 <div class="col-xl-4 col-xs-6">
                                     <div class="frame-wrap" style="margin-top:23px;">
                                         <div class="demo">
+                                            @{ int y = 1; }
+
                                             @foreach (var file in Model.ListSyarat)
-                                            {
-                                                @if (file.ID > 15)
+                                            {   
+                                                @if (y > Model.Batas)
                                                 {
                                                     string myID = "chk" + file.ID;
                                                     <div class="custom-control custom-checkbox">
@@ -89,6 +94,7 @@
                                                         <label class="custom-control-label" for="@myID">@file.Text</label>
                                                     </div>
                                                 }
+                                                y++;
                                             }
                                         </div>
                                     </div>

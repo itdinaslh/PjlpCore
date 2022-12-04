@@ -24,8 +24,7 @@ function loadTable() {
         columns: [            
             { data: "namaPegawai", name: "namaPegawai", autoWidth: true },
             { data: "nik", name: "nik", autoWidth: true },
-            { data: "bidang", name: "bidang", autoWidth: true },
-            { data: "tglLahir", name: "tglLahir", autoWidth: true },
+            { data: "bidang", name: "bidang", autoWidth: true },           
             { data: "noHP", name: "noHP", autoWidth: true },
             {
                 render: function (data, type, row) { return "<a class='btn btn-sm btn-outline-success mr-2' href='/pegawai/pjlp/details/?bid=" + row.bidangID + "&pid=" + row.pegawaiID + "'><i class='fal fa-edit'></i> Detail</a>" }

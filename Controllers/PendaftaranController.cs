@@ -10,7 +10,6 @@ using System.Globalization;
 using System.Text;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-using System.Security.Cryptography;
 
 namespace PjlpCore.Controllers;
 
@@ -38,7 +37,7 @@ public class PendaftaranController : Controller
         string? nama = ((ClaimsIdentity)User.Identity).Claims.Where(c => c.Type == "given_name").Select(c => c.Value).SingleOrDefault();
 
         Pegawai? peg = await repo.Pegawais
-            .Where(x => x.NIK == ktp)
+            .Where(x => x.NIK == ktp || x.Email == email)
             .Include(a => a.Agama)
             .Include(b => b.Bidang)
             .Include(p => p.Pendidikan)
@@ -52,7 +51,7 @@ public class PendaftaranController : Controller
         if (peg != null)
         {
             lahir = peg.TglLahir!.ToString();
-        }
+        }        
 
         if (peg!.DetailPjlp is null)
         {
@@ -70,7 +69,7 @@ public class PendaftaranController : Controller
                 EventId = 1,
                 Kelamin = peg!.Kelamin is null ? null : peg!.Kelamin!,
                 GolonganDarah = peg!.GolDarah is null ? null : peg!.GolDarah!,
-                Tanggungan = peg!.DetailPjlp!.Tanggungan is null ? null : peg!.DetailPjlp!.Tanggungan,
+                // Tanggungan = peg!.DetailPjlp!.Tanggungan is null ? null : peg!.DetailPjlp!.Tanggungan,
                 IsNew = peg is null ? true : false,
             },
             isNew = peg is null ? true : false,
@@ -99,6 +98,7 @@ public class PendaftaranController : Controller
             model.Pelamar.DomRT = model.Pelamar.RT;
             model.Pelamar.DomRW = model.Pelamar.RW;
             model.Pelamar.DomKodePos = model.Pelamar.KodePos;
+            model.Pelamar.AddressIsSame = model.AddressIsSame;
         }
 
         model.Pelamar.StatusLamaranId = 1;
@@ -139,9 +139,9 @@ public class PendaftaranController : Controller
         {
             if (filePelamar.Any(x => x.PersyaratanID == 2))
             {
-#nullable disable
+                #nullable disable
                 pasfoto = filePelamar.Where(x => x.PersyaratanID == 2).Select(x => x.FilePath + "/" + x.FileName).FirstOrDefault();
-#nullable enable
+                #nullable enable
             }
         }
 
@@ -170,6 +170,7 @@ public class PendaftaranController : Controller
                 KabupatenDom = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.NamaKabupaten,
                 ProvDomID = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.ProvinsiID,
                 ProvinsiDom = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
+                AddressIsSame = (bool)data.AddressIsSame!,
                 PasFoto = pasfoto != "" ? pasfoto : null
             });
         }
@@ -287,6 +288,40 @@ public class PendaftaranController : Controller
 #nullable disable
 
         return Json(Result.SuccessUpload(isNew, isNewFoto, oldID, file.FilePelamarID.ToString(), model.Upload.TypeName, file.CreatedAt.ToString(), newPath));
+    }
+
+    [HttpPost("/pendaftaran/biodata/update")]
+    public async Task<IActionResult> UpdateBiodata(PelamarVM model) {
+        if (model.Pelamar.PelamarId != Guid.Empty) {
+            model.Pelamar.TglLahir = DateOnly.Parse(model.TanggalLahir, new CultureInfo("id-ID"));
+
+            await pelamarRepo.UpdateBiodata(model.Pelamar);
+
+            return Json(Result.Success());
+        }
+
+        return Json(Result.Failed());
+    }
+
+    [HttpPost("/pendaftaran/alamat/update")]
+    public async Task<IActionResult> UpdateAlamat(PelamarVM model) {
+        model.Pelamar.AddressIsSame = model.AddressIsSame;
+
+        if (model.Pelamar.PelamarId != Guid.Empty) {
+            if (model.AddressIsSame) {
+                model.Pelamar.DomKelurahanId = model.Pelamar.KelurahanId;
+                model.Pelamar.DomAlamat = model.Pelamar.Alamat;
+                model.Pelamar.DomRT = model.Pelamar.RT;
+                model.Pelamar.DomRW = model.Pelamar.RW;
+                model.Pelamar.DomKodePos = model.Pelamar.KodePos;
+            }
+
+            await pelamarRepo.UpdateAlamat(model.Pelamar);
+
+            return Json(Result.Success());
+        }
+
+        return Json(Result.Failed());
     }
 
     private static string GenerateRandomString()

@@ -5,7 +5,7 @@
             <span class="nav-link-text" data-i18n="nav.dashboard">Dashboard</span>
         </a>
     </li>
-    @if (User.IsInRole("SysAdmin") || User.IsInRole("PjlpAdmin") || User.IsInRole("Kepeg")) {
+    @if (User.IsInRole("SysAdmin") || User.IsInRole("Kepeg")) {
         <li class='@(ViewBag.Parent == "Master" ? "active open" : "")'>
             <a href="#" title="Master Data" data-filter-tags="master data">
                 <i class="fal fa-database"></i>
@@ -124,9 +124,7 @@
                 </a>
             </li>
         </ul>
-    </li>
-
-    <li class="nav-title">Administrasi</li>
+    </li>    
 
     @*<li class="">
         <a href="#" title="Time" data-filter-tags="time">
@@ -134,7 +132,8 @@
             <span class="nav-link-text" data-i18n="nav.time">Absensi</span>
         </a>
     </li>*@
-    @if(User.IsInRole("PjlpUser"))
+
+    @* @if(User.IsInRole("PjlpUser"))
     {
         <li class="">
             <a href="#" title="Recruitment" data-filter-tags="recruitment">
@@ -142,13 +141,17 @@
                 <span class="nav-link-text" data-i18n="nav.recruitment">Recruitment</span>
             </a>
         </li>
-    }
+    } *@
     
-    <li class="">
-        <a href="#" title="User Bidang" data-filter-tags="user bidang">
-            <i class="fal fa-user"></i>
-            <span class="nav-link-text" data-i18n="nav.user_bidang">User Bidang</span>
-        </a>
-    </li>
+    @if (User.IsInRole("SysAdmin")) {
+        <li class="nav-title">Administrasi</li>
+
+        <li class='@(ViewBag.Title == "User Bidang" ? "active" : "")'>
+            <a asp-controller="User" asp-action="Index" title="User Bidang" data-filter-tags="user bidang">
+                <i class="fal fa-user"></i>
+                <span class="nav-link-text" data-i18n="nav.user_bidang">User Bidang</span>
+            </a>
+        </li>
+    }    
 </ul>
 <div class="filter-message js-filter-message bg-success-600"></div>

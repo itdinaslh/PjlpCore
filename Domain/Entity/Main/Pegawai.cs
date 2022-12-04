@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PjlpCore.Entity;
 
@@ -38,6 +39,7 @@ public class Pegawai
     [MaxLength(30)]
     public string? TempatLahir { get; set; }
 
+    [JsonConverter(typeof(DateOnlyJsonConverter))]
     public DateOnly? TglLahir { get; set;  }
 
     // false 0 if woman or girl and true 1 if man

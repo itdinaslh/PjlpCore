@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PjlpCore.Repository;
 using System.Linq.Dynamic.Core;
@@ -8,20 +7,25 @@ using System.Globalization;
 using PjlpCore.Models;
 using PjlpCore.Helpers;
 using PjlpCore.Entity;
+using Microsoft.Extensions.Caching.Memory;
+using PjlpCore.Data;
 using System.Linq;
+using System.Threading;
 
 namespace PjlpCore.Controllers.api;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+// [Authorize]
 public class PegawaiApiController : ControllerBase
 {
     private readonly IPegawai repo;
     private readonly IUser userRepo;
     private readonly IBidangRepo bidangRepo;
 
-    public PegawaiApiController(IPegawai repo, IUser userRepo, IBidangRepo bidangRepo)
+    private const string cacheKey = "pjlpList";
+
+    public PegawaiApiController(IPegawai repo, IUser userRepo, IBidangRepo bidangRepo, IMemoryCache memCache, AppDbContext context)
     {
         this.repo = repo;
         this.userRepo = userRepo;
@@ -30,9 +34,9 @@ public class PegawaiApiController : ControllerBase
 
 #nullable disable
 
-    [Authorize(Roles = "SysAdmin, PjlpAdmin, PPBJ, Kepeg")]
+    // [Authorize(Roles = "SysAdmin, PjlpAdmin, PPBJ, Kepeg")]
     [HttpPost("/api/pegawai/pjlp")]
-    public async Task<IActionResult> PjlpTable()
+    public async Task<IActionResult> PjlpTable(CancellationToken cancellationToken)
     {
         bool isBidang = User.IsInRole("PjlpAdmin") || User.IsInRole("PPBJ");        
         List<Guid> bidangs = new();
@@ -59,43 +63,47 @@ public class PegawaiApiController : ControllerBase
         var searchValue = Request.Form["search[value]"].FirstOrDefault();
         int pageSize = length != null ? Convert.ToInt32(length) : 0;
         int skip = start != null ? Convert.ToInt32(start) : 0;
-        int recordsTotal = 0;
+        int recordsTotal = 0;        
 
-        var init = repo.Pegawais
-          .Where(p => p.JenisPegawaiID == 2)
-          .Where(p => isBidang ? bidangs.Contains(p.BidangID) : true)
-          .Select(k => new {
-            pegawaiID = k.PegawaiID,
-            bidangID = k.BidangID,
-            nik = k.NIK,
-            namaPegawai = k.NamaPegawai,
-            bidang = k.Bidang.NamaBidang,
-            tglLahir = DateTime.Parse(k.TglLahir.ToString()).ToString("dd MMMM yyyy", new CultureInfo("id-ID")),
-            noHP = k.NoHP
-        });        
+        //checks if cache entries exists        
+
+        var data = repo.Pegawais
+            .Where(p => p.JenisPegawaiID == 2)
+            .Where(p => isBidang ? bidangs.Contains(p.BidangID) : true)            
+            .Select(k => new {
+                pegawaiID = k.PegawaiID,
+                bidangID = k.BidangID,
+                nik = k.NIK,
+                namaPegawai = k.NamaPegawai,
+                bidang = k.Bidang.NamaBidang,
+                tglLahir = DateTime.Parse(k.TglLahir.ToString()).ToString("dd MMMM yyyy", new CultureInfo("id-ID")),
+                noHP = k.NoHP
+            }
+        );
+        
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
         {
-            init = init.OrderBy(sortColumn + " " + sortColumnDirection);
+            data = data.OrderBy(sortColumn + " " + sortColumnDirection);
         }
 
         if (!string.IsNullOrEmpty(searchValue))
         {
-            init = init
+            data = data
                 .Where(a => a.namaPegawai.ToLower()
                 .Contains(searchValue.ToLower()) ||
                 a.nik.ToLower().Contains(searchValue.ToLower()) ||
                 a.bidang.ToLower().Contains(searchValue.ToLower())
-           );
+            );
         }
 
-        recordsTotal = init.Count();
+        recordsTotal = data.Count();
 
-        var result = await init.Skip(skip).Take(pageSize).ToListAsync();
+        var result = await data.Skip(skip).Take(pageSize).ToListAsync();
 
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result };
 
-        return Ok(jsonData);
+        return Ok(jsonData);        
     }
 
     [HttpPost("/api/pegawai/pns")]
