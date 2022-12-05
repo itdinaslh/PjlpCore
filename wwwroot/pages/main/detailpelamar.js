@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     PopulateAgama();
     PopulateBidang();
-    PopulateProvinsi();    
+    PopulateProvinsi();
     PopulatePendidikan();
     PopulateTanggungan();
     PopulateFileTypes();
@@ -23,11 +23,11 @@
     if ($('#chkSame').prop('checked')) {
         $('#domisili').hide();
         $('.domfield').removeAttr('required');
-        
+
     } else {
         $('#domisili').show();
         $('.domfield').prop('required', true);
-        PopulateProvinsiDom();      
+        PopulateProvinsiDom();
     }
 
     $('.dtpicker').datepicker({
@@ -120,7 +120,7 @@ $('#UploadFile').submit(function (e) {
                 $('#DownloadDiv').show();
 
                 if (result.isnew == "no") {
-                    $('#' + result.oldid).remove();                    
+                    $('#' + result.oldid).remove();
                 }
 
                 if (result.isnewfoto == "yes") {
@@ -229,7 +229,7 @@ function clearUpload() {
 
 $(document).on('click', '.btnDownload', function () {
     var id = $(this).attr('data-id');
-    var datahref = '/pegawai/files/download/single/?fileID=' + id;
+    var datahref = '/pelamar/files/download/single/?fileID=' + id;
 
     $.ajax({
         url: datahref,
@@ -249,7 +249,7 @@ $(document).on('click', '#DownSelected', function () {
 
     $('.myChk:checked').each(function () {
         var value = $(this).val();
-        files.push(value);             
+        files.push(value);
     });
 
     if (files.length < 1) {
@@ -267,7 +267,7 @@ $(document).on('click', '#DownAll', function () {
 
 function DownloadAllFile(list) {
     $.ajax({
-        url: '/pegawai/files/download/all',
+        url: '/pelamar/files/download/all',
         type: "post",
         data: {
             myID: list
@@ -317,10 +317,10 @@ function DownloadAllFile(list) {
 
 function DownloadASelected(list) {
     $.ajax({
-        url: '/pegawai/files/download/selected',
+        url: '/pelamar/files/download/selected',
         type: "post",
         data: {
-            Files : list
+            Files: list
         },
         xhrFields: {
             responseType: 'blob'

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using PjlpCore.Entity;
 using PjlpCore.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using System.IO.Compression;
 
 namespace PjlpCore.Controllers;
 
@@ -13,14 +14,12 @@ public class PelamarController : Controller
 {
     private readonly IPersyaratanRepo pRepo;
     private readonly IEventFile eventRepo;
-    private readonly IPegawai pegRepo;
     private readonly IPelamar pelamarRepo;
     private readonly IFilePelamar fileRepo;
 
-    public PelamarController(IPersyaratanRepo pRepo, IEventFile fRepo, IPegawai pegRepo, IPelamar pelamarRepo, IFilePelamar fileLamar) { 
+    public PelamarController(IPersyaratanRepo pRepo, IEventFile fRepo, IPelamar pelamarRepo, IFilePelamar fileLamar) { 
         this.pRepo = pRepo;
         this.eventRepo = fRepo;
-        this.pegRepo = pegRepo;
         this.pelamarRepo = pelamarRepo;
         this.fileRepo = fileLamar; 
     }
@@ -154,5 +153,75 @@ public class PelamarController : Controller
         }
 
         return NotFound();
+    }
+
+    [HttpGet("/pelamar/files/download/single")]
+    public async Task<IActionResult> DownloadSingle(Guid fileID)
+    {
+        var file = await fileRepo.FilePelamars.FirstOrDefaultAsync(x => x.FilePelamarID == fileID);
+
+        var isPdf = file!.FileExtension.ToLower() == ".pdf";
+        var mime = isPdf ? "application/pdf" : "image/png";
+
+        var path = Uploads.Path + file.RealPath + "/" + file.FileName;
+
+        return File(System.IO.File.ReadAllBytes(path), mime, System.IO.Path.GetFileName(path));
+    }
+
+    [HttpPost("/pelamar/files/download/selected")]
+    public async Task DownloadSelected(Guid[] Files)
+    {
+        var files = await fileRepo.FilePelamars
+            .Include(p => p.Pelamar)
+            .Where(x => Files.Any(i => i == x.FilePelamarID))
+            .ToListAsync();
+
+        var myID = files.FirstOrDefault();
+
+        Response.ContentType = "application/octet-stream";
+        Response.Headers.Add("Content-Disposition", "attachment; filename=" + myID.Pelamar.Nama + " - filtered.zip");
+
+        using (ZipArchive archive = new ZipArchive(Response.BodyWriter.AsStream(), ZipArchiveMode.Create))
+        {
+            foreach (var file in files)
+            {
+                var fileName = file.FileName;
+                var entry = archive.CreateEntry(fileName);
+
+                using var entryStream = entry.Open();
+                using var fileStream = System.IO.File.OpenRead(Uploads.Path + "/uploads/pelamar/" + file.PelamarId.ToString() + "/" + fileName);
+
+                await fileStream.CopyToAsync(entryStream);
+            }
+        }
+
+    }
+
+    [HttpPost("/pelamar/files/download/all")]
+    public async Task DownloadAll(Guid myID)
+    {
+        var files = await fileRepo.FilePelamars
+            .Include(p => p.Pelamar)
+            .Where(x => x.PelamarId == myID).ToListAsync();
+
+        var theID = files.FirstOrDefault();
+
+        Response.ContentType = "application/octet-stream";
+        Response.Headers.Add("Content-Disposition", "attachment; filename=" + theID!.Pelamar.Nama + ".zip");
+
+
+        using (ZipArchive archive = new ZipArchive(Response.BodyWriter.AsStream(), ZipArchiveMode.Create))
+        {
+            foreach (var file in files)
+            {
+                var fileName = file.FileName;
+                var entry = archive.CreateEntry(fileName);
+
+                using var entryStream = entry.Open();
+                using var fileStream = System.IO.File.OpenRead(Uploads.Path + "/uploads/pelamar/" + file.PelamarId.ToString() + "/" + fileName);
+
+                await fileStream.CopyToAsync(entryStream);
+            }
+        }
     }
 }

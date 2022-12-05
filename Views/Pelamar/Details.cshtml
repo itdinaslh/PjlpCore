@@ -1,11 +1,11 @@
 ﻿@model PelamarVM
 
 @{
-    ViewData["Title"] = "Pelamar Lama";
-    ViewData["PageName"] = "pelamar_lama";
+    ViewData["Title"] = "Pelamar";
+    ViewData["PageName"] = "pelamar";
     ViewData["Category1"] = "Pelamar";
     ViewBag.Category = "Pelamar";
-    ViewBag.Title = "Data Pelamar Lama";
+    ViewBag.Title = "Data Pelamar";
     ViewBag.Parent = "Pelamar";
 }
 
@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />    
     <script defer src="~/js/alpine.min.js"></script>    
     <link rel="stylesheet" href="~/css/addon.css" />
+    <link rel="stylesheet" href="~/css/chkimage.css" />
 }
 
 <div x-data="{ modul: 1 }">
@@ -112,5 +113,5 @@
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
     <script src="~/pages/main/population.js"></script>
-    <script src="~/pages/main/detailpjlp.js"></script>
+    <script src="~/pages/main/detailpelamar.js"></script>
 }

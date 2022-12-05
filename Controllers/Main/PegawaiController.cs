@@ -7,6 +7,8 @@ using PjlpCore.Repository;
 using PjlpCore.Helpers;
 using System.Globalization;
 using System.Text;
+using System.IO;
+using System.IO.Compression;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
@@ -44,7 +46,7 @@ public class PegawaiController : Controller
         string wwwPath = Uploads.Path;        
 
         string path = Path.Combine(wwwPath, @"uploads/", model.Pegawai.PegawaiID.ToString());
-        string thumbImg = path + @"/thumbnail";
+        string thumbImg = path + @"/thumbnails";
 
         if (!Directory.Exists(path))
         {
@@ -67,7 +69,7 @@ public class PegawaiController : Controller
                 Directory.CreateDirectory(thumbImg);
             }
 
-            filePath = "/uploads/" + model.Pegawai.PegawaiID.ToString() + "/thumbnail";
+            filePath = realPath + "/thumbnails";
 
             Image image = Image.Load(model.Upload.TheFile.OpenReadStream());
             image.Mutate(x => x.Resize(600, 400));
@@ -133,6 +135,77 @@ public class PegawaiController : Controller
         return Json(Result.SuccessUpload(isNew, isNewFoto, oldID, file.FilePegawaiID.ToString(), model.Upload.TypeName, file.CreatedAt.ToString(), newPath));
 
    
+    }
+
+
+    [HttpGet("/pegawai/files/download/single")]
+    public async Task<IActionResult> DownloadSingle(Guid fileID)
+    {
+        var file = await fileRepo.FilePegawais.FirstOrDefaultAsync(x => x.FilePegawaiID == fileID);
+
+        var isPdf = file.FileExtension.ToLower() == ".pdf";
+        var mime = isPdf ? "application/pdf" : "image/png";
+
+        var path = Uploads.Path + file.RealPath + "/" + file.FileName;
+
+        return File(System.IO.File.ReadAllBytes(path), mime, System.IO.Path.GetFileName(path));
+    }
+
+    [HttpPost("/pegawai/files/download/selected")]
+    public async Task DownloadSelected(Guid[] Files)
+    {
+        var files = await fileRepo.FilePegawais
+            .Include(p => p.Pegawai)
+            .Where(x => Files.Any(i => i == x.FilePegawaiID))
+            .ToListAsync();
+
+        var myID = files.FirstOrDefault();
+
+        Response.ContentType = "application/octet-stream";
+        Response.Headers.Add("Content-Disposition", "attachment; filename=" + myID.Pegawai.NamaPegawai + " - filtered.zip");
+
+        using (ZipArchive archive = new ZipArchive(Response.BodyWriter.AsStream(), ZipArchiveMode.Create))
+        {
+            foreach (var file in files)
+            {
+                var fileName = file.FileName;
+                var entry = archive.CreateEntry(fileName);
+
+                using var entryStream = entry.Open();
+                using var fileStream = System.IO.File.OpenRead(Uploads.Path + "/uploads/" + file.PegawaiID.ToString() + "/" + fileName);
+
+                await fileStream.CopyToAsync(entryStream);
+            }
+        }
+
+    }
+
+    [HttpPost("/pegawai/files/download/all")]
+    public async Task DownloadAll(Guid myID)
+    {
+        var files = await fileRepo.FilePegawais
+            .Include(p => p.Pegawai)
+            .Where(x => x.PegawaiID == myID).ToListAsync();
+
+        var theID = files.FirstOrDefault();
+
+        Response.ContentType = "application/octet-stream";
+        Response.Headers.Add("Content-Disposition", "attachment; filename=" + theID.Pegawai.NamaPegawai + ".zip");
+        
+
+        using (ZipArchive archive = new ZipArchive(Response.BodyWriter.AsStream(), ZipArchiveMode.Create))
+        {
+            foreach (var file in files)
+            {
+                var fileName = file.FileName;
+                var entry = archive.CreateEntry(fileName);
+
+                using var entryStream = entry.Open();
+                using var fileStream = System.IO.File.OpenRead(Uploads.Path + "/uploads/" + file.PegawaiID.ToString() + "/" + fileName);
+
+                await fileStream.CopyToAsync(entryStream);
+            }
+        }
     }
 
 #nullable enable

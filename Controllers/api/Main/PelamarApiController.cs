@@ -65,6 +65,7 @@ public class PelamarApiController : ControllerBase
               bidangID = k.BidangId,
               noktp = k.NoKTP,
               nama = k.Nama,
+              usia = GetAge((DateOnly)k.TglLahir) + " Tahun",
               jabatan = k.Jabatan.NamaJabatan,
               bidang = k.Bidang.NamaBidang,
               status = k.StatusLamaran.NamaStatus
@@ -90,5 +91,16 @@ public class PelamarApiController : ControllerBase
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result };
 
         return Ok(jsonData);
+    }
+
+    public static int GetAge(DateOnly birthDate)
+    {
+        DateTime n = DateTime.Now; // To avoid a race condition around midnight
+        int age = n.Year - birthDate.Year;
+
+        if (n.Month < birthDate.Month || (n.Month == birthDate.Month && n.Day < birthDate.Day))
+            age--;
+
+        return age;
     }
 }
