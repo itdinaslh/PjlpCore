@@ -143,9 +143,13 @@ public class Pelamar
     [MaxLength(45)]
     public string? StatusBPJS { get; set; }
 
-#nullable disable
+    public bool? IsK2 { get; set; } = false;
 
-    public bool IsNew { get; set; } = false;
+    public string? VerifiedBy { get; set; }
+
+    public bool? IsNew { get; set; }
+
+#nullable disable
 
     public int StatusLamaranId { get; set; }
 

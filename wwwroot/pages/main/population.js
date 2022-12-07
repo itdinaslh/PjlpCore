@@ -76,6 +76,34 @@ function PopulateBidang() {
     });
 }
 
+function PopulateStatus() {
+    $('#sStatus').select2({
+        placeholder: 'Pilih Status...',
+        allowClear: true,
+        ajax: {
+            url: "/api/master/status/search",
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+                return query;
+            },
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (item) {
+                        return {
+                            text: item.namaStatus,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
+    });
+}
+
 function PopulateProvinsi() {
     $('#sProvKTP').select2({
         placeholder: 'Pilih provinsi...',

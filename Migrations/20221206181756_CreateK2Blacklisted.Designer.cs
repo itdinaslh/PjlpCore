@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PjlpCore.Data;
 
@@ -10,9 +11,10 @@ using PjlpCore.Data;
 namespace PjlpCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221206181756_CreateK2Blacklisted")]
+    partial class CreateK2Blacklisted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,12 +108,6 @@ namespace PjlpCore.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<bool?>("IsBlacklisted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool?>("IsK2")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid?>("JabatanID")
                         .HasColumnType("char(36)");
@@ -533,6 +529,12 @@ namespace PjlpCore.Migrations
                         .HasMaxLength(2)
                         .HasColumnType("varchar(2)");
 
+                    b.Property<bool?>("IsBlacklisted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool?>("IsK2")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("JenisPegawaiID")
                         .HasColumnType("int");
 
@@ -693,9 +695,6 @@ namespace PjlpCore.Migrations
                     b.Property<string>("GolonganDarah")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)");
-
-                    b.Property<bool?>("IsK2")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsNew")
                         .HasColumnType("tinyint(1)");

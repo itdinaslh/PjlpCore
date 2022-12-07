@@ -43,6 +43,7 @@ $(document).ready(function() {
     PopulateProvinceDom();
     PopulateAgama();
     PopulatePendidikan();
+    CheckRekening();
 
     $('#kota').select2({
         placeholder: 'Pilih Kota...'
@@ -95,6 +96,10 @@ $('#chkSame').change(function () {
         $('.thisDom').prop('required', false);
     }
 })
+
+$(document).on('change', '#cbStatus', function () {
+    CheckRekening();
+});
 
 // #region getData
     function getDataSelect(form, preview){
@@ -506,5 +511,19 @@ $('#chkSame').change(function () {
         });
     }
 // #endregion
+
+function CheckRekening() {
+    var thisNewOke = $('#cbStatus option:selected').val();
+
+    alert(thisNewOke);
+
+    if (thisNewOke) {
+        $('#nama_bank').prop('required', false);
+        $('#no_rek').prop('required', false);
+    } else {
+        $('#nama_bank').prop('required', true);
+        $('#no_rek').prop('required', true);
+    }
+}
 
 

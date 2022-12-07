@@ -40,5 +40,21 @@ namespace PjlpCore.Controllers.api
 
             return new JsonResult(Result.Failed());
         }
+
+        [HttpGet("/api/pendaftaran/files/search")]
+        public async Task<IActionResult> SearchByJab(Guid jab, bool isNew, string? term)
+        {
+            var data = await repo.EventFiles
+                .Where(k => k.IsNew == isNew)
+                .Where(k => k.JabatanID == jab)
+                .Where(k => !String.IsNullOrEmpty(term) ?
+                    k.Persyaratan.NamaPersyaratan.ToLower().Contains(term.ToLower()) : true
+                ).Select(s => new {
+                    id = s.Persyaratan.PersyaratanID,
+                    namaPersyaratan = s.Persyaratan.NamaPersyaratan
+                }).Take(10).ToListAsync();
+
+            return Ok(data);
+        }
     }
 }

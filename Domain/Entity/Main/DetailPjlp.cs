@@ -17,6 +17,10 @@ public class DetailPjlp
     [MaxLength(50)]
     public string? NoBPJSK { get; set; }
 
+    public bool? IsK2 { get; set; } = false;
+
+    public bool? IsBlacklisted { get; set; } = false;
+
     [MaxLength(30)]
     public string? NoSIM { get; set; }
 

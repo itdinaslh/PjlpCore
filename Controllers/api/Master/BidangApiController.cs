@@ -112,7 +112,7 @@ public class BidangApiController : Controller {
             ).Select(s => new {
                 id = s.BidangID,
                 namaBidang = s.NamaBidang
-            }).Take(10).ToListAsync();
+            }).ToListAsync();
 
         return Ok(data);
     }

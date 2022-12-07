@@ -48,15 +48,22 @@ public class PendaftaranController : Controller
             .FirstOrDefaultAsync();
 
         string? lahir = "";
+        bool isk2 = false;
+        string? namabid = null;
 
         if (peg != null)
         {
             lahir = peg.TglLahir!.ToString();
-        }        
+            namabid = peg.Bidang.NamaBidang;
 
-        if (peg!.DetailPjlp is null)
+            if (peg!.DetailPjlp is null)
+            {
+                peg.DetailPjlp = new DetailPjlp();
+            }
+
+        } else
         {
-            peg.DetailPjlp = new DetailPjlp();
+            peg = new Pegawai { DetailPjlp = new DetailPjlp() };
         }
 
         return View(new PelamarVM
@@ -70,22 +77,22 @@ public class PendaftaranController : Controller
                 EventId = 1,
                 Kelamin = peg!.Kelamin is null ? null : peg!.Kelamin!,
                 GolonganDarah = peg!.GolDarah is null ? null : peg!.GolDarah!,
-                // Tanggungan = peg!.DetailPjlp!.Tanggungan is null ? null : peg!.DetailPjlp!.Tanggungan,
-                IsNew = peg is null ? true : false,
+                // Tanggungan = peg!.DetailPjlp!.Tanggungan is null ? null : peg!.DetailPjlp!.Tanggungan,                
+                IsK2 = isk2
             },
-            isNew = peg is null ? true : false,
-            TanggalLahir = DateTime.Parse(lahir!).ToString("dd-MM-yyyy"),
-            NamaAgama = peg is null ? null : peg.Agama.NamaAgama,
+            Pegawai = peg,
+            TanggalLahir = lahir != "" ? DateTime.Parse(lahir!).ToString("dd-MM-yyyy") : null,
+            NamaAgama = peg!.AgamaID is null ? null : peg.Agama.NamaAgama,
             NamaPendidikan = peg!.PendidikanID is null ? null : peg.Pendidikan!.NamaPendidikan,
-            Kelurahan = peg is null ? null : peg.Kelurahan!.NamaKelurahan,
+            Kelurahan = peg!.KelurahanID is null ? null : peg.Kelurahan!.NamaKelurahan,
             KecID = peg!.KelurahanID is null ? null : peg.Kelurahan!.KecamatanID,
             Kecamatan = peg!.KelurahanID is null ? null : peg.Kelurahan!.Kecamatan.NamaKecamatan,
             KabID = peg!.KelurahanID is null ? null : peg.Kelurahan!.Kecamatan.KabupatenID,
             Kabupaten = peg!.KelurahanID is null ? null : peg.Kelurahan!.Kecamatan.Kabupaten.NamaKabupaten,
             ProvID = peg!.KelurahanID is null ? null : peg.Kelurahan!.Kecamatan.Kabupaten.ProvinsiID,
             Provinsi = peg!.KelurahanID is null ? null : peg.Kelurahan!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
-            NamaBidang = peg is null ? null : peg.Bidang.NamaBidang,
-            Pegawai = peg is null ? new Pegawai() : peg
+            NamaBidang = namabid is null ? null : namabid
+
         });
     }
 

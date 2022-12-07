@@ -5,7 +5,13 @@
     PopulatePendidikan();
     PopulateTanggungan();
     PopulateFileTypes();
+    PopulateStatus();
     checkAddrIsSame();
+
+    var jab = $('#jabatan option:selected').val();
+    var isnew = $('#myIsNew').val();
+
+    PopulateFileWajib(jab, isnew);
 
     var isValidFile = $('#IsValidFile').val();
 
@@ -362,5 +368,35 @@ function DownloadASelected(list) {
             if (i === max)
                 hidePreloader();
         }
+    });
+}
+
+function PopulateFileWajib(jab, isnew) {
+    $('#sFileWajib').select2({
+        placeholder: 'Pilih Jenis Berkas...',
+        allowClear: true,
+        ajax: {
+            url: "/api/pendaftaran/file/search/?jab=" + jab + "&isNew=" + isnew,
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+                return query;
+            },
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (item) {
+                        return {
+                            text: item.namaPersyaratan,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
+    }).on('change', function () {
+        $('#typeName').val($('#sFile option:selected').text());
     });
 }

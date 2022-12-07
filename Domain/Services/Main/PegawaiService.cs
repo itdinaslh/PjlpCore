@@ -84,7 +84,9 @@ public class PegawaiService : IPegawai
                 data.DetailPjlp!.Tanggungan = peg.DetailPjlp!.Tanggungan;
                 data.DetailPjlp!.NoBPJSK = peg.DetailPjlp!.NoBPJSK;
                 data.DetailPjlp!.NoSIM = peg.DetailPjlp!.NoSIM;
-                data.DetailPjlp!.MasaBerlakuSIM = peg.DetailPjlp!.MasaBerlakuSIM;                
+                data.DetailPjlp!.MasaBerlakuSIM = peg.DetailPjlp!.MasaBerlakuSIM;    
+                data.DetailPjlp!.IsK2 = peg.DetailPjlp!.IsK2;
+                data.DetailPjlp!.IsBlacklisted = peg.DetailPjlp!.IsBlacklisted;
             } else
             {
                 data.DetailPjlp = new DetailPjlp {
@@ -93,6 +95,8 @@ public class PegawaiService : IPegawai
                     Tanggungan = peg.DetailPjlp!.Tanggungan,
                     NoBPJSK = peg.DetailPjlp!.NoBPJSK,
                     NoSIM = peg.DetailPjlp!.NoSIM,
+                    IsK2 = peg.DetailPjlp!.IsK2,
+                    IsBlacklisted = peg.DetailPjlp!.IsBlacklisted,
                     MasaBerlakuSIM = peg.DetailPjlp!.MasaBerlakuSIM,
                     CreatedAt = DateTime.Now
                 };                               

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PjlpCore.Controllers;
 
-[Authorize(Roles = "SysAdmin, Kepeg")]
+[Authorize(Roles = "SysAdmin, Kepeg, PjlpAdmin")]
 public class LokasiKerjaController : Controller
 {
     private readonly ILokasiKerja repo;

@@ -7,9 +7,7 @@ public class PelamarVM
 #nullable disable
     public Pelamar Pelamar { get; set; }    
 
-    public bool AddressIsSame { get; set; }    
-
-    public bool isNew { get; set; } = false;
+    public bool AddressIsSame { get; set; }
 
 # nullable enable
 

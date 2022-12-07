@@ -16,13 +16,7 @@
 <div class="container text-center">
     <div class="row justify-content-center">
         <div class="col-md-12 col-md-offset-1">
-            @if (Model.isNew)
-            {
-                <h2>Pelamar Baru</h2>
-            } else
-            {
-                <h2>Pelamar Lama</h2>
-            }
+            <h2>Pelamar</h2>
             
             <form id="myForm" action="/pendaftaran/store" method="post" class="f1" enctype="multipart/form-data">
                 <input type="hidden" asp-for="Pelamar.PelamarId" />
@@ -56,17 +50,25 @@
                         </div>
                         <div class="panel-container show">
                             <div class="panel-content">
+                                <h4 class="font-weight-bold">Posisi yang Dilamar</h4>
                                 <div class="form-group">
-                                    <h4 class="font-weight-bold">Posisi yang Dilamar</h4>
+                                    <label for="bidang">Bidang *</label>
+                                    <select id="bidang" asp-for="Pelamar.BidangId" class="form-control" style="width: 100%;" required>
+                                        @if (Model.NamaBidang is not null)
+                                        {
+                                            <option value="@Model.Pegawai!.BidangID" selected>@Model.NamaBidang</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <div class="row">
                                         <div class="col-6 mb-3">
-                                            <div class="form-group">
-                                                <label for="bidang">Bidang *</label>
-                                                <select id="bidang" asp-for="Pelamar.BidangId" class="form-control" style="width: 100%;" required>
-                                                    @if(Model.NamaBidang is not null)
-                                                    {
-                                                        <option value="@Model.Pegawai!.BidangID" selected>@Model.NamaBidang</option>
-                                                    }
+                                            <div class="form-group">                                                
+                                                <label>Status Pelamar</label>
+                                                <select class="form-control" id="cbStatus" asp-for="Pelamar.IsNew" required>
+                                                    <option value="">Pilih Status</option>                                                    
+                                                    <option value="true">Pelamar Baru</option>
+                                                    <option value="false">PJLP Aktif</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -74,7 +76,6 @@
                                             <div class="form-group">
                                                 <label for="jabatan">Jabatan *</label>
                                                 <select id="jabatan" asp-for="Pelamar.JabatanId" class="form-control" style="width: 100%;" required>
-
                                                 </select>
                                             </div>
                                         </div>
@@ -460,7 +461,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="no_rek">No. Rekening</label>
-                                                <input id="no_rek" asp-for="Pelamar.NoRekening" value="@Model.Pegawai!.NoRekening" class="form-control" required />
+                                                <input id="no_rek" asp-for="Pelamar.NoRekening" value="@Model.Pegawai!.NoRekening" class="form-control" />
                                             </div>
                                         </div>
                                     </div>

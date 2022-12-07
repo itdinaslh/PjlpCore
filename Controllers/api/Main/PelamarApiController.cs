@@ -65,7 +65,7 @@ public class PelamarApiController : ControllerBase
               bidangID = k.BidangId,
               noktp = k.NoKTP,
               nama = k.Nama,
-              usia = GetAge((DateOnly)k.TglLahir) + " Tahun",
+              usia = GetAge((DateOnly)k.TglLahir!) + " Tahun",
               jabatan = k.Jabatan.NamaJabatan,
               bidang = k.Bidang.NamaBidang,
               status = k.StatusLamaran.NamaStatus

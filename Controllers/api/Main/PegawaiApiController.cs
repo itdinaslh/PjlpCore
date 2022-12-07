@@ -82,7 +82,10 @@ public class PegawaiApiController : ControllerBase
                 namaPegawai = k.NamaPegawai,
                 bidang = k.Bidang.NamaBidang,
                 tglLahir = DateTime.Parse(k.TglLahir.ToString()).ToString("dd MMMM yyyy", new CultureInfo("id-ID")),
-                noHP = k.NoHP
+                noHP = k.NoHP,                
+                blacklist = k.DetailPjlp!.IsBlacklisted!,
+                usia = GetAge((DateOnly)k.TglLahir!),
+                isk2 = k.DetailPjlp!.IsK2!
             }
         );
         
@@ -196,5 +199,16 @@ public class PegawaiApiController : ControllerBase
         }
 
         return new JsonResult(Result.Failed());
+    }
+
+    private static int GetAge(DateOnly birthDate)
+    {
+        DateTime n = DateTime.Now; // To avoid a race condition around midnight
+        int age = n.Year - birthDate.Year;
+
+        if (n.Month < birthDate.Month || (n.Month == birthDate.Month && n.Day < birthDate.Day))
+            age--;
+
+        return age;
     }
 }
