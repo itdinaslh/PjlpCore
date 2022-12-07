@@ -397,6 +397,6 @@ function PopulateFileWajib(jab, isnew) {
             cache: true
         }
     }).on('change', function () {
-        $('#typeName').val($('#sFile option:selected').text());
+        $('#typeName').val($('#sFileWajib option:selected').text());
     });
 }

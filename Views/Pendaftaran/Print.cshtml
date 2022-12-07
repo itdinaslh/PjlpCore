@@ -1,0 +1,98 @@
+﻿@model PrintModel
+
+@{
+    Layout = null;
+}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" media="screen, print" href="~/css/vendors.bundle.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/app.bundle.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/print.css" />
+    <title>Bukti Pendaftaran</title>
+</head>
+
+<body>
+    <div class="row mt-6">
+        <div class="col-sm-12 mt-4">
+            <div class="text-center">
+                <img src="~/images/logo/logo-dinas.png" alt="logo" width="150" height="150" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 pb-6">
+            <div class="text-center">
+                <h1 class="subheader-title font-weight-bold">BUKTI PENDAFTARAN</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-6">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="float-right">
+                        <img src="@Model.ImageProfile" class="card-img-top" alt="foto" style="width:250px;height:300px;">
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <table class="table table-borderless ml-4" style="font-size: 12pt;">
+                        <tr style="">
+                            <td class="pt-0" style="width:25%; padding-bottom:20px;">Nama Lengkap</td>
+                            <td class="pt-0" style="width:2%">:</td>
+                            <td class="pt-0">@Model.Pelamar.Nama</td>
+                        </tr>
+                        <tr>
+                            <td class="pt-0" style="width:25%; padding-bottom:20px;">No KTP</td>
+                            <td class="pt-0" style="width:2%">:</td>
+                            <td class="pt-0">@Model.Pelamar.NoKTP</td>
+                        </tr>
+                        <tr>
+                            <td class="pt-0" style="width:25%; padding-bottom:20px;">No Telp</td>
+                            <td class="pt-0" style="width:2%">:</td>
+                            <td class="pt-0">@Model.Pelamar.Telp</td>
+                        </tr>
+                        <tr>
+                            <td class="pt-0" style="width:25%; padding-bottom:20px;">Alamat Sesuai KTP</td>
+                            <td class="pt-0" style="width:2%">:</td>
+                            <td class="pt-0">@Model.Pelamar.Alamat</td>
+                        </tr>
+                        <tr>
+                            <td class="pt-0" style="width:25%; padding-bottom:20px;">Pendidikan Terakhir</td>
+                            <td class="pt-0" style="width:2%">:</td>
+                            <td class="pt-0">@Model.Pelamar.Pendidikan.NamaPendidikan</td>
+                        </tr>
+                        <tr>
+                            <td class="pt-0" style="width:25%; padding-bottom:20px;">Bidang</td>
+                            <td class="pt-0" style="width:2%">:</td>
+                            <td class="pt-0">@Model.Pelamar.Bidang.NamaBidang</td>
+                        </tr>
+                        <tr>
+                            <td class="pt-0" style="width:25%; padding-bottom:20px;">Jabatan Yang Dilamar</td>
+                            <td class="pt-0" style="width:2%">:</td>
+                            <td class="pt-0">@Model.Pelamar.Jabatan.NamaJabatan</td>
+                        </tr>
+                        <tr>
+                            <td class="pt-0" style="width:25%; padding-bottom:20px;">Kelengkapan Berkas</td>
+                            <td class="pt-0" style="width:2%">:</td>
+                            <td class="pt-0">@Model.StatusBerkas</td>
+                        </tr>
+                        <tr>
+                            <td class="pt-0" style="width:25%; padding-bottom:20px;">Tanggal Pendaftaran</td>
+                            <td class="pt-0" style="width:2%">:</td>
+                            <td class="pt-0">@Model.Pelamar.CreatedAt</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.print();
+    </script>
+</body>
+</html>

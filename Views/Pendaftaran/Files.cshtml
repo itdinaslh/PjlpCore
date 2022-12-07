@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />       
     <script defer src="~/js/alpine.min.js"></script>    
     <link rel="stylesheet" href="~/css/addon.css" />
+    <link rel="stylesheet" href="~/css/chkimage.css" />
 }
 
 <div x-data="{edit: false}">
@@ -68,12 +69,15 @@
                 {
                     string fullPath = p.FileExtension.ToLower().Contains("pdf") ? "/img/pdf.jpg" : p.FilePath + "/" + p.FileName;
 
-                    <div class="col-lg-3" :class="edit ? 'col-lg-4' : 'col-lg-3'" id="@p.FilePelamarID">
+                    <div class="col-lg-3" :class="edit ? 'col-lg-4' : 'col-lg-3'">
                         <div class="card mb-4">
                             <div class="card-header text-center bg-primary-500 bg-success-gradient">
                                 <h5>@p.Persyaratan.NamaPersyaratan</h5>
                             </div>
-                            <img class="card-img-top" src="@fullPath" alt="file" style="height: 250px;">
+                            <input type="checkbox" id="@p.FilePelamarID" class="myChk" name="Files" value="@p.FilePelamarID" />
+                            <label for="@p.FilePelamarID" class="lblImage">
+                                <img class="card-img-top" src="@fullPath" data-id="@p.FilePelamarID" alt="file" style="height: 250px;">
+                            </label>
                             <div class="card-body">
                                 <table class="table">
                                     <tr>

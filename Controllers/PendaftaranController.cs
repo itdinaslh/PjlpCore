@@ -375,6 +375,59 @@ public class PendaftaranController : Controller
         return Json(Result.Failed());
     }
 
+    [HttpGet("/pendaftaran/print")]
+    public async Task<IActionResult> PrintBukti()
+    {
+        var pelamar = await pelamarRepo.Pelamars
+            .Include(j => j.Jabatan)
+            .Include(p => p.Pendidikan)
+            .Include(b => b.Bidang)
+            .Where(x => x.NoKTP == User.Identity.Name).FirstOrDefaultAsync();
+
+        if (pelamar is null)
+        {
+            return NotFound();
+        }
+
+        string Foto = "/img/user.png";
+
+        FilePelamar pasFoto = await fileRepo.FilePelamars            
+            .Where(x => x.PelamarId == pelamar.PelamarId)
+            .Where(x => x.PersyaratanID == 2)
+            .FirstOrDefaultAsync();
+
+        string StatusFile = "Belum Lengkap";
+
+        int eventFiles = await eventFileRepo.EventFiles
+            .Where(x => x.JabatanID == pelamar.JabatanId)
+            .CountAsync();
+
+        int totalUpload = await fileRepo.FilePelamars
+            .Where(x => x.PelamarId == pelamar.PelamarId)
+            .CountAsync();
+
+        if (eventFiles == 0)
+        {
+            StatusFile = "Berkas wajib belum diatur oleh Admin/PPBJ";
+        } else
+        {
+            int selisih = eventFiles - totalUpload;
+            StatusFile = selisih < 1 ? "Berkas Lengkap" : "Belum Lengkap";
+        }
+
+        if (pasFoto is not null)
+        {
+            Foto = pasFoto.RealPath + "/" + pasFoto.FileName; 
+        }
+
+        return View("~/Views/Pendaftaran/Print.cshtml", new PrintModel
+        {
+            Pelamar = pelamar,
+            ImageProfile = Foto,
+            StatusBerkas = StatusFile
+        });
+    }
+
     private static int GetAge(DateOnly birthDate)
     {
         DateTime n = DateTime.Now; // To avoid a race condition around midnight
