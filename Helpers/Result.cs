@@ -32,4 +32,13 @@ public static class Result {
         result.Add("failed", true);
         return result;
     }
+
+    [Produces("application/json")]
+    public static Dictionary<string, string> ChangeStatus(string StatusName)
+    {
+        var result = new Dictionary<string, string>();
+        result.Add("sucess", "yes");
+        result.Add("status", StatusName);
+        return result;
+    }
 }

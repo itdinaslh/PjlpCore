@@ -20,13 +20,15 @@ public class PendaftaranController : Controller
     private readonly IPelamar pelamarRepo;
     private readonly IPegawai pegRepo;
     private readonly IFilePelamar fileRepo;
+    private readonly IEventFile eventFileRepo;
 
 
-    public PendaftaranController(IPegawai repo, IPelamar pRepo, IFilePelamar fRepo, IPegawai pegRepo)
+    public PendaftaranController(IPegawai repo, IPelamar pRepo, IFilePelamar fRepo, IPegawai pegRepo, IEventFile eventFile)
     {
         this.repo = repo; 
         this.pelamarRepo = pRepo;
         this.fileRepo = fRepo;
+        this.eventFileRepo = eventFile;
         this.pegRepo = pegRepo;
     }
 
@@ -153,6 +155,7 @@ public class PendaftaranController : Controller
             .Include(b => b.Bidang)
             .Include(p => p.Pendidikan)
             .Include(j => j.Jabatan)
+            .Include(x => x.StatusLamaran)
             .Include(k => k.Kelurahan!.Kecamatan.Kabupaten.Provinsi)
             .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
             .FirstOrDefaultAsync();
@@ -160,29 +163,36 @@ public class PendaftaranController : Controller
         if (data is null)
         {
             return RedirectToAction("Index");
-        }
-
-        List<FilePelamar>? filePelamar = await fileRepo.FilePelamars
-            .Where(x => x.PelamarId == data!.PelamarId)
-            .Include(p => p.Persyaratan)
-            .OrderByDescending(p => p.CreatedAt)
-            .ToListAsync();
-
-        string pasfoto = "";
-
-        if (filePelamar is not null)
-        {
-            if (filePelamar.Any(x => x.PersyaratanID == 2))
-            {
-                #nullable disable
-                pasfoto = filePelamar.Where(x => x.PersyaratanID == 2).Select(x => x.FilePath + "/" + x.FileName).FirstOrDefault();
-                #nullable enable
-            }
-        }
+        }        
 
         if (data is not null)
         {
             string? lahir = data.TglLahir.ToString();
+
+            int HarusUpload = await eventFileRepo.EventFiles
+            .Where(x => x.JabatanID == data.JabatanId)
+            .CountAsync();
+
+            List<FilePelamar>? filePelamar = await fileRepo.FilePelamars
+                .Where(x => x.PelamarId == data!.PelamarId)
+                .Include(p => p.Persyaratan)
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
+
+            int SudahUpload = filePelamar is null ? 0 : filePelamar.Count();
+            int BelumUpload = HarusUpload - SudahUpload;
+
+            string pasfoto = "";
+
+            if (filePelamar is not null)
+            {
+                if (filePelamar.Any(x => x.PersyaratanID == 2))
+                {
+#nullable disable
+                    pasfoto = filePelamar.Where(x => x.PersyaratanID == 2).Select(x => x.FilePath + "/" + x.FileName).FirstOrDefault();
+#nullable enable
+                }
+            }
 
             return View("~/Views/Pendaftaran/Overview.cshtml", new PelamarVM
             {
@@ -206,7 +216,9 @@ public class PendaftaranController : Controller
                 ProvDomID = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.ProvinsiID,
                 ProvinsiDom = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
                 AddressIsSame = (bool)data.AddressIsSame!,
-                PasFoto = pasfoto != "" ? pasfoto : null
+                PasFoto = pasfoto != "" ? pasfoto : null,
+                TotalUploaded = SudahUpload,
+                TotalNotUploaded = BelumUpload
             });
         }
 

@@ -1,21 +1,26 @@
-﻿<div class="row">
+﻿@model PelamarVM
+
+<div class="row">
     <div class="col-lg-12">
-        <div class="panel">
-            <div class="panel-hdr bg-danger-700 bg-primary-gradient" role="heading">
-                <h2>Verifikasi</h2>
-            </div>
-            <div class="panel-container show">
-                <div class="panel-content">
-                    <div class="form-group">
-                        <label for="">Pilih Status Verifikasi</label>
-                        <select id="sStatus" class="form-control">
-                        </select>
-                    </div>
-                    <div class="text-right">
-                        <button class="btn btn-primary">Verifikasi</button>
+        <form id="StatusVerify" asp-action="ChangeStatus" asp-controller="Pelamar">
+            <input type="hidden" asp-for="Pelamar.PelamarId" />
+            <div class="panel">
+                <div class="panel-hdr bg-danger-700 bg-primary-gradient" role="heading">
+                    <h2>Verifikasi</h2>
+                </div>
+                <div class="panel-container show">
+                    <div class="panel-content">
+                        <div class="form-group">
+                            <label for="">Pilih Status Verifikasi</label>
+                            <select id="sStatus" asp-for="Pelamar.StatusLamaranId" class="form-control">
+                            </select>
+                        </div>
+                        <div class="text-right">
+                            <button class="btn btn-primary">Verifikasi</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>        
     </div>
 </div>

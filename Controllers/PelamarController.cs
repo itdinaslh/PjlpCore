@@ -16,12 +16,14 @@ public class PelamarController : Controller
     private readonly IEventFile eventRepo;
     private readonly IPelamar pelamarRepo;
     private readonly IFilePelamar fileRepo;
+    private readonly IStatus statusRepo;
 
-    public PelamarController(IPersyaratanRepo pRepo, IEventFile fRepo, IPelamar pelamarRepo, IFilePelamar fileLamar) { 
+    public PelamarController(IPersyaratanRepo pRepo, IEventFile fRepo, IPelamar pelamarRepo, IFilePelamar fileLamar, IStatus statusRepo) { 
         this.pRepo = pRepo;
         this.eventRepo = fRepo;
         this.pelamarRepo = pelamarRepo;
-        this.fileRepo = fileLamar; 
+        this.fileRepo = fileLamar;
+        this.statusRepo = statusRepo;
     }
 
     [HttpGet("/pelamar/files")]
@@ -107,31 +109,41 @@ public class PelamarController : Controller
             .Include(b => b.Bidang)
             .Include(p => p.Pendidikan)
             .Include(j => j.Jabatan)
+            .Include(x => x.StatusLamaran)
             .Include(k => k.Kelurahan!.Kecamatan.Kabupaten.Provinsi)
             .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync();        
 
-        List<FilePelamar>? filePelamar = await fileRepo.FilePelamars
+        if (data is not null)
+        {
+            string? lahir = data.TglLahir.ToString();
+
+            int HarusUpload = await eventRepo.EventFiles
+                .Where(x => x.JabatanID == data.JabatanId)
+                .CountAsync();            
+
+            List<FilePelamar>? filePelamar = await fileRepo.FilePelamars
             .Where(x => x.PelamarId == pid)
             .Include(p => p.Persyaratan)
             .OrderByDescending(p => p.CreatedAt)
             .ToListAsync();
 
-        string pasfoto = "";
+            int SudahUpload = filePelamar is null ? 0 : filePelamar.Count();
+            int BelumUpload = HarusUpload - SudahUpload;
 
-        if (filePelamar is not null)
-        {
-            if (filePelamar.Any(x => x.PersyaratanID == 2))
+            string pasfoto = "";
+
+            if (filePelamar is not null)
             {
-                #nullable disable
-                pasfoto = filePelamar.Where(x => x.PersyaratanID == 2).Select(x => x.FilePath + "/" + x.FileName).FirstOrDefault();
-                #nullable enable
+                if (filePelamar.Any(x => x.PersyaratanID == 2))
+                {
+#nullable disable
+                    pasfoto = filePelamar.Where(x => x.PersyaratanID == 2).Select(x => x.FilePath + "/" + x.FileName).FirstOrDefault();
+#nullable enable
+                }
             }
-        }
 
-        if (data is not null)
-        {
-            string? lahir = data.TglLahir.ToString();
+
 
             return View("~/Views/Pelamar/Details.cshtml", new PelamarVM
             {
@@ -155,7 +167,9 @@ public class PelamarController : Controller
                 ProvDomID = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.ProvinsiID,
                 ProvinsiDom = data.DomKelurahanId is null ? "" : data.KelurahanDom!.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
                 PasFoto = pasfoto != "" ? pasfoto : null,
-                Files = filePelamar
+                Files = filePelamar,
+                TotalUploaded = SudahUpload,
+                TotalNotUploaded = BelumUpload
             });
         }
 
@@ -230,5 +244,26 @@ public class PelamarController : Controller
                 await fileStream.CopyToAsync(entryStream);
             }
         }
+    }
+
+    [HttpPost("/pelamar/status/change")]
+    public async Task<IActionResult> ChangeStatus(PelamarVM model)
+    {
+        if (model.Pelamar is not null)
+        {
+            var data = await pelamarRepo.Pelamars
+            .FirstOrDefaultAsync(x => x.PelamarId == model.Pelamar.PelamarId);
+
+            data!.StatusLamaranId = model.Pelamar.StatusLamaranId;
+
+            Status? mystatus = await statusRepo.Statuses.FirstOrDefaultAsync(x => x.StatusId == data!.StatusLamaranId);
+
+            await pelamarRepo.SaveDataAsync(data);
+
+            return Json(Result.ChangeStatus(mystatus!.NamaStatus));
+        }
+
+        return Json(Result.Failed());
+        
     }
 }

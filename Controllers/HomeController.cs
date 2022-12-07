@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using PjlpCore.Repository;
 using PjlpCore.Entity;
 using Microsoft.EntityFrameworkCore;
+using System.Web;
 
 namespace PjlpCore.Controllers
 {
@@ -26,7 +27,7 @@ namespace PjlpCore.Controllers
         [HttpGet("/")]
         public IActionResult Index()
         {            
-            return View("~/Views/Home/Main.cshtml");
+            return View("~/Views/Home/Main3.cshtml");
         }
         
         [HttpGet("/dashboard")]
@@ -69,9 +70,9 @@ namespace PjlpCore.Controllers
         [HttpGet("/daftar")]
         public IActionResult Daftar()
         {
-            Uri uri = new Uri(Simpanan.AuthServer + Simpanan.ReturnUrl);
+            string uri = Simpanan.AuthServer + HttpUtility.UrlEncode(Simpanan.ReturnUrl);
 
-            return Redirect(uri.ToString());
+            return Redirect(uri);
         }
     }
 }

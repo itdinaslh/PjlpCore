@@ -30,6 +30,10 @@ ul {
     list-style: none;
 }
 
+p {
+    margin-bottom: 0;
+}
+
 header {
     position: fixed;
     width: 100%;
@@ -68,22 +72,23 @@ nav ul {
     gap: 1em;
 }
 
-.btn {
+.tombol {
     padding: 10px 18px;
     color: white;
     border-radius: 10px;
     transition: 300ms all ease;
 }
 
-    .btn:hover {
+    .tombol:hover {
         filter: brightness(1.25);
+        color: white;
     }
 
-    .btn.green {
+    .tombol.green {
         background: var(--dark-green);
     }
 
-    .btn.orange {
+    .tombol.orange {
         background: var(--dark-orange);
     }
 
@@ -109,8 +114,16 @@ main {
     }
 
     main h2 {
+        font-weight: 700;
         margin-top: 10px;
         font-size: 2vw;
+        z-index: 3;
+    }
+
+    main h3 {
+        font-weight: 700;
+        margin-top: 10px;
+        font-size: 1.5vw;
         z-index: 3;
     }
 
@@ -184,12 +197,13 @@ section {
 }
 
     section h1 {
+        font-weight: 800;
         font-size: 3rem;
         text-align: center;
         margin-bottom: 1em;
     }
 
-.row {
+.baris {
     width: 80%;
     height: 100%;
     margin: 0 auto;
@@ -199,7 +213,7 @@ section {
     gap: 3em;
 }
 
-    .row .card {
+    .baris .kartu {
         display: block;
         width: 350px;
         height: 100%;
@@ -209,7 +223,7 @@ section {
         transition: 300ms all ease;
     }
 
-        .row .card:hover {
+        .baris .kartu:hover {
             transform: scale(1.05);
         }
 
@@ -244,7 +258,7 @@ section {
     .header h2 {
         color: white;
         text-transform: uppercase;
-        inline-size: 75%;
+        inline-size: 77%;
         overflow-wrap: break-word;
     }
 
@@ -292,9 +306,10 @@ section {
 
     .syarat:hover {
         filter: brightness(0.9);
+        color: var(--dark-green);
     }
 
-.border-bottom {
+.border-top {
     border-top: 1px solid white;
 }
 
@@ -312,7 +327,7 @@ section {
 .top {
     position: fixed;
     bottom: 30px;
-    right: 35px;
+    right: 20px;
     transition: 300ms all ease;
     opacity: 0;
     visibility: hidden;
@@ -332,6 +347,14 @@ section {
         box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
     }
 
+.time-countdown {
+    font-size: 2em;
+}
+
+.countdown .timesup {
+    font-size: 2em;
+}
+
 .counter {
     background-color: #d6e4e5;
     display: flex;
@@ -339,7 +362,7 @@ section {
     padding: 50px 0;
 }
 
-    .counter .card {
+    .counter .kartu {
         min-width: 350px;
         height: 100%;
         display: flex;
@@ -351,25 +374,25 @@ section {
         box-shadow: 0 10px 15px #4971744d;
     }
 
-        .counter .card .card-header {
+        .counter .kartu .kartu-header {
             font-weight: 900;
             margin-bottom: 10px;
             text-align: center;
             font-size: 1.5rem;
         }
 
-        .counter .card .card-body .wrapper {
+        .counter .kartu .kartu-body .wrapper {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-top: 1px solid var(--dark-green);
         }
 
-            .counter .card .card-body .wrapper:first-child {
+            .counter .kartu .kartu-body .wrapper:first-child {
                 border-top: none;
             }
 
-            .counter .card .card-body .wrapper > * {
+            .counter .kartu .kartu-body .wrapper > * {
                 font-weight: 700;
                 padding: 10px 0;
             }
@@ -440,6 +463,11 @@ footer {
             font-size: 1.2rem;
         }
 
+        main h3 {
+            text-align: center;
+            font-size: 1rem;
+        }
+
         main a {
             font-size: 1rem;
         }
@@ -462,11 +490,11 @@ footer {
             width: 130%;
         }
 
-    .row {
+    .baris {
         width: 90%;
     }
 
-        .row .card:hover {
+        .baris .kartu:hover {
             transform: none;
         }
 

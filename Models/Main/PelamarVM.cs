@@ -53,5 +53,11 @@ public class PelamarVM
 
     public List<FilePelamar>? Files { get; set; }
 
+    public int RequiredFilesCount { get; set; } = 0;
+
+    public int TotalUploaded { get; set; } = 0;
+
+    public int TotalNotUploaded { get; set; } = 0;
+
     public UploadVM? Upload { get; set; } = new UploadVM();
 }
