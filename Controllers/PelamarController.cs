@@ -120,6 +120,7 @@ public class PelamarController : Controller
 
             int HarusUpload = await eventRepo.EventFiles
                 .Where(x => x.JabatanID == data.JabatanId)
+                .Where(x => x.IsNew == data.IsNew)
                 .CountAsync();            
 
             List<FilePelamar>? filePelamar = await fileRepo.FilePelamars
