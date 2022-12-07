@@ -168,6 +168,7 @@ public class PendaftaranController : Controller
         if (data is not null)
         {
             string? lahir = data.TglLahir.ToString();
+            string? sim = "";
 
             int HarusUpload = await eventFileRepo.EventFiles
             .Where(x => x.JabatanID == data.JabatanId)
@@ -184,6 +185,8 @@ public class PendaftaranController : Controller
 
             string pasfoto = "";
 
+            sim = data.TglAkhirSIM is not null ? data.TglAkhirSIM!.ToString() : "";
+
             if (filePelamar is not null)
             {
                 if (filePelamar.Any(x => x.PersyaratanID == 2))
@@ -192,7 +195,7 @@ public class PendaftaranController : Controller
                     pasfoto = filePelamar.Where(x => x.PersyaratanID == 2).Select(x => x.FilePath + "/" + x.FileName).FirstOrDefault();
 #nullable enable
                 }
-            }
+            }            
 
             return View("~/Views/Pendaftaran/Overview.cshtml", new PelamarVM
             {
@@ -218,7 +221,8 @@ public class PendaftaranController : Controller
                 AddressIsSame = (bool)data.AddressIsSame!,
                 PasFoto = pasfoto != "" ? pasfoto : null,
                 TotalUploaded = SudahUpload,
-                TotalNotUploaded = BelumUpload
+                TotalNotUploaded = BelumUpload,
+                TglAkhirSIM = sim!
             });
         }
 
@@ -368,6 +372,25 @@ public class PendaftaranController : Controller
             }
 
             await pelamarRepo.UpdateAlamat(model.Pelamar);
+
+            return Json(Result.Success());
+        }
+
+        return Json(Result.Failed());
+    }
+
+    [HttpPost("/pendaftaran/lainnya/update")]
+    [Authorize(Roles = "PjlpUser")]
+    public async Task<IActionResult> UpdateLainnya(PelamarVM model)
+    {
+        if(model.Pelamar.PelamarId != Guid.Empty)
+        {
+            if (model.TglAkhirSIM is not null)
+            {
+                model.Pelamar.TglAkhirSIM = DateOnly.Parse(model.TglAkhirSIM, new CultureInfo("id_ID"));
+            }
+
+            await pelamarRepo.UpdateLainnya(model.Pelamar);
 
             return Json(Result.Success());
         }

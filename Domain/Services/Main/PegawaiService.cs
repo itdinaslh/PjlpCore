@@ -88,6 +88,7 @@ public class PegawaiService : IPegawai
                 data.DetailPjlp!.IsK2 = peg.DetailPjlp!.IsK2;
                 data.DetailPjlp!.IsBlacklisted = peg.DetailPjlp!.IsBlacklisted;
                 data.DetailPjlp!.JabatanID = peg.DetailPjlp!.JabatanID;
+                data.UpdatedAt = DateTime.Now;
             } else
             {
                 data.DetailPjlp = new DetailPjlp {

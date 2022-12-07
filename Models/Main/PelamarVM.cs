@@ -49,6 +49,8 @@ public class PelamarVM
 
     public string? ProvinsiDom { get; set; }
 
+    public string? TglAkhirSIM { get; set; }
+
     public Pegawai? Pegawai { get; set; }
 
     public List<FilePelamar>? Files { get; set; }

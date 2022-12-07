@@ -6,7 +6,7 @@
             <h2 class="text-white">Data Lainnya</h2>
         </div>
         <div class="panel-container show">
-            <form asp-action="UpdateLainnya" asp-controller="Pendaftaran" class="formdata" method="post">
+            <form action="/pelamar/lainnya/update" class="formdata" method="post">
                 <input type="hidden" asp-for="Pelamar.PelamarId" />
                 <div class="panel-content">
                     <div class="form-group">
@@ -93,7 +93,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group" wire:ignore>
                                     <label for="sim-date">Berlaku Hingga</label>
-                                    <input type="text" id="TglSIM" asp-for="TglAkhirSIM" class="form-control dtpicker" readonly />
+                                    <input type="text" id="TglSIM" asp-for="TglAkhirSIM" class="form-control dtpicker" />
                                 </div>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                             <div class="col-6">
                                 <div class="form-group" wire:ignore>
                                     <label for="bidang_lain">Bidang</label>
-                                    <select asp-for="Pelamar.BidangId" class="form-control" style="width: 100%;" readonly>
+                                    <select asp-for="Pelamar.BidangId" class="form-control" style="width: 100%;" required>
                                         @if (Model.NamaBidang is not null)
                                         {
                                             <option value="@Model.Pelamar.BidangId" selected>@Model.NamaBidang</option>
@@ -131,8 +131,8 @@
                             <div class="col-6">
                                 <div class="form-group" wire:ignore>
                                     <label for="jabatan">Jabatan</label>
-                                    <select id="jabatan" asp-for="Pelamar.JabatanId" class="form-control" style="width: 100%;" required>
-                                        <option value="@Model.Pelamar.JabatanId" selected>@Model.Pelamar.Jabatan.NamaJabatan</option>
+                                    <select id="jabatan" class="form-control" style="width: 100%;" required>
+                                        <option value="@Model.Pelamar.JabatanId">@Model.Pelamar.Jabatan.NamaJabatan</option>
                                     </select>
                                 </div>
                             </div>

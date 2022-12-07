@@ -145,6 +145,8 @@ public class Pelamar
 
     public bool? IsK2 { get; set; } = false;
 
+    public bool? IsBlacklisted { get; set; } = false;
+
     public string? VerifiedBy { get; set; }
 
     public bool? IsNew { get; set; }

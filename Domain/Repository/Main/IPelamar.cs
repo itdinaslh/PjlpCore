@@ -11,4 +11,6 @@ public interface IPelamar
     Task UpdateBiodata(Pelamar pelamar);
 
     Task UpdateAlamat(Pelamar pelamar);
+
+    Task UpdateLainnya(Pelamar pelamar);
 }

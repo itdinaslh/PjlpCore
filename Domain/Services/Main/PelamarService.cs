@@ -1,6 +1,7 @@
 ﻿using PjlpCore.Data;
 using PjlpCore.Entity;
 using PjlpCore.Repository;
+using System.Drawing;
 
 namespace PjlpCore.Services;
 
@@ -60,6 +61,35 @@ public class PelamarService : IPelamar
             data.TempatLahir = pelamar.TempatLahir;
             data.Kelamin = pelamar.Kelamin;
             data.GolonganDarah = pelamar.GolonganDarah;
+
+            context.Update(data);
+
+            await context.SaveChangesAsync();
+        }
+    }
+
+    public async Task UpdateLainnya(Pelamar pelamar)
+    {
+        Pelamar? data = await context.Pelamars.FindAsync(pelamar.PelamarId);
+
+        if (data is not null)
+        {
+            data.PendidikanId = pelamar.PendidikanId;
+            data.JurusanSekolah = pelamar.JurusanSekolah;
+            data.NamaSekolah = pelamar.NamaSekolah;
+            data.NoNPWP = pelamar.NoNPWP;
+            data.NoBPJS = pelamar.NoBPJS;
+            data.StatusBPJS = pelamar.StatusBPJS;
+            data.CabangRekening = pelamar.CabangRekening;
+            data.NoRekening = pelamar.NoRekening;
+            data.BidangId = pelamar.BidangId;
+            data.Tanggungan = pelamar.Tanggungan;
+            data.NoBPJSK = pelamar.NoBPJSK;
+            data.NoSIM = pelamar.NoSIM;
+            data.IsK2 = pelamar.IsK2;
+            data.TglAkhirSIM = pelamar.TglAkhirSIM;
+            data.JabatanId = pelamar.JabatanId;
+            data.UpdatedAt = pelamar.UpdatedAt;
 
             context.Update(data);
 
