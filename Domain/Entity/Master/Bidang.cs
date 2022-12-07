@@ -17,6 +17,8 @@ public class Bidang {
     [MaxLength(75)]
     public string? KepalaBidang { get; set; }
 
+    public bool? IsVisible { get; set; } = true;
+
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;

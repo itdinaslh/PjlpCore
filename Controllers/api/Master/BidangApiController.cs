@@ -106,7 +106,8 @@ public class BidangApiController : Controller {
 
     [HttpGet("/api/master/bidang/search")]    
     public async Task<IActionResult> SearchBidang(string? term) {
-        var data = await repo.Bidangs            
+        var data = await repo.Bidangs 
+            .Where(x => x.IsVisible == true)
             .Where(k => !String.IsNullOrEmpty(term) ?
                 k.NamaBidang.ToLower().Contains(term.ToLower()) : true
             ).Select(s => new {
@@ -140,6 +141,7 @@ public class BidangApiController : Controller {
 
         var data = await repo.Bidangs
             .Where(p => isBidang ? bidangs.Contains(p.BidangID) : true)
+            .Where(b => b.IsVisible == true)
             .Where(k => !String.IsNullOrEmpty(term) ?
                 k.NamaBidang.ToLower().Contains(term.ToLower()) : true
             ).Select(s => new {
