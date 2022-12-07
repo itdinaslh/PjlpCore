@@ -55,8 +55,7 @@ public class PjlpController : Controller
         if (peg is not null)
         {
             string? lahir = peg.TglLahir.ToString();
-            string? sim = "";
-            string? myJab = null;
+            string? sim = "";            
 
             if (peg.DetailPjlp is null)
             {

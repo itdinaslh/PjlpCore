@@ -18,14 +18,16 @@ public class PendaftaranController : Controller
 {
     private readonly IPegawai repo;
     private readonly IPelamar pelamarRepo;
+    private readonly IPegawai pegRepo;
     private readonly IFilePelamar fileRepo;
 
 
-    public PendaftaranController(IPegawai repo, IPelamar pRepo, IFilePelamar fRepo)
+    public PendaftaranController(IPegawai repo, IPelamar pRepo, IFilePelamar fRepo, IPegawai pegRepo)
     {
         this.repo = repo; 
         this.pelamarRepo = pRepo;
         this.fileRepo = fRepo;
+        this.pegRepo = pegRepo;
     }
 
     [HttpGet("/pendaftaran/index")]
@@ -102,6 +104,7 @@ public class PendaftaranController : Controller
     {
         if (model.AddressIsSame)
         {
+            model.Pelamar.NoKTP = User.Identity!.Name;
             model.Pelamar.DomKelurahanId = model.Pelamar.KelurahanId;
             model.Pelamar.DomAlamat = model.Pelamar.Alamat;
             model.Pelamar.DomRT = model.Pelamar.RT;
@@ -110,12 +113,22 @@ public class PendaftaranController : Controller
             model.Pelamar.AddressIsSame = model.AddressIsSame;
         }
 
+        var pegawai = await pegRepo.Pegawais.Where(x => x.NIK == User.Identity!.Name).FirstOrDefaultAsync();
+
+        if (pegawai is null)
+        {
+            model.Pelamar.IsNew = true;
+        }
+
         model.Pelamar.StatusLamaranId = 1;
         model.Pelamar.TglLahir = DateOnly.Parse(model.TanggalLahir!, new CultureInfo("id-ID"));
 
-        //if (ModelState.IsValid) {
-            
-        //}
+        int isDewasa = GetAge(((DateOnly)model.Pelamar.TglLahir));
+
+        if (isDewasa < 18)
+        {
+            model.Pelamar.StatusLamaranId = 6;
+        }
 
         await pelamarRepo.SaveDataAsync(model.Pelamar);
         return Json(Result.Success());
@@ -136,6 +149,11 @@ public class PendaftaranController : Controller
             .Include(k => k.Kelurahan!.Kecamatan.Kabupaten.Provinsi)
             .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
             .FirstOrDefaultAsync();
+
+        if (data is null)
+        {
+            return RedirectToAction("Index");
+        }
 
         List<FilePelamar>? filePelamar = await fileRepo.FilePelamars
             .Where(x => x.PelamarId == data!.PelamarId)
@@ -336,6 +354,17 @@ public class PendaftaranController : Controller
         }
 
         return Json(Result.Failed());
+    }
+
+    private static int GetAge(DateOnly birthDate)
+    {
+        DateTime n = DateTime.Now; // To avoid a race condition around midnight
+        int age = n.Year - birthDate.Year;
+
+        if (n.Month < birthDate.Month || (n.Month == birthDate.Month && n.Day < birthDate.Day))
+            age--;
+
+        return age;
     }
 
     private static string GenerateRandomString()

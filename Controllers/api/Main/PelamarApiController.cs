@@ -161,7 +161,7 @@ public class PelamarApiController : ControllerBase
         return Ok(jsonData);
     }
 
-    public static int GetAge(DateOnly birthDate)
+    private static int GetAge(DateOnly birthDate)
     {
         DateTime n = DateTime.Now; // To avoid a race condition around midnight
         int age = n.Year - birthDate.Year;

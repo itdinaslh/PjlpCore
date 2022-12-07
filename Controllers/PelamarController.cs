@@ -186,7 +186,7 @@ public class PelamarController : Controller
         var myID = files.FirstOrDefault();
 
         Response.ContentType = "application/octet-stream";
-        Response.Headers.Add("Content-Disposition", "attachment; filename=" + myID.Pelamar.Nama + " - filtered.zip");
+        Response.Headers.Add("Content-Disposition", "attachment; filename=" + myID!.Pelamar.Nama + " - filtered.zip");
 
         using (ZipArchive archive = new ZipArchive(Response.BodyWriter.AsStream(), ZipArchiveMode.Create))
         {
