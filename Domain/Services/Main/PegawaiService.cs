@@ -87,6 +87,7 @@ public class PegawaiService : IPegawai
                 data.DetailPjlp!.MasaBerlakuSIM = peg.DetailPjlp!.MasaBerlakuSIM;    
                 data.DetailPjlp!.IsK2 = peg.DetailPjlp!.IsK2;
                 data.DetailPjlp!.IsBlacklisted = peg.DetailPjlp!.IsBlacklisted;
+                data.DetailPjlp!.JabatanID = peg.DetailPjlp!.JabatanID;
             } else
             {
                 data.DetailPjlp = new DetailPjlp {
@@ -98,6 +99,7 @@ public class PegawaiService : IPegawai
                     IsK2 = peg.DetailPjlp!.IsK2,
                     IsBlacklisted = peg.DetailPjlp!.IsBlacklisted,
                     MasaBerlakuSIM = peg.DetailPjlp!.MasaBerlakuSIM,
+                    JabatanID = peg.DetailPjlp!.JabatanID,
                     CreatedAt = DateTime.Now
                 };                               
 

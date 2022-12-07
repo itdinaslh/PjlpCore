@@ -51,6 +51,10 @@
         PopulateKecamatan(kabid);
     }
 
+    var thisBid = $('#sBidang option:selected').val();
+
+    PopulateJabatan(thisBid);
+
     if (!kecid) {
         $('#sKelKTP').select2({
             placeholder: 'Pilih kelurahan'

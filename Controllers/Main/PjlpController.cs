@@ -31,6 +31,7 @@ public class PjlpController : Controller
             .Include(k => k.Kelurahan!.Kecamatan.Kabupaten.Provinsi)
             .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
             .Include(x => x.DetailPjlp)
+            .ThenInclude(x => x.Jabatan)
             .FirstOrDefaultAsync();
 
         List<FilePegawai>? filePegawai = await fileRepo.FilePegawais
@@ -55,6 +56,7 @@ public class PjlpController : Controller
         {
             string? lahir = peg.TglLahir.ToString();
             string? sim = "";
+            string? myJab = null;
 
             if (peg.DetailPjlp is null)
             {
@@ -87,7 +89,8 @@ public class PjlpController : Controller
                 IsSame = peg.AddressIsSame,
                 Files = filePegawai,
                 PasFoto = pasfoto != "" ? pasfoto : null,
-                MasaBerlakuSIM = sim
+                MasaBerlakuSIM = sim,
+                NamaJabatan = peg.DetailPjlp!.JabatanID is not null ? peg.DetailPjlp!.Jabatan!.NamaJabatan : null
             });
         }
 

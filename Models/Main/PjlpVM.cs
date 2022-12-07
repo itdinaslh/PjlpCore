@@ -16,6 +16,8 @@ public class PjlpVM
 
     public string? NamaPendidikan { get; set; }
 
+    public string? NamaJabatan { get; set; }
+
     public string? TanggalLahir { get; set; }
 
     public string? ProvID { get; set; }

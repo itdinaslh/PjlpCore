@@ -20,6 +20,43 @@ $('#sKelDom').select2({
     placeholder: 'Pilih kelurahan'
 });
 
+$('#bidang').change(function () {
+    $('#jabatan').val(null).trigger('change');
+    var theID = $('#bidang option:selected').val();
+    PopulateJabatan(theID);
+    $('#jabatan').select2('focus');
+});
+
+function PopulateJabatan(BidangID) {
+    //$('#jabatan').prop('disabled', false);
+    //$('#jabatan').select2('destroy');
+    $('#jabatan').select2({
+        placeholder: 'Pilih Jabatan...',
+        allowClear: true,
+        ajax: {
+            url: "/api/master/jabatan/search/?bidang=" + BidangID,
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+                var query = {
+                    term: params.term
+                };
+                return query;
+            },
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (item) {
+                        return {
+                            text: item.namaJabatan,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
+    });
+}
+
 function PopulateAgama() {
     $('#sAgama').select2({
         placeholder: 'Pilih Agama...',
