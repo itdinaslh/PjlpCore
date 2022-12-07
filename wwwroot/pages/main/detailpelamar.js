@@ -9,9 +9,7 @@
     checkAddrIsSame();
 
     var jab = $('#jabatan').val();
-    var baruGakSih = $('#gueBaruApaKagak').val();
-
-    alert(baruGakSih);
+    var baruGakSih = $('#gueBaruApaKagak').val();    
 
     PopulateFileWajib(jab, baruGakSih);
 

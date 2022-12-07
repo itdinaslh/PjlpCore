@@ -77,7 +77,7 @@ public class PendaftaranController : Controller
                 UserId = Guid.Parse(uid!),
                 UserEmail = email,
                 NoKTP = ktp,
-                Nama = nama.ToUpper(),
+                Nama = nama!.ToUpper(),
                 EventId = 1,
                 Kelamin = peg!.Kelamin is null ? null : peg!.Kelamin!,
                 GolonganDarah = peg!.GolDarah is null ? null : peg!.GolDarah!,
