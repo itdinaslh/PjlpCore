@@ -513,9 +513,7 @@ $(document).on('change', '#cbStatus', function () {
 // #endregion
 
 function CheckRekening() {
-    var thisNewOke = $('#cbStatus option:selected').val();
-
-    alert(thisNewOke);
+    var thisNewOke = $('#cbStatus option:selected').val();    
 
     if (thisNewOke) {
         $('#nama_bank').prop('required', false);

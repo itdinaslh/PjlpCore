@@ -17,7 +17,7 @@ function loadTable() {
         stateSave: true,
         orderMulti: false,
         ajax: {
-            url: "/api/pelamar",
+            url: "/api/pelamar/lama",
             type: "POST",
             dataType: "json"
         },

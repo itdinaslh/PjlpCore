@@ -103,9 +103,14 @@
             <span class="nav-link-text" data-i18n="nav.pelamar">Pelamar</span>
         </a>
         <ul>
-            <li class='@(ViewBag.Title == "Data Pelamar" ? "active" : "")'>
-                <a asp-controller="Pelamar" asp-action="Index" title="Pelamar" data-filter-tags="pelamar">
-                    <span class="nav-link-text" data-i18n="nav.pelamar_lama">Pelamar</span>
+            <li class='@(ViewBag.Title == "Data Pelamar Baru" ? "active" : "")'>
+                <a asp-controller="Pelamar" asp-action="Baru" title="Pelamar Baru" data-filter-tags="pelamar baru">
+                    <span class="nav-link-text" data-i18n="nav.pelamar_baru">Pelamar Baru</span>
+                </a>
+            </li>
+            <li class='@(ViewBag.Title == "Data Pelamar Lama" ? "active" : "")'>
+                <a asp-controller="Pelamar" asp-action="Lama" title="Pelamar Lama" data-filter-tags="pelamar lama">
+                    <span class="nav-link-text" data-i18n="nav.pelamar_lama">Pelamar Lama</span>
                 </a>
             </li>
             <li class='@(ViewBag.Title == "File Wajib Pelamar" ? "active" : "")'>

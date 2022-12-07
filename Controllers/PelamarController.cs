@@ -83,9 +83,16 @@ public class PelamarController : Controller
         return Json(Result.Failed());
     }
 
-    [HttpGet("/pelamar")]
+    [HttpGet("/pelamar/lama")]
     [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
-    public IActionResult Index()
+    public IActionResult Lama()
+    {
+        return View();
+    }
+
+    [HttpGet("/pelamar/baru")]
+    [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
+    public IActionResult Baru()
     {
         return View();
     }

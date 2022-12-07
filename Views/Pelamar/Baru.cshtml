@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Data Pelamar Baru";
+    ViewData["PageName"] = "data_pjlp";
+    //ViewData["Category1"] = "Pegawai";
+    ViewBag.Parent = "Pelamar";
+    ViewBag.Category = "Pelamar Baru";
+    ViewBag.Title = "Data Pelamar Baru";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/css/datagrid/datatables/datatables.bundle.css" />
+    <link rel="stylesheet" href="~/css/addon.css" />
+}
+
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr" role="heading">
+                <h2>Tabel Data Pelamar</h2>
+            </div>
+            <div class="panel-container show">
+                <div id="listContent" class="panel-content">
+                    <table id="tblData" class="table table-striped table-bordered" data-page-length="5">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>NIK</th>
+                                <th>Bidang</th>
+                                <th>Nama Jabatan</th>
+                                <th>Usia</th>
+                                <th>Status Verifikasi</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/datagrid/datatables/datatables.bundle.js"></script>
+    <script src="~/pages/pelamar/baru.js"></script>
+    <script>
+        $('#js-page-content').smartPanel();
+    </script>
+}
