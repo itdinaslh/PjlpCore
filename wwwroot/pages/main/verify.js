@@ -8,7 +8,7 @@
         success: function (result) {
             if (result.success == "yes") {
                 showUpdateSuccess();
-                $('#StatusVerify').val(result.status);
+                $('#StatusGue').html(result.status);
             }
         }
     })

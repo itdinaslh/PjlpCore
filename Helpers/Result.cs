@@ -37,7 +37,7 @@ public static class Result {
     public static Dictionary<string, string> ChangeStatus(string StatusName)
     {
         var result = new Dictionary<string, string>();
-        result.Add("sucess", "yes");
+        result.Add("success", "yes");
         result.Add("status", StatusName);
         return result;
     }
