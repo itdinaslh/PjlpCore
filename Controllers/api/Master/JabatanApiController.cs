@@ -65,7 +65,7 @@ public class JabatanApiController : Controller {
             ).Select(s => new {
                 id = s.JabatanID,
                 namaJabatan = s.NamaJabatan
-            }).Take(10).ToListAsync();
+            }).ToListAsync();
 
         return Ok(data);
     }

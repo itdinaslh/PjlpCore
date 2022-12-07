@@ -57,7 +57,7 @@ public class PersyaratanApiController : Controller {
             ).Select(s => new {
                 id = s.PersyaratanID,
                 namaPersyaratan = s.NamaPersyaratan
-            }).Take(10).ToListAsync();
+            }).ToListAsync();
 
         return Ok(data);
     }

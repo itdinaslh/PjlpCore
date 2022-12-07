@@ -57,7 +57,7 @@ public class PendidikanApiController : Controller {
             ).Select(s => new {
                 id = s.PendidikanID,
                 namaPendidikan = s.NamaPendidikan
-            }).Take(10).ToListAsync();
+            }).ToListAsync();
 
         return Ok(data);
     }
