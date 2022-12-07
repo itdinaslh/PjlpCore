@@ -68,6 +68,8 @@ public class PendaftaranController : Controller
             peg = new Pegawai { DetailPjlp = new DetailPjlp() };
         }
 
+        TextInfo info = new CultureInfo("id_ID", false).TextInfo;
+
         return View(new PelamarVM
         {
             Pelamar = new Pelamar
@@ -75,7 +77,7 @@ public class PendaftaranController : Controller
                 UserId = Guid.Parse(uid!),
                 UserEmail = email,
                 NoKTP = ktp,
-                Nama = nama,
+                Nama = nama.ToUpper(),
                 EventId = 1,
                 Kelamin = peg!.Kelamin is null ? null : peg!.Kelamin!,
                 GolonganDarah = peg!.GolDarah is null ? null : peg!.GolDarah!,
@@ -102,6 +104,8 @@ public class PendaftaranController : Controller
     [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> SavePendaftaran(PelamarVM model)
     {
+        TextInfo info = new CultureInfo("id_ID", false).TextInfo;
+
         if (model.AddressIsSame)
         {
             model.Pelamar.NoKTP = User.Identity!.Name;
@@ -112,6 +116,9 @@ public class PendaftaranController : Controller
             model.Pelamar.DomKodePos = model.Pelamar.KodePos;
             model.Pelamar.AddressIsSame = model.AddressIsSame;
         }
+
+        
+        model.Pelamar.Nama = model.Pelamar.Nama.ToUpper();
 
         var pegawai = await pegRepo.Pegawais.Where(x => x.NIK == User.Identity!.Name).FirstOrDefaultAsync();
 

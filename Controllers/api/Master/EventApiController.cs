@@ -52,7 +52,7 @@ namespace PjlpCore.Controllers.api
                 ).Select(s => new {
                     id = s.Persyaratan.PersyaratanID,
                     namaPersyaratan = s.Persyaratan.NamaPersyaratan
-                }).Take(10).ToListAsync();
+                }).ToListAsync();
 
             return Ok(data);
         }

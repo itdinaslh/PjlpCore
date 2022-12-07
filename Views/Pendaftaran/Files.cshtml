@@ -25,6 +25,8 @@
     <div class="row">
         <div class="col-md-4 d-none" :class="edit ? 'd-block' : 'd-none'" x-show="edit" x-transition:enter x-transition:leave>
             <div class="panel">
+                <input type="hidden" id="jabatan" asp-for="Pelamar.JabatanId" />
+                <input type="hidden" id="gueBaruApaKagak" value="@Model.Pelamar!.IsNew.ToString().ToLower()" />
                 <div class="panel-hdr bg-primary-700 bg-danger-gradient" role="heading">
                     <h2>Tambah / Ubah File</h2>
                 </div>
@@ -32,7 +34,7 @@
                     <div class="panel-content">
                         <form method="post" id="UploadFile" action="/pelamar/files/upload" enctype="multipart/form-data">
                             <input type="hidden" asp-for="Pelamar.PelamarId" />
-                            <input type="hidden" id="typeName" asp-for="Upload!.TypeName" />
+                            <input type="hidden" id="typeName" asp-for="Upload!.TypeName" />                           
                             <div class="form-group">
                                 <label for="">Jenis File</label>
                                 <select id="sFileWajib" asp-for="Upload!.PersyaratanID" class="form-control" style="width:100%;">

@@ -8,10 +8,12 @@
     PopulateStatus();
     checkAddrIsSame();
 
-    var jab = $('#jabatan option:selected').val();
-    var isnew = $('#myIsNew').val();
+    var jab = $('#jabatan').val();
+    var baruGakSih = $('#gueBaruApaKagak').val();
 
-    PopulateFileWajib(jab, isnew);
+    alert(baruGakSih);
+
+    PopulateFileWajib(jab, baruGakSih);
 
     var isValidFile = $('#IsValidFile').val();
 
@@ -376,7 +378,7 @@ function PopulateFileWajib(jab, isnew) {
         placeholder: 'Pilih Jenis Berkas...',
         allowClear: true,
         ajax: {
-            url: "/api/pendaftaran/file/search/?jab=" + jab + "&isNew=" + isnew,
+            url: "/api/pendaftaran/files/search/?jab=" + jab + "&isNew=" + isnew,
             contentType: "application/json; charset=utf-8",
             data: function (params) {
                 var query = {
