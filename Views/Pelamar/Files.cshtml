@@ -62,7 +62,7 @@
                     <!-- File -->
                     @foreach (var p in Model.Files!)
                     {
-                        string fullPath = p.FileExtension.ToLower().Contains("pdf") ? "/img/pdf.jpg" : p.FilePath + "/" + p.FileName;
+                        string fullPath = p.FileExtension.ToLower() == ".pdf" ? "/img/pdf.jpg" : p.FilePath + "/" + p.FileName;
                         <div class="col-lg-4">
                             <div class="card mb-4">
                                 <div class="card-header text-center bg-primary-500 bg-success-gradient">
