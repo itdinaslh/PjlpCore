@@ -215,7 +215,7 @@ section {
 
     .baris .kartu {
         display: block;
-        width: 350px;
+        width: 35em;
         height: 100%;
         padding: 30px;
         background: linear-gradient( 45deg, rgba(73, 113, 116, 1) 0%, rgb(105, 162, 167) 100% );
@@ -260,11 +260,13 @@ section {
         text-transform: uppercase;
         inline-size: 77%;
         overflow-wrap: break-word;
+        text-align: center;
     }
 
         .header h2.long {
-            font-size: 1.5rem;
-        }
+            font-size: 1.8rem;
+            font-weight: bold;
+        }        
 
 .kuota {
     font-weight: 700;
