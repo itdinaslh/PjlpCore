@@ -35,7 +35,7 @@ public class PelamarService : IPelamar
             data.RT = pelamar.RT;
             data.RW = pelamar.RW;
             data.KodePos = pelamar.KodePos;
-            data.Alamat = pelamar.KodePos;
+            data.Alamat = pelamar.Alamat;
             data.DomKelurahanId = pelamar.DomKelurahanId;
             data.DomRT = pelamar.DomRT;
             data.DomRW = pelamar.DomRW;

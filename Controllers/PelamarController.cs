@@ -170,7 +170,7 @@ public class PelamarController : Controller
                 PasFoto = pasfoto != "" ? pasfoto : null,
                 Files = filePelamar,
                 TotalUploaded = SudahUpload,
-                TotalNotUploaded = BelumUpload
+                TotalNotUploaded = BelumUpload < 0 ? 0 : BelumUpload
             });
         }
 
