@@ -137,7 +137,7 @@
                             <partial name="~/Views/Pelamar/Files.cshtml" />
                         </div>
                     </div>
-                    @if (User.IsInRole("SysAdmin") || User.IsInRole("PPBJ"))
+                    @if (User.IsInRole("SysAdmin"))
                     {
                         <div x-show="modul != 4" x-transition>
                             <partial name="~/Views/Pelamar/Verify.cshtml" />
