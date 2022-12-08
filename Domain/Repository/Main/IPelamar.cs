@@ -13,4 +13,6 @@ public interface IPelamar
     Task UpdateAlamat(Pelamar pelamar);
 
     Task UpdateLainnya(Pelamar pelamar);
+
+    Task Pindahin(Pelamar pelamar);
 }

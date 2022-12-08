@@ -96,4 +96,15 @@ public class PelamarService : IPelamar
             await context.SaveChangesAsync();
         }
     }
+
+    public async Task Pindahin(Pelamar pelamar)
+    {
+        Pelamar? data = await context.Pelamars.FindAsync(pelamar.PelamarId);
+
+        data!.IsNew = !data.IsNew;
+
+        context.Update(data);
+
+        await context.SaveChangesAsync();
+    }
 }

@@ -1,0 +1,113 @@
+﻿@model PelamarVM
+
+<div>
+    <div class="panel">
+        <div class="panel-hdr violet-gradient " role="heading">
+            <h2 class="text-white">Biodata</h2>
+        </div>
+        <div class="panel-container show">
+            <div class="panel-content">
+                <form id="formBiodata" class="formdata" action="/pendaftaran/biodata/update" method="post">
+                    <input type="hidden" asp-for="Pelamar.PelamarId" />
+                    <!-- 1st row -->
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input asp-for="Pelamar.Nama" class="form-control" required autofocus />
+                    </div>
+                    <!-- 2nd row -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label>No. KTP</label>
+                                    <input asp-for="Pelamar.NoKTP" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label>No. Kartu Keluarga</label>
+                                    <input asp-for="Pelamar.NoKK" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 3rd row -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">Agama</label>
+                                    <select id="sAgama" asp-for="Pelamar.AgamaId" class="form-control" required>
+                                        <option value="@Model.Pelamar.AgamaId" selected>@Model.NamaAgama</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">No. Telp</label>
+                                    <input asp-for="Pelamar.Telp" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 4th row -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">Tanggal Lahir</label>
+                                    <input asp-for="TanggalLahir" class="form-control dtpicker" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">Tempat Lahir</label>
+                                    <input asp-for="Pelamar.TempatLahir" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 5th row -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">Jenis Kelamin</label>
+                                    <select id="sKelamin" asp-for="Pelamar.Kelamin" class="form-control" required>
+                                        <option value=""></option>
+                                        <option value="true">Laki-Laki</option>
+                                        <option value="false">Perempuan</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="">Golongan Darah</label>
+                                    <select id="sGolDarah" asp-for="Pelamar.GolonganDarah" class="form-control">
+                                        <option value=""></option>
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="AB">AB</option>
+                                        <option value="O">O</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 6th save -->
+                    <div class="form-group">
+                        <div class="text-right">
+                            @if (User.IsInRole("SysAdmin"))
+                            {
+                                <button type="button" id="PindahinGue" data-id="@Model.Pelamar.PelamarId" class="btn btn-danger">Pindah</button>
+                            }
+                            
+                            <button type="submit" class="btn btn-primary">Update Biodata</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

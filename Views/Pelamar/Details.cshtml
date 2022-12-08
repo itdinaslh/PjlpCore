@@ -25,7 +25,7 @@
                 <div class="card-header violet-gradient d-flex align-items-center flex-wrap text-white">
                     @Model.Pelamar.Nama
                 </div>
-                @if (Model.PasFoto is not null)
+                @if (Model.PasFoto is not null && Model.PasFoto.ToLower().Contains("pdf"))
                 {
                     <img id="pas-foto" class="card-img-top" src='@Model.PasFoto' alt="Card image cap" style="min-height: 275px; max-height: 275px;">
                 }
@@ -120,11 +120,11 @@
                         </div>
                     </div>
                     <div x-show="modul == 1" x-transition>
-                        <partial name="~/Views/Pendaftaran/Biodata.cshtml" />
+                        <partial name="~/Views/Pelamar/Biodata.cshtml" />
                     </div>
                     <div x-show="modul == 2" x-transition>
                         <div class="d-none" :class="modul == 2 ? 'd-block' : 'd-none'">
-                            <partial name="~/Views/Pendaftaran/Alamat.cshtml" />
+                            <partial name="~/Views/Pelamar/Alamat.cshtml" />
                         </div>
                     </div>
                     <div x-show="modul == 3" x-transition>

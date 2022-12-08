@@ -27,6 +27,7 @@ public class PelamarController : Controller
     }
 
     [HttpGet("/pelamar/files")]
+    [Authorize(Roles = "SysAdmin, PPBJ, Kepeg")]
     public async Task<IActionResult> FileWajib(Guid? jab, bool? isNew)
     {
         List<Persyaratan> dataList = new List<Persyaratan>();
@@ -70,6 +71,7 @@ public class PelamarController : Controller
     }
 
     [HttpPost("/pelamar/files/update")]
+    [Authorize(Roles = "SysAdmin, PPBJ, Kepeg")]
     public async Task<IActionResult> UpdateFileWajib(FileWajibVM model, int[] Files)
     {
         model.Files = Files;
@@ -191,6 +193,7 @@ public class PelamarController : Controller
     }
 
     [HttpPost("/pelamar/files/download/selected")]
+    [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
     public async Task DownloadSelected(Guid[] Files)
     {
         var files = await fileRepo.FilePelamars
@@ -220,6 +223,7 @@ public class PelamarController : Controller
     }
 
     [HttpPost("/pelamar/files/download/all")]
+    [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
     public async Task DownloadAll(Guid myID)
     {
         var files = await fileRepo.FilePelamars
@@ -248,6 +252,7 @@ public class PelamarController : Controller
     }
 
     [HttpPost("/pelamar/status/change")]
+    [Authorize(Roles = "SysAdmin, PPBJ")]
     public async Task<IActionResult> ChangeStatus(PelamarVM model)
     {
         if (model.Pelamar is not null)
@@ -266,5 +271,21 @@ public class PelamarController : Controller
 
         return Json(Result.Failed());
         
+    }
+
+    [HttpPost("/pelamar/jenis/pindah")]
+    [Authorize(Roles = "SysAdmin")]
+    public async Task<IActionResult> PindahinCoy(Guid? myID)
+    {
+        Pelamar? data = await pelamarRepo.Pelamars.FirstAsync(x => x.PelamarId == myID);
+
+        if (data is not null)
+        {
+            await pelamarRepo.Pindahin(data);
+
+            return Json(Result.Success());
+        }
+
+        return Json(Result.NotFound());
     }
 }
