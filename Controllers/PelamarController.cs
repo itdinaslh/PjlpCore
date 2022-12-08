@@ -146,7 +146,7 @@ public class PelamarController : Controller
                 }
             }
 
-
+            pasfoto = pasfoto.Contains("pdf") ? null : pasfoto;
 
             return View("~/Views/Pelamar/Details.cshtml", new PelamarVM
             {
