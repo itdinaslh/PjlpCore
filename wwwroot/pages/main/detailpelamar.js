@@ -92,6 +92,10 @@
     $('#sStatusBPJS').select2({
         placeholder: 'Pilih Status BPJS'
     });
+
+    var myBid = $('#sBidang option:selected').val();
+
+    PopulateJabatan(myBid);
 });
 
 $('.formdata').submit(function (e) {

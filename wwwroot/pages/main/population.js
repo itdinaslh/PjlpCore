@@ -20,9 +20,9 @@ $('#sKelDom').select2({
     placeholder: 'Pilih kelurahan'
 });
 
-$('#bidang').change(function () {
+$('#sBidang').change(function () {
     $('#jabatan').val(null).trigger('change');
-    var theID = $('#bidang option:selected').val();
+    var theID = $('#sBidang option:selected').val();
     PopulateJabatan(theID);
     $('#jabatan').select2('focus');
 });

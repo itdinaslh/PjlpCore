@@ -120,7 +120,7 @@
                             <div class="col-6">
                                 <div class="form-group" wire:ignore>
                                     <label for="bidang_lain">Bidang</label>
-                                    <select asp-for="Pelamar.BidangId" class="form-control" style="width: 100%;" readonly>
+                                    <select asp-for="Pelamar.BidangId" id="sBidang" class="form-control" style="width: 100%;" readonly>
                                         @if (Model.NamaBidang is not null)
                                         {
                                             <option value="@Model.Pelamar.BidangId" selected>@Model.NamaBidang</option>
