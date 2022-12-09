@@ -61,6 +61,7 @@ public class PelamarService : IPelamar
             data.TempatLahir = pelamar.TempatLahir;
             data.Kelamin = pelamar.Kelamin;
             data.GolonganDarah = pelamar.GolonganDarah;
+            data.Telp = pelamar.Telp;
 
             context.Update(data);
 
@@ -90,6 +91,10 @@ public class PelamarService : IPelamar
             data.TglAkhirSIM = pelamar.TglAkhirSIM;
             data.JabatanId = pelamar.JabatanId;
             data.UpdatedAt = pelamar.UpdatedAt;
+            data.CabangRekening = pelamar.CabangRekening;
+            data.NoRekening = pelamar.NoRekening;
+            data.BidangId = pelamar.BidangId;
+            data.JabatanId = pelamar.JabatanId;
 
             context.Update(data);
 

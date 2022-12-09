@@ -6,6 +6,7 @@ using PjlpCore.Entity;
 using PjlpCore.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using System.IO.Compression;
+using System.Globalization;
 
 namespace PjlpCore.Controllers;
 
@@ -287,5 +288,65 @@ public class PelamarController : Controller
         }
 
         return Json(Result.NotFound());
+    }
+
+    [HttpPost("/pelamar/biodata/update")]
+    [Authorize(Roles = "SysAdmin, PjlpAdmin")]
+    public async Task<IActionResult> UpdateBiodata(PelamarVM model)
+    {
+        if (model.Pelamar.PelamarId != Guid.Empty)
+        {
+            model.Pelamar.TglLahir = DateOnly.Parse(model.TanggalLahir!, new CultureInfo("id-ID"));
+
+            await pelamarRepo.UpdateBiodata(model.Pelamar);
+
+            return Json(Result.Success());
+        }
+
+        return Json(Result.Failed());
+    }
+
+    [HttpPost("/pelamar/alamat/update")]
+    [Authorize(Roles = "SysAdmin, PjlpAdmin")]
+    public async Task<IActionResult> UpdateAlamat(PelamarVM model)
+    {
+        model.Pelamar.AddressIsSame = model.AddressIsSame;
+
+        if (model.Pelamar.PelamarId != Guid.Empty)
+        {
+            if (model.AddressIsSame)
+            {
+                model.Pelamar.DomKelurahanId = model.Pelamar.KelurahanId;
+                model.Pelamar.DomAlamat = model.Pelamar.Alamat;
+                model.Pelamar.DomRT = model.Pelamar.RT;
+                model.Pelamar.DomRW = model.Pelamar.RW;
+                model.Pelamar.DomKodePos = model.Pelamar.KodePos;
+            }
+
+            await pelamarRepo.UpdateAlamat(model.Pelamar);
+
+            return Json(Result.Success());
+        }
+
+        return Json(Result.Failed());
+    }
+
+    [HttpPost("/pelamar/lainnya/update")]
+    [Authorize(Roles = "SysAdmin, PjlpAdmin")]
+    public async Task<IActionResult> UpdateLainnya(PelamarVM model)
+    {
+        if (model.Pelamar.PelamarId != Guid.Empty)
+        {
+            if (model.TglAkhirSIM is not null)
+            {
+                model.Pelamar.TglAkhirSIM = DateOnly.Parse(model.TglAkhirSIM, new CultureInfo("id_ID"));
+            }
+
+            await pelamarRepo.UpdateLainnya(model.Pelamar);
+
+            return Json(Result.Success());
+        }
+
+        return Json(Result.Failed());
     }
 }
