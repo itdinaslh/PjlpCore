@@ -62,7 +62,8 @@
                     @foreach (var p in Model.Files!)
                     {  
                         string fullPath = p.FileExtension.ToLower().Contains("pdf") ? "/img/pdf.jpg" : p.FilePath + "/" + p.FileName;
-                        <div class="col-lg-4">
+                        string fileid = "File-" + p.FilePegawaiID;
+                        <div class="col-lg-4" id="@fileid">
                             <div class="card mb-4">
                                 <div class="card-header text-center bg-primary-500 bg-success-gradient">
                                     <h5>@p.Persyaratan.NamaPersyaratan</h5>

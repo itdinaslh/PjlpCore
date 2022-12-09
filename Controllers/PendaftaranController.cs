@@ -271,22 +271,7 @@ public class PendaftaranController : Controller
         string fileName = GenerateRandomString() + fileExt;
         string realName = model.Upload!.TheFile!.FileName;
         string filePath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString();
-        string realPath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString();
-
-        if (!fileExt.Contains("pdf"))
-        {
-            if (!Directory.Exists(thumbImg))
-            {
-                Directory.CreateDirectory(thumbImg);
-            }
-
-            filePath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString() + "/thumbnail";
-
-            Image image = Image.Load(model.Upload.TheFile.OpenReadStream());
-            image.Mutate(x => x.Resize(600, 400));
-
-            image.Save(thumbImg + "/" + fileName);
-        }
+        string realPath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString();        
 
         List<FilePelamar>? filePelamar = await fileRepo.FilePelamars
             .Where(x => x.PelamarId == model.Pelamar.PelamarId)
@@ -306,15 +291,18 @@ public class PendaftaranController : Controller
             if (filePelamar.Any(x => x.PersyaratanID == model.Upload.PersyaratanID))
             {
                 var FileToDelete = filePelamar.Where(x => x.PersyaratanID == model.Upload.PersyaratanID)
-                    .FirstOrDefault();
+                    .ToList();
 
-                oldID = FileToDelete!.FilePelamarID.ToString();
-                isNew = false;
+                foreach(var p in FileToDelete)
+                {
+                    oldID = p!.FilePelamarID.ToString();
+                    isNew = false;
 
-                await fileRepo.DeleteDataAsync(FileToDelete!.FilePelamarID);
+                    await fileRepo.DeleteDataAsync(p!.FilePelamarID);
 
-                System.IO.File.Delete(path + "/" + FileToDelete.FileName);
-                System.IO.File.Delete(thumbImg + "/" + FileToDelete.FileName);
+                    System.IO.File.Delete(path + "/" + p.FileName);
+                    System.IO.File.Delete(thumbImg + "/" + p.FileName);
+                }                
             }
         }
 
@@ -337,6 +325,21 @@ public class PendaftaranController : Controller
         using (FileStream stream = new(Path.Combine(path, fileName), FileMode.Create))
         {
             model.Upload.TheFile.CopyTo(stream);
+        }
+
+        if (!fileExt.Contains("pdf"))
+        {
+            if (!Directory.Exists(thumbImg))
+            {
+                Directory.CreateDirectory(thumbImg);
+            }
+
+            filePath = "/uploads/pelamar/" + model.Pelamar.PelamarId.ToString() + "/thumbnail";
+
+            Image image = Image.Load(model.Upload.TheFile.OpenReadStream());
+            image.Mutate(x => x.Resize(600, 400));
+
+            image.Save(thumbImg + "/" + fileName);
         }
 
         await fileRepo.SaveDataAsync(file);

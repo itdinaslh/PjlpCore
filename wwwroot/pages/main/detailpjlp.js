@@ -124,7 +124,7 @@ $('#UploadFile').submit(function (e) {
                 $('#DownloadDiv').show();
 
                 if (result.isnew == "no") {
-                    $('#' + result.oldid).remove();                    
+                    $('#File-' + result.oldid).remove();                    
                 }
 
                 if (result.isnewfoto == "yes") {

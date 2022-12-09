@@ -59,23 +59,7 @@ public class PegawaiController : Controller
         string fileName = GenerateRandomString() + fileExt;
         string realName = model.Upload.TheFile.FileName;
         string filePath = "/uploads/" + model.Pegawai.PegawaiID.ToString();
-        string realPath = "/uploads/" + model.Pegawai.PegawaiID.ToString();
-
-
-        if (!fileExt.Contains("pdf"))
-        {
-            if (!Directory.Exists(thumbImg))
-            {
-                Directory.CreateDirectory(thumbImg);
-            }
-
-            filePath = realPath + "/thumbnails";
-
-            Image image = Image.Load(model.Upload.TheFile.OpenReadStream());
-            image.Mutate(x => x.Resize(600, 400));
-
-            image.Save(thumbImg + "/" + fileName);            
-        }
+        string realPath = "/uploads/" + model.Pegawai.PegawaiID.ToString();        
 
         List<FilePegawai>? filePegawai = await fileRepo.FilePegawais
             .Where(x => x.PegawaiID == model.Pegawai.PegawaiID)
@@ -100,10 +84,10 @@ public class PegawaiController : Controller
                 oldID = FileToDelete!.FilePegawaiID.ToString();
                 isNew = false;                
 
-                await fileRepo.DeleteDataAsync(FileToDelete!.FilePegawaiID);
-
                 System.IO.File.Delete(path + "/" + FileToDelete.FileName);
                 System.IO.File.Delete(thumbImg + "/" + FileToDelete.FileName);
+
+                await fileRepo.DeleteDataAsync(FileToDelete!.FilePegawaiID);
             }
         }
 
@@ -126,6 +110,21 @@ public class PegawaiController : Controller
         using (FileStream stream = new(Path.Combine(path, fileName), FileMode.Create))
         {
             model.Upload.TheFile.CopyTo(stream);
+        }
+
+        if (!fileExt.Contains("pdf"))
+        {
+            if (!Directory.Exists(thumbImg))
+            {
+                Directory.CreateDirectory(thumbImg);
+            }
+
+            filePath = realPath + "/thumbnails";
+
+            Image image = Image.Load(model.Upload.TheFile.OpenReadStream());
+            image.Mutate(x => x.Resize(600, 400));
+
+            image.Save(thumbImg + "/" + fileName);
         }
 
         await fileRepo.SaveDataAsync(file);
