@@ -186,6 +186,8 @@ public class PendaftaranController : Controller
 
             string pasfoto = "";
 
+            BelumUpload = BelumUpload < 0 ? 0 : BelumUpload;
+
             sim = data.TglAkhirSIM is not null ? data.TglAkhirSIM!.ToString() : "";
 
             if (filePelamar is not null)
