@@ -408,6 +408,7 @@ public class PendaftaranController : Controller
             .Include(j => j.Jabatan)
             .Include(p => p.Pendidikan)
             .Include(b => b.Bidang)
+            .Include(s => s.StatusLamaran)
             .Where(x => x.NoKTP == User.Identity.Name).FirstOrDefaultAsync();
 
         if (pelamar is null)
@@ -450,7 +451,8 @@ public class PendaftaranController : Controller
         {
             Pelamar = pelamar,
             ImageProfile = Foto,
-            StatusBerkas = StatusFile
+            //StatusBerkas = StatusFile
+            StatusBerkas = pelamar.StatusLamaran.NamaStatus
         });
     }
 
