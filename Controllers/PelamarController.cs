@@ -7,6 +7,9 @@ using PjlpCore.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using System.IO.Compression;
 using System.Globalization;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using System.Data;
+using ClosedXML.Excel;
 
 namespace PjlpCore.Controllers;
 
@@ -18,13 +21,18 @@ public class PelamarController : Controller
     private readonly IPelamar pelamarRepo;
     private readonly IFilePelamar fileRepo;
     private readonly IStatus statusRepo;
+    private readonly IUser userRepo;
+    private readonly IUserBidang userBidangRepo;
 
-    public PelamarController(IPersyaratanRepo pRepo, IEventFile fRepo, IPelamar pelamarRepo, IFilePelamar fileLamar, IStatus statusRepo) { 
+    public PelamarController(IPersyaratanRepo pRepo, IEventFile fRepo, IPelamar pelamarRepo, 
+            IFilePelamar fileLamar, IStatus statusRepo, IUser userRepo, IUserBidang userBidangRepo) { 
         this.pRepo = pRepo;
         this.eventRepo = fRepo;
         this.pelamarRepo = pelamarRepo;
         this.fileRepo = fileLamar;
         this.statusRepo = statusRepo;
+        this.userRepo = userRepo;
+        this.userBidangRepo = userBidangRepo;
     }
 
     [HttpGet("/pelamar/files")]
@@ -348,5 +356,187 @@ public class PelamarController : Controller
         }
 
         return Json(Result.Failed());
+    }
+
+    public System.Data.DataTable GetDataExport(bool isNew)
+    {
+        int x = 1;
+        bool isBidang = User.IsInRole("PjlpAdmin") || User.IsInRole("PPBJ");
+
+        System.Data.DataTable dt = new System.Data.DataTable();
+        dt.TableName = "PelamarData";
+
+        List<Guid> bidangs = new();
+        List<UserBidang> bids = new();
+
+        if (isBidang)
+        {
+            User? user = userRepo.Users
+                .Where(x => x.UserName == User.Identity!.Name)
+                .FirstOrDefault();
+
+            bids = userBidangRepo.UserBidangs
+                .Where(x => x.UserID == user!.UserID)
+                .ToList();
+
+            foreach (var p in bids)
+            {
+                bidangs.Add(p.BidangID);
+            }
+        }
+
+        var data = pelamarRepo.Pelamars
+            .Include(x => x.Agama)
+            .Include(x => x.Kelurahan.Kecamatan.Kabupaten.Provinsi)
+            .Include(x => x.KelurahanDom.Kecamatan.Kabupaten.Provinsi)
+            .Include(x => x.Pendidikan)
+            .Include(x => x.Jabatan)
+            .ThenInclude(x => x.Bidang)
+            .Where(p => p.EventId == 1)
+            .Where(p => p.IsNew == isNew)
+            .Where(p => isBidang ? bidangs.Contains(p.BidangId) : true)
+            .ToList();
+            
+
+        // Add Columns
+        dt.Columns.Add("No", typeof(int));
+        dt.Columns.Add("Nama Lengkap", typeof(string));
+        dt.Columns.Add("NIK", typeof(string));
+        dt.Columns.Add("No. KK", typeof(string));
+        dt.Columns.Add("No. NPWP", typeof(string));
+        dt.Columns.Add("Agama", typeof(string));
+        dt.Columns.Add("No. Telp", typeof(string));
+        dt.Columns.Add("Tanggal Lahir", typeof(string));
+        dt.Columns.Add("Tempat Lahir", typeof(string));
+        dt.Columns.Add("Jenis Kelamin", typeof(string));
+        dt.Columns.Add("Alamat Sesuai KTP", typeof(string));
+        dt.Columns.Add("Kelurahan", typeof(string));
+        dt.Columns.Add("Kecamatan", typeof(string));
+        dt.Columns.Add("Kota/Kabupaten", typeof(string));
+        dt.Columns.Add("Provinsi", typeof(string));
+        dt.Columns.Add("RT", typeof(string));
+        dt.Columns.Add("RW", typeof(string));
+        dt.Columns.Add("Kode Pos", typeof(string));
+        dt.Columns.Add("Alamat Domisili", typeof(string));
+        dt.Columns.Add("Kelurahan Domisili", typeof(string));
+        dt.Columns.Add("Kecamatan Domisili", typeof(string));
+        dt.Columns.Add("Kota/Kabupaten Domisili", typeof(string));
+        dt.Columns.Add("Provinsi Domisili", typeof(string));
+        dt.Columns.Add("RT Domisili", typeof(string));
+        dt.Columns.Add("RW Domisili", typeof(string));
+        dt.Columns.Add("Kode Pos Domisili", typeof(string));
+        dt.Columns.Add("Pendidikan", typeof(string));
+        dt.Columns.Add("Jurusan", typeof(string));
+        dt.Columns.Add("Nama Sekolah", typeof(string));
+        dt.Columns.Add("Tanggungan", typeof(string));
+        dt.Columns.Add("No. BPJS Kesehatan", typeof(string));
+        dt.Columns.Add("No. BPJS Ketenagakerjaan", typeof(string));
+        dt.Columns.Add("Status BPJS", typeof(string));
+        dt.Columns.Add("No. SIM/SIO", typeof(string));
+        dt.Columns.Add("Berlaku Hingga", typeof(string));
+        dt.Columns.Add("Cabang Bank DKI", typeof(string));
+        dt.Columns.Add("No. Rekening Bank DKI", typeof(string));
+        dt.Columns.Add("Bidang", typeof(string));
+        dt.Columns.Add("Jabatan", typeof(string));
+        dt.Columns.Add("File Sudah Upload", typeof(string));
+
+        // Add Rows To DataTable
+        if (data is not null)
+        {            
+            foreach(var p in data)
+            {
+                string kelamin = (bool)p.Kelamin! ? "Laki-Laki" : "Perempuan";
+
+                string AlreadyFile = "";
+
+                var AllFiles = fileRepo.FilePelamars
+                    .Include(i => i.Persyaratan)
+                    .Where(x => x.PelamarId == p.PelamarId)
+                    .Where(x => x.Pelamar.EventId == 1)
+                    .ToList();
+
+                if (AllFiles is not null)
+                {
+                    foreach (var file in AllFiles)
+                    {
+                        if (AlreadyFile == "")
+                        {
+                            AlreadyFile = file.Persyaratan.NamaPersyaratan;
+                        } else
+                        {
+                            AlreadyFile += ", " + file.Persyaratan.NamaPersyaratan;
+                        }
+                    }
+                }
+
+                dt.Rows.Add(
+                    x,
+                    p.Nama,
+                    p.NoKTP,
+                    p.NoKK,
+                    p.NoNPWP,
+                    p.Agama.NamaAgama,
+                    p.Telp,
+                    p.TglLahir,
+                    p.TempatLahir,
+                    kelamin,
+                    p.Alamat,
+                    p.Kelurahan.NamaKelurahan,
+                    p.Kelurahan.Kecamatan.NamaKecamatan,
+                    p.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
+                    p.Kelurahan.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
+                    p.RT,
+                    p.RW,
+                    p.KodePos,
+                    p.DomAlamat,
+                    p.KelurahanDom.NamaKelurahan,
+                    p.KelurahanDom.Kecamatan.NamaKecamatan,
+                    p.KelurahanDom.Kecamatan.Kabupaten.NamaKabupaten,
+                    p.KelurahanDom.Kecamatan.Kabupaten.Provinsi.NamaProvinsi,
+                    p.DomRT,
+                    p.DomRW,
+                    p.DomKodePos,
+                    p.Pendidikan.NamaPendidikan,
+                    p.JurusanSekolah,
+                    p.NamaSekolah,
+                    p.Tanggungan,
+                    p.NoBPJS,
+                    p.NoBPJSK,
+                    p.StatusBPJS,
+                    p.NoSIM,
+                    p.TglAkhirSIM,
+                    p.CabangRekening,
+                    p.NoRekening,
+                    p.Jabatan.Bidang.NamaBidang,
+                    p.Jabatan.NamaJabatan,
+                    AlreadyFile
+                );
+            }
+        }
+
+        dt.AcceptChanges();
+
+        return dt;
+    }
+
+
+    [HttpGet("/pelamar/excel/download")]
+    [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
+    public IActionResult ExportToExcel(bool isNew = true)
+    {
+        System.Data.DataTable dt = GetDataExport(isNew);
+
+        string? filename = "Data Pelamar.xlsx";
+
+        using (XLWorkbook wb = new XLWorkbook())
+        {
+            wb.Worksheets.Add(dt);
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                wb.SaveAs(stream);
+                return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename);
+            }
+        }
     }
 }
