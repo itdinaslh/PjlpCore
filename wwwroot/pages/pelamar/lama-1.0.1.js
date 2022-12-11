@@ -1,10 +1,36 @@
 ﻿$(document).ready(function () {
-    loadTable();
+    loadTable();    
 });
 
 function loadContent() {
     loadTable();
 }
+
+$('#btnDownload').click(function () {
+    var datahref = '/pelamar/excel/download/?isNew=false';
+
+    $.ajax({
+        url: datahref,
+        type: 'GET',
+        xhrFields: {
+            responseType: 'blob'
+        },
+        beforeSend: function () {
+            $("main").addClass("loadgue");
+        },
+        success: function (result) {
+            $('main').removeClass("loadgue");
+
+            var blob = result;
+            var downloadUrl = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = downloadUrl;
+            a.download = "Data-Pelamar-Lama.xlsx";
+            document.body.appendChild(a);
+            a.click();
+        }
+    });
+});
 
 function loadTable() {
     $('#tblData').DataTable().clear().destroy();

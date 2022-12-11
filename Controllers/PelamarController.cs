@@ -358,25 +358,25 @@ public class PelamarController : Controller
         return Json(Result.Failed());
     }
 
-    public System.Data.DataTable GetDataExport(bool isNew)
+    public async Task<System.Data.DataTable> GetDataExport(bool isNew)
     {        
         bool isBidang = User.IsInRole("PjlpAdmin") || User.IsInRole("PPBJ");
 
         System.Data.DataTable dt = new System.Data.DataTable();
-        dt.TableName = "PelamarData";
+        dt.TableName = "Data_Pelamar";
 
         List<Guid> bidangs = new();
         List<UserBidang> bids = new();
 
         if (isBidang)
         {
-            User? user = userRepo.Users
+            User? user = await userRepo.Users
                 .Where(x => x.UserName == User.Identity!.Name)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
-            bids = userBidangRepo.UserBidangs
+            bids = await userBidangRepo.UserBidangs
                 .Where(x => x.UserID == user!.UserID)
-                .ToList();
+                .ToListAsync();
 
             foreach (var p in bids)
             {
@@ -384,17 +384,18 @@ public class PelamarController : Controller
             }
         }
 
-        var data = pelamarRepo.Pelamars
+        var data = await pelamarRepo.Pelamars
             .Include(x => x.Agama)
             .Include(x => x.Kelurahan.Kecamatan.Kabupaten.Provinsi)
             .Include(x => x.KelurahanDom.Kecamatan.Kabupaten.Provinsi)
             .Include(x => x.Pendidikan)
-            .Include(x => x.Jabatan)
+            .Include(x => x.StatusLamaran)
+            .Include(x => x.Jabatan)            
             .ThenInclude(x => x.Bidang)
             .Where(p => p.EventId == 1)
             .Where(p => p.IsNew == isNew)
             .Where(p => isBidang ? bidangs.Contains(p.BidangId) : true)
-            .ToList();
+            .ToListAsync();
             
 
         // Add Columns
@@ -405,8 +406,9 @@ public class PelamarController : Controller
         dt.Columns.Add("No. NPWP", typeof(string));
         dt.Columns.Add("Agama", typeof(string));
         dt.Columns.Add("No. Telp", typeof(string));
-        dt.Columns.Add("Tanggal Lahir", typeof(string));
+        dt.Columns.Add("Tanggal Lahir", typeof(string));        
         dt.Columns.Add("Tempat Lahir", typeof(string));
+        dt.Columns.Add("Usia", typeof(int));
         dt.Columns.Add("Jenis Kelamin", typeof(string));
         dt.Columns.Add("Alamat Sesuai KTP", typeof(string));
         dt.Columns.Add("Kelurahan", typeof(string));
@@ -437,7 +439,9 @@ public class PelamarController : Controller
         dt.Columns.Add("No. Rekening Bank DKI", typeof(string));
         dt.Columns.Add("Bidang", typeof(string));
         dt.Columns.Add("Jabatan", typeof(string));
-        dt.Columns.Add("File Sudah Upload", typeof(string));
+        dt.Columns.Add("Status K2", typeof(string));
+        dt.Columns.Add("Status Verifikasi", typeof(string));
+        dt.Columns.Add("File Sudah Upload", typeof(string));        
 
         // Add Rows To DataTable
         if (data is not null)
@@ -445,15 +449,31 @@ public class PelamarController : Controller
             int x = 1;
             foreach (var p in data)
             {
-                string kelamin = (bool)p.Kelamin! ? "Laki-Laki" : "Perempuan";
+                string kelamin = (bool)p.Kelamin! ? "Laki-laki" : "Perempuan";
+                string statbpjs = "";
+
+                if (p.StatusBPJS == "0")
+                {
+                    statbpjs = "Tidak Punya BPJS";
+                } else if (p.StatusBPJS == "1")
+                {
+                    statbpjs = "Dinas Linkungan Hidup Prov. DKI Jakarta";
+                } else if (p.StatusBPJS == "2")
+                {
+                    statbpjs = "Non Dinas Lingkungan Hidup Prov. DKI Jakarta";
+                }
 
                 string AlreadyFile = "";
+                string myIsK2 = "TIDAK";
 
-                var AllFiles = fileRepo.FilePelamars
+                if ((bool)p.IsK2!)
+                    myIsK2 = "YA";
+
+                var AllFiles = await fileRepo.FilePelamars
                     .Include(i => i.Persyaratan)
                     .Where(x => x.PelamarId == p.PelamarId)
                     .Where(x => x.Pelamar.EventId == 1)
-                    .ToList();
+                    .ToListAsync();
 
                 if (AllFiles is not null)
                 {
@@ -462,7 +482,8 @@ public class PelamarController : Controller
                         if (AlreadyFile == "")
                         {
                             AlreadyFile = file.Persyaratan.NamaPersyaratan;
-                        } else
+                        }
+                        else
                         {
                             AlreadyFile += ", " + file.Persyaratan.NamaPersyaratan;
                         }
@@ -479,6 +500,7 @@ public class PelamarController : Controller
                     p.Telp,
                     p.TglLahir,
                     p.TempatLahir,
+                    GetAgeLastDec((DateOnly)p.TglLahir!),
                     kelamin,
                     p.Alamat,
                     p.Kelurahan.NamaKelurahan,
@@ -502,14 +524,16 @@ public class PelamarController : Controller
                     p.Tanggungan,
                     p.NoBPJS,
                     p.NoBPJSK,
-                    p.StatusBPJS,
+                    statbpjs,
                     p.NoSIM,
                     p.TglAkhirSIM,
                     p.CabangRekening,
                     p.NoRekening,
                     p.Jabatan.Bidang.NamaBidang,
                     p.Jabatan.NamaJabatan,
-                    AlreadyFile
+                    myIsK2,
+                    p.StatusLamaran.NamaStatus,
+                    AlreadyFile                    
                 );
 
                 x++;
@@ -524,11 +548,11 @@ public class PelamarController : Controller
 
     [HttpGet("/pelamar/excel/download")]
     [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
-    public IActionResult ExportToExcel(bool isNew = true)
+    public async Task<IActionResult> ExportToExcel(bool isNew = true)
     {
-        System.Data.DataTable dt = GetDataExport(isNew);
+        System.Data.DataTable dt = await GetDataExport(isNew);
 
-        string? filename = "Data Pelamar.xlsx";
+        string? filename = isNew == false ? "Data-Pelamar-Lama.xlsx" : "Data-Pelamar-Baru.xlsx";
 
         using (XLWorkbook wb = new XLWorkbook())
         {
@@ -537,8 +561,21 @@ public class PelamarController : Controller
             using (MemoryStream stream = new MemoryStream())
             {
                 wb.SaveAs(stream);
+                
                 return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename);
             }
         }
+    }
+
+    private static int GetAgeLastDec(DateOnly birthDate)
+    {
+        DateTime n = new(2022, 12, 31);
+
+        int age = n.Year - birthDate.Year;
+
+        if (n.Month < birthDate.Month || (n.Month == birthDate.Month && n.Day < birthDate.Day))
+            age--;
+
+        return age;
     }
 }

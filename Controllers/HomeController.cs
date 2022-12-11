@@ -8,6 +8,7 @@ using PjlpCore.Repository;
 using PjlpCore.Entity;
 using Microsoft.EntityFrameworkCore;
 using System.Web;
+using System.Linq;
 
 namespace PjlpCore.Controllers
 {
@@ -47,12 +48,66 @@ namespace PjlpCore.Controllers
                 }
             }
 
+            var lama = pelamarRepo.Pelamars
+                .Include(x => x.Bidang)
+                .Where(x => x.IsNew == false)
+                .Select(p => new {
+                    p.Bidang.NamaBidang
+                }
+            );
+
+            var baru = pelamarRepo.Pelamars
+                .Include(x => x.Bidang)
+                .Where(x => x.IsNew == true)
+                .Select(p => new {
+                    p.Bidang.NamaBidang
+                });
+
+            var groupLama = await lama.GroupBy(x => x.NamaBidang)
+                .Select(x => new {
+                    x.Key,
+                    Jumlah = x.Count()
+                })
+                .OrderBy(x => x.Key)
+                .ToListAsync();
+
+            var groupBaru = await baru.GroupBy(x => x.NamaBidang)
+                .Select(x => new {
+                    x.Key,
+                    Jumlah = x.Count()
+                })
+                .OrderBy(x => x.Key)
+                .ToListAsync();
+
+            List<PelamarDashVM> listLama = new List<PelamarDashVM>();
+            List<PelamarDashVM> listBaru = new List<PelamarDashVM>();
+
+            foreach(var p in groupLama) {
+                PelamarDashVM vm = new PelamarDashVM {
+                    NamaBidang = p.Key,
+                    JumlahPelamar = p.Jumlah
+                };
+
+                listLama.Add(vm);
+            }
+
+            foreach(var p in groupBaru) {
+                PelamarDashVM vm = new PelamarDashVM {
+                    NamaBidang = p.Key,
+                    JumlahPelamar = p.Jumlah
+                };
+
+                listBaru.Add(vm);
+            }
+
             return View(new DashboardVM
-            {
-                CountPNS = pegRepo.Pegawais.Where(x => x.JenisPegawaiID == 1).Count(),
-                CountDivisi = divRepo.Divisis.Count(),
-                CountBidang = bidRepo.Bidangs.Count(),
-                CountPJLP = pegRepo.Pegawais.Where(x => x.JenisPegawaiID == 2).Count(),
+            {                
+                CountBidang = bidRepo.Bidangs.Count(),                
+                CountPelamar = pelamarRepo.Pelamars.Where(x => x.EventId == 1).Count(),
+                CountBaru = pelamarRepo.Pelamars.Where(x => x.EventId == 1).Where(x => x.IsNew == true).Count(),
+                CountLama = pelamarRepo.Pelamars.Where(x => x.EventId == 1).Where(x => x.IsNew == false).Count(),
+                PelamarLama = listLama,
+                PelamarBaru = listBaru
             });
         }
 

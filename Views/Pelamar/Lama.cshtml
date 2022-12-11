@@ -10,6 +10,7 @@
 @section styles {
     <link rel="stylesheet" href="~/css/datagrid/datatables/datatables.bundle.css" />
     <link rel="stylesheet" href="~/css/addon.css" />
+    <link rel="stylesheet" href="~/css/loader.css" />
 }
 
 <div class="row">    
@@ -38,14 +39,16 @@
         </div>
 
         <div class="text-right">
-            <a href="/pelamar/excel/download/?isNew=false" class="btn btn-primary">Download Excel</a>
+            <button id="btnDownload" class="btn btn-primary">Download Excel</button>
         </div>
     </div>
 </div>
 
+<div class="overlay"></div>
+
 @section scripts {
     <script src="~/js/datagrid/datatables/datatables.bundle.js"></script>
-    <script src="~/pages/pelamar/lama.js"></script>
+    <script src="~/pages/pelamar//lama-1.0.1.js"></script>
     <script>
         $('#js-page-content').smartPanel();
     </script>

@@ -45,3 +45,29 @@ function loadTable() {
         }
     })
 }
+
+$('#btnDownload').click(function () {
+    var datahref = '/pelamar/excel/download';
+
+    $.ajax({
+        url: datahref,
+        type: 'GET',
+        xhrFields: {
+            responseType: 'blob'
+        },
+        beforeSend: function () {
+            $("main").addClass("loadgue");
+        },
+        success: function (result) {
+            $('main').removeClass("loadgue");
+
+            var blob = result;
+            var downloadUrl = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = downloadUrl;
+            a.download = "Data-Pelamar-Baru.xlsx";
+            document.body.appendChild(a);
+            a.click();
+        }
+    });
+});

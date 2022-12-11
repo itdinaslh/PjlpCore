@@ -3,15 +3,17 @@ using PjlpCore.Entity;
 namespace PjlpCore.Models;
 
 public class DashboardVM {
-    public int CountPNS;
 
-    public int CountDivisi;
+    public int CountBidang;    
 
-    public int CountBidang;
+    public int CountPelamar;
 
-    public int CountTupoksi;
+    public int CountBaru;
 
-    public int CountPendidikan;
+    public int CountLama;
 
-    public int CountPJLP;
+    #nullable disable
+    public List<PelamarDashVM> PelamarLama { get; set; }
+
+    public List<PelamarDashVM> PelamarBaru { get; set; }
 }
