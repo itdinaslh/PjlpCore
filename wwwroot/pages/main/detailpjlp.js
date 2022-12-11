@@ -200,7 +200,7 @@ function showFailedMessage() {
 }
 
 function addFiles(filePath, created, newid, type) {
-    var newFile = `<div class="col-lg-4">
+    var newFile = `<div id="File-` + newid + `" class="col - lg - 4">
                             <div class="card mb-4">
                                 <div class="card-header text-center bg-primary-500 bg-success-gradient">
                                     <h5>` + type + `</h5>

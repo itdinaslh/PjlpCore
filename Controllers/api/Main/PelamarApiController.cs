@@ -68,7 +68,8 @@ public class PelamarApiController : ControllerBase
               usia = GetAge((DateOnly)k.TglLahir!) + " Tahun",
               jabatan = k.Jabatan.NamaJabatan,
               bidang = k.Bidang.NamaBidang,
-              status = k.StatusLamaran.NamaStatus
+              status = k.StatusLamaran.NamaStatus,
+              isk2 = k.IsK2
           });
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
@@ -133,10 +134,11 @@ public class PelamarApiController : ControllerBase
               bidangID = k.BidangId,
               noktp = k.NoKTP,
               nama = k.Nama,
-              usia = GetAge((DateOnly)k.TglLahir!) + " Tahun",
+              usia = GetAgeLastDec((DateOnly)k.TglLahir!) + " Tahun",
               jabatan = k.Jabatan.NamaJabatan,
               bidang = k.Bidang.NamaBidang,
-              status = k.StatusLamaran.NamaStatus
+              status = k.StatusLamaran.NamaStatus,
+              isk2 = k.IsK2
           });
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
@@ -164,6 +166,18 @@ public class PelamarApiController : ControllerBase
     private static int GetAge(DateOnly birthDate)
     {
         DateTime n = DateTime.Now; // To avoid a race condition around midnight
+        int age = n.Year - birthDate.Year;
+
+        if (n.Month < birthDate.Month || (n.Month == birthDate.Month && n.Day < birthDate.Day))
+            age--;
+
+        return age;
+    }
+
+    private static int GetAgeLastDec(DateOnly birthDate)
+    {
+        DateTime n = new DateTime(2022, 12, 31);
+
         int age = n.Year - birthDate.Year;
 
         if (n.Month < birthDate.Month || (n.Month == birthDate.Month && n.Day < birthDate.Day))

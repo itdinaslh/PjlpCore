@@ -13,4 +13,5 @@ public interface IPegawai
     Task UpdateAlamat(Pegawai peg);
 
     Task UpdateDataLain(Pegawai peg);
+
 }

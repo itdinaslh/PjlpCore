@@ -23,15 +23,19 @@ public class PegawaiApiController : ControllerBase
     private readonly IUser userRepo;
     private readonly IBidangRepo bidangRepo;
     private readonly IUserBidang userBidangRepo;
+    private readonly ITempTable tempRepo;
+    private readonly IDetailPjlp detRepo;
 
     private const string cacheKey = "pjlpList";
 
-    public PegawaiApiController(IPegawai repo, IUser userRepo, IBidangRepo bidangRepo, IMemoryCache memCache, IUserBidang userBidang)
+    public PegawaiApiController(IPegawai repo, IUser userRepo, IBidangRepo bidangRepo, IUserBidang userBidang, ITempTable tempRepo, IDetailPjlp detRepo)
     {
         this.repo = repo;
         this.userRepo = userRepo;
         this.bidangRepo = bidangRepo;
         this.userBidangRepo = userBidang;
+        this.tempRepo = tempRepo;
+        this.detRepo = detRepo;
     }
 
 #nullable disable
@@ -199,6 +203,36 @@ public class PegawaiApiController : ControllerBase
         }
 
         return new JsonResult(Result.Failed());
+    }
+
+    [HttpGet("/api/aneh/ngasal/bulk")]
+    [Authorize(Roles = "SysAdmin")]
+    public async Task<IActionResult> UpdateJabatanBulk()
+    {
+        var temp = await tempRepo.TempTables.ToListAsync();
+
+        foreach(var t in temp)
+        {
+            var peg = await repo.Pegawais.Where(x => x.NIK == t.NIK).FirstOrDefaultAsync();
+
+            if (peg is not null)
+            {
+                var detail = await detRepo.DetailPjlps.Where(x => x.PegawaiID == peg.PegawaiID).FirstOrDefaultAsync();
+
+                if (detail is null)
+                {
+                    detail = new DetailPjlp { DetailPjlpID = Guid.Empty , PegawaiID = peg.PegawaiID };
+                }
+
+                detail.JabatanID = t.Kode;
+
+                peg.DetailPjlp = detail;
+
+                await detRepo.SaveDataAsync(detail);
+            }
+        }
+
+        return new JsonResult(Result.Success()); 
     }
 
     private static int GetAge(DateOnly birthDate)

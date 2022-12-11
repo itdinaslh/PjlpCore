@@ -16,6 +16,7 @@ public class DetailPjlpService : IDetailPjlp
     {
         if (detail.DetailPjlpID == Guid.Empty)
         {
+            detail.DetailPjlpID = Guid.NewGuid();
             await context.AddAsync(detail);
         } else
         {

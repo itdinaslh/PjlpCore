@@ -340,6 +340,9 @@ public class PendaftaranController : Controller
             image.Mutate(x => x.Resize(600, 400));
 
             image.Save(thumbImg + "/" + fileName);
+        } else
+        {
+            newPath = "/img/pdf.jpg";
         }
 
         await fileRepo.SaveDataAsync(file);

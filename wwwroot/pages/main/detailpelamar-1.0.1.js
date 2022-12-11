@@ -8,7 +8,7 @@
     PopulateStatus();
     checkAddrIsSame();
 
-    var jab = $('#jabatan').val();
+    var jab = $('#jabatan-elu').val();
     var baruGakSih = $('#gueBaruApaKagak').val();    
 
     PopulateFileWajib(jab, baruGakSih);
@@ -130,7 +130,7 @@ $('#UploadFile').submit(function (e) {
                 $('#DownloadDiv').show();
 
                 if (result.isnew == "no") {
-                    $('#' + result.oldid).remove();
+                    $('#File-' + result.oldid).remove();
                 }
 
                 if (result.isnewfoto == "yes") {
@@ -206,7 +206,7 @@ function showFailedMessage() {
 }
 
 function addFiles(filePath, created, newid, type) {
-    var newFile = `<div class="col-lg-4">
+    var newFile = `<div id="` + newid + `" class="col-lg-4">
                             <div class="card mb-4">
                                 <div class="card-header text-center bg-primary-500 bg-success-gradient">
                                     <h5>` + type + `</h5>

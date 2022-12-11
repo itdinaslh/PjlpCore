@@ -32,6 +32,8 @@ public class AppDbContext : DbContext {
     public DbSet<EventFile> EventFiles { get; set; }
     public DbSet<UserBidang> UserBidangs { get; set; }
 
+    public DbSet<TempTable> TempTables { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
 

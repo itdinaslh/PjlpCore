@@ -31,6 +31,17 @@ function loadTable() {
             {
                 render: function (data, type, row) { return "<a class='btn btn-sm btn-outline-success mr-2' href='/pelamar/details/?bid=" + row.bidangID + "&pid=" + row.pelamarId + "'><i class='fal fa-edit'></i> Detail</a>" }
             }
-        ]
-    })
+        ],
+        fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            if (aData.blacklist == true) {
+                $('td', nRow).addClass('bg-danger-200');
+            }
+            if (aData.usia > 55 && aData.isk2 == false) {
+                $('td', nRow).addClass('bg-warning-200');
+            }
+            if (aData.isk2 == true && aData.blacklist != true) {
+                $('td', nRow).addClass('bg-info-200');
+            }
+        }
+    });
 }
