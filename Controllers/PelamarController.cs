@@ -359,8 +359,7 @@ public class PelamarController : Controller
     }
 
     public System.Data.DataTable GetDataExport(bool isNew)
-    {
-        int x = 1;
+    {        
         bool isBidang = User.IsInRole("PjlpAdmin") || User.IsInRole("PPBJ");
 
         System.Data.DataTable dt = new System.Data.DataTable();
@@ -442,8 +441,9 @@ public class PelamarController : Controller
 
         // Add Rows To DataTable
         if (data is not null)
-        {            
-            foreach(var p in data)
+        {
+            int x = 1;
+            foreach (var p in data)
             {
                 string kelamin = (bool)p.Kelamin! ? "Laki-Laki" : "Perempuan";
 
@@ -511,6 +511,8 @@ public class PelamarController : Controller
                     p.Jabatan.NamaJabatan,
                     AlreadyFile
                 );
+
+                x++;
             }
         }
 
