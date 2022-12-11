@@ -34,7 +34,7 @@ function loadTable() {
             if (aData.blacklist == true) {
                 $('td', nRow).addClass('bg-danger-200');
             }
-            if (aData.umur > 55 && aData.isk2 == false) {
+            if (aData.usia > 55 && aData.isk2 == false) {
                 $('td', nRow).addClass('bg-warning-200');
             }
             if (aData.isk2 == true && aData.blacklist != true) {
