@@ -18,10 +18,7 @@
 
 <div x-data="{edit: false}">
     <div class="row">
-        <input id="myIsNew" type="hidden" value="@Model.Pelamar.IsNew" />
-        <div class="col-lg-12 mb-4" x-show="!edit">
-            <button type="button" class="btn btn-primary" x-on:click="edit = !edit">Tambah / Update File</button>
-        </div>
+        <input id="myIsNew" type="hidden" value="@Model.Pelamar.IsNew" />        
     </div>
     <div class="row">        
         <div class="col-xs-12">
