@@ -284,6 +284,7 @@ public class PelamarController : Controller
             .FirstOrDefaultAsync(x => x.PelamarId == model.Pelamar.PelamarId);
 
             data!.StatusLamaranId = model.Pelamar.StatusLamaranId;
+            data!.VerifiedBy = User.Identity!.Name;
 
             Status? mystatus = await statusRepo.Statuses.FirstOrDefaultAsync(x => x.StatusId == data!.StatusLamaranId);
 
