@@ -31,9 +31,9 @@ namespace PjlpCore.Entity
         [MaxLength(10)]
         public string FileExtension { get; set; }
 
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public DateTime? UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         public Pelamar Pelamar { get; set; }
 
