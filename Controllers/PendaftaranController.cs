@@ -21,15 +21,16 @@ public class PendaftaranController : Controller
     private readonly IPegawai pegRepo;
     private readonly IFilePelamar fileRepo;
     private readonly IEventFile eventFileRepo;
+    private readonly IEvent eventRepo;
 
-
-    public PendaftaranController(IPegawai repo, IPelamar pRepo, IFilePelamar fRepo, IPegawai pegRepo, IEventFile eventFile)
+    public PendaftaranController(IPegawai repo, IPelamar pRepo, IFilePelamar fRepo, IPegawai pegRepo, IEventFile eventFile, IEvent eventRepo)
     {
         this.repo = repo; 
         this.pelamarRepo = pRepo;
         this.fileRepo = fRepo;
         this.eventFileRepo = eventFile;
         this.pegRepo = pegRepo;
+        this.eventRepo = eventRepo;
     }
 
     [HttpGet("/pendaftaran/index")]
@@ -155,6 +156,7 @@ public class PendaftaranController : Controller
             .Include(b => b.Bidang)
             .Include(p => p.Pendidikan)
             .Include(j => j.Jabatan)
+            .Include(e => e.Event)
             .Include(x => x.StatusLamaran)
             .Include(k => k.Kelurahan!.Kecamatan.Kabupaten.Provinsi)
             .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
@@ -355,6 +357,22 @@ public class PendaftaranController : Controller
     [HttpPost("/pendaftaran/biodata/update")]
     [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> UpdateBiodata(PelamarVM model) {
+        var p = await pelamarRepo.Pelamars
+                .Include(e => e.Event)
+                .Where(x => x.PelamarId == model.Pelamar.PelamarId)
+                .Select(x => new
+                {
+                    x.Event.EndDate
+                }).FirstOrDefaultAsync();
+
+
+        DateOnly now = DateOnly.FromDateTime(DateTime.Now);
+
+        if (now > p.EndDate)
+        {
+            return Json(Result.TimeUp());
+        }
+
         if (model.Pelamar.PelamarId != Guid.Empty) {
             model.Pelamar.TglLahir = DateOnly.Parse(model.TanggalLahir, new CultureInfo("id-ID"));
 
@@ -369,6 +387,22 @@ public class PendaftaranController : Controller
     [HttpPost("/pendaftaran/alamat/update")]
     [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> UpdateAlamat(PelamarVM model) {
+        var p = await pelamarRepo.Pelamars
+                .Include(e => e.Event)
+                .Where(x => x.PelamarId == model.Pelamar.PelamarId)
+                .Select(x => new
+                {
+                    x.Event.EndDate
+                }).FirstOrDefaultAsync();
+
+
+        DateOnly now = DateOnly.FromDateTime(DateTime.Now);
+
+        if (now > p.EndDate)
+        {
+            return Json(Result.TimeUp());
+        }
+
         model.Pelamar.AddressIsSame = model.AddressIsSame;
 
         if (model.Pelamar.PelamarId != Guid.Empty) {
@@ -392,7 +426,23 @@ public class PendaftaranController : Controller
     [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> UpdateLainnya(PelamarVM model)
     {
-        if(model.Pelamar.PelamarId != Guid.Empty)
+        var p = await pelamarRepo.Pelamars
+                .Include(e => e.Event)
+                .Where(x => x.PelamarId == model.Pelamar.PelamarId)
+                .Select(x => new
+                {
+                    x.Event.EndDate
+                }).FirstOrDefaultAsync();
+
+
+        DateOnly now = DateOnly.FromDateTime(DateTime.Now);
+
+        if (now > p.EndDate)
+        {
+            return Json(Result.TimeUp());
+        }
+
+        if (model.Pelamar.PelamarId != Guid.Empty)
         {
             if (model.TglAkhirSIM is not null)
             {

@@ -70,11 +70,14 @@
                 <div class="col-md-12 text-right">
                     @*<a type="button" class="btn btn-warning mr-2" asp-action="Lama" asp-controller="Pelamar">Kembali</a>*@
                     @if (User.IsInRole("SysAdmin") || User.IsInRole("PjlpAdmin")) {
-                        <button x-on:click="edit = !edit"
+                        if (Model.IsAboutTime && User.IsInRole("SysAdmin"))
+                        {
+                            <button x-on:click="edit = !edit"
                             class="btn btn-danger verify d-none"
                             :class="modul == 4 ? 'd-inline-block' : 'd-none'">
-                            Tambah Berkas
-                        </button>
+                                Tambah Berkas
+                            </button>
+                        }                        
                     }                    
                 </div>
                 <div class="col-md-6">
@@ -142,7 +145,14 @@
                         <div x-show="modul != 4" x-transition>
                             <partial name="~/Views/Pelamar/Verify.cshtml" />
                         </div>
-                    }                    
+                    }
+                    
+                    @if (User.IsInRole("PPBJ") & Model.IsAboutTime)
+                    {
+                        <div x-show="modul != 4" x-transition>
+                            <partial name="~/Views/Pelamar/Verify.cshtml" />
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -154,6 +164,6 @@
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
     <script src="~/pages/main/population.js"></script>
-    <script src="~/pages/main/detailpelamar-1.0.1.js"></script>
+    <script src="~/pages/main/detailpelamar-1.0.2.js"></script>
     <script src="~/pages/main/verify.js"></script>
 }

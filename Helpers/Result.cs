@@ -22,6 +22,16 @@ public static class Result {
     }
 
     [Produces("application/json")]
+    public static Dictionary<string, bool> TimeUp()
+    {
+        var result = new Dictionary<string, bool>
+        {
+            { "timeup", true }
+        };
+        return result;
+    }
+
+    [Produces("application/json")]
     public static Dictionary<string, string> SuccessUpload(bool isNew, bool isNewFoto, string oldID, string newID, string typeName, string createdAt, string? newpath)
     {
         var result = new Dictionary<string, string>();

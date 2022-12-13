@@ -108,6 +108,8 @@ $('.formdata').submit(function (e) {
         success: function (result) {
             if (result.success) {
                 showUpdateSuccess();
+            } else if (result.timeup) {
+                showTimeUp();
             }
         }
     })
@@ -202,6 +204,14 @@ function showFailedMessage() {
         title: 'Data gagal diupdate',
         showConfirmButton: false,
         timer: 1000
+    });
+}
+
+function showTimeUp() {
+    swal({        
+        type: 'danger',
+        title: 'Waktu pendaftaran telah habis untuk update data!. Silahkan hubungi administrator..',
+        showConfirmButton: true        
     });
 }
 

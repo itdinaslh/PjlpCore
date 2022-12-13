@@ -16,42 +16,49 @@
                 <div class="panel-hdr" role="heading">
                     <h2>Tambah / Ubah Berkas</h2>
                 </div>
-                <div class="panel-container show">
-                    <div class="panel-content">
-                        <form method="post" id="UploadFile" action="/pelamar/files/upload" enctype="multipart/form-data">
-                            <input type="hidden" asp-for="Pelamar.PelamarId" />
-                            <input type="hidden" id="typeName" asp-for="Upload.TypeName" />
-                            <div class="row">
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="form-group">
-                                        <label for="">Jenis Berkas</label>
-                                        <select id="sFile" asp-for="Upload.PersyaratanID" class="form-control" style="width:100%;" required>
-                                        </select>
+                @if (Model.IsAboutTime && !User.IsInRole("SysAdmin"))
+                {
+                    <div></div>
+                } else
+                {
+                    <div class="panel-container show">
+                        <div class="panel-content">
+                            <form method="post" id="UploadFile" action="/pelamar/files/upload" enctype="multipart/form-data">
+                                <input type="hidden" asp-for="Pelamar.PelamarId" />
+                                <input type="hidden" id="typeName" asp-for="Upload.TypeName" />
+                                <div class="row">
+                                    <div class="col-md-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="">Jenis Berkas</label>
+                                            <select id="sFile" asp-for="Upload.PersyaratanID" class="form-control" style="width:100%;" required>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="form-group">
-                                        <label for="fileUpload" class="form-label">Pilih File</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" asp-for="Upload!.TheFile" class="custom-file-input" id="filePilih" accept="application/pdf, image/*" aria-describedby="fileUploadAddon" required />
-                                                <label for="fileUpload" class="custom-file-label"></label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="fileUpload" class="form-label">Pilih File</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" asp-for="Upload!.TheFile" class="custom-file-input" id="filePilih" accept="application/pdf, image/*" aria-describedby="fileUploadAddon" required />
+                                                    <label for="fileUpload" class="custom-file-label"></label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="text-center mt-4">
-                                        <button type="submit" class="btn btn-success">Upload</button>
-                                        <button type="button" class="btn btn-danger ml-2" x-on:click="edit = false">Tutup</button>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-center mt-4">
+                                            <button type="submit" class="btn btn-success">Upload</button>
+                                            <button type="button" class="btn btn-danger ml-2" x-on:click="edit = false">Tutup</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                }
+                
             </div>
         </div>
     </div>

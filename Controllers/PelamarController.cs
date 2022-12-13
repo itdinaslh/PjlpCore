@@ -17,22 +17,25 @@ namespace PjlpCore.Controllers;
 public class PelamarController : Controller
 {
     private readonly IPersyaratanRepo pRepo;
-    private readonly IEventFile eventRepo;
+    private readonly IEventFile eventFileRepo;
     private readonly IPelamar pelamarRepo;
     private readonly IFilePelamar fileRepo;
     private readonly IStatus statusRepo;
     private readonly IUser userRepo;
     private readonly IUserBidang userBidangRepo;
+    private readonly IEvent eventRepo;
+    
 
     public PelamarController(IPersyaratanRepo pRepo, IEventFile fRepo, IPelamar pelamarRepo, 
-            IFilePelamar fileLamar, IStatus statusRepo, IUser userRepo, IUserBidang userBidangRepo) { 
+            IFilePelamar fileLamar, IStatus statusRepo, IUser userRepo, IUserBidang userBidangRepo, IEvent eventRepo) { 
         this.pRepo = pRepo;
-        this.eventRepo = fRepo;
+        this.eventFileRepo = fRepo;
         this.pelamarRepo = pelamarRepo;
         this.fileRepo = fileLamar;
         this.statusRepo = statusRepo;
         this.userRepo = userRepo;
         this.userBidangRepo = userBidangRepo;
+        this.eventRepo = eventRepo;
     }
 
     [HttpGet("/pelamar/files")]
@@ -44,7 +47,7 @@ public class PelamarController : Controller
 
         if (jab is not null && isNew is not null)
         {
-            events = await eventRepo.EventFiles
+            events = await eventFileRepo.EventFiles
                 .Where(x => x.IsNew == isNew)
                 .Where(x => x.JabatanID == jab)
                 .ToListAsync();
@@ -87,7 +90,7 @@ public class PelamarController : Controller
 
         if (ModelState.IsValid)
         {
-            await eventRepo.SaveDataAsync(model);
+            await eventFileRepo.SaveDataAsync(model);
 
             return Json(Result.Success());
         }        
@@ -120,6 +123,7 @@ public class PelamarController : Controller
             .Include(b => b.Bidang)
             .Include(p => p.Pendidikan)
             .Include(j => j.Jabatan)
+            .Include(e => e.Event)
             .Include(x => x.StatusLamaran)
             .Include(k => k.Kelurahan!.Kecamatan.Kabupaten.Provinsi)
             .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
@@ -129,7 +133,7 @@ public class PelamarController : Controller
         {
             string? lahir = data.TglLahir.ToString();
 
-            int HarusUpload = await eventRepo.EventFiles
+            int HarusUpload = await eventFileRepo.EventFiles
                 .Where(x => x.JabatanID == data.JabatanId)
                 .Where(x => x.IsNew == data.IsNew)
                 .CountAsync();            
@@ -144,6 +148,15 @@ public class PelamarController : Controller
             int BelumUpload = HarusUpload - SudahUpload;
 
             string pasfoto = "";
+
+            bool AboutTime = false;
+
+            DateOnly now = DateOnly.FromDateTime(DateTime.Now);
+
+            if (now > data.Event.EndDate)
+            {
+                AboutTime = true;
+            }
 
             if (filePelamar is not null)
             {
@@ -181,7 +194,8 @@ public class PelamarController : Controller
                 PasFoto = pasfoto != "" ? pasfoto : null,
                 Files = filePelamar,
                 TotalUploaded = SudahUpload,
-                TotalNotUploaded = BelumUpload < 0 ? 0 : BelumUpload
+                TotalNotUploaded = BelumUpload < 0 ? 0 : BelumUpload,
+                IsAboutTime = AboutTime
             });
         }
 
@@ -302,6 +316,25 @@ public class PelamarController : Controller
     [Authorize(Roles = "SysAdmin, PjlpAdmin")]
     public async Task<IActionResult> UpdateBiodata(PelamarVM model)
     {
+        if (!User.IsInRole("SysAdmin"))
+        {
+            var p = await pelamarRepo.Pelamars
+                .Include(e => e.Event)
+                .Where(x => x.PelamarId == model.Pelamar.PelamarId)
+                .Select(x => new
+                {
+                    x.Event.EndDate
+                }).FirstOrDefaultAsync();
+
+
+            DateOnly now = DateOnly.FromDateTime(DateTime.Now);
+
+            if (now > p.EndDate)
+            {
+                return Json(Result.TimeUp());
+            }
+        }        
+
         if (model.Pelamar.PelamarId != Guid.Empty)
         {
             model.Pelamar.TglLahir = DateOnly.Parse(model.TanggalLahir!, new CultureInfo("id-ID"));
@@ -318,6 +351,25 @@ public class PelamarController : Controller
     [Authorize(Roles = "SysAdmin, PjlpAdmin")]
     public async Task<IActionResult> UpdateAlamat(PelamarVM model)
     {
+        if (!User.IsInRole("SysAdmin"))
+        {
+            var p = await pelamarRepo.Pelamars
+                .Include(e => e.Event)
+                .Where(x => x.PelamarId == model.Pelamar.PelamarId)
+                .Select(x => new
+                {
+                    x.Event.EndDate
+                }).FirstOrDefaultAsync();
+
+
+            DateOnly now = DateOnly.FromDateTime(DateTime.Now);
+
+            if (now > p.EndDate)
+            {
+                return Json(Result.TimeUp());
+            }
+        }
+
         model.Pelamar.AddressIsSame = model.AddressIsSame;
 
         if (model.Pelamar.PelamarId != Guid.Empty)
@@ -343,6 +395,25 @@ public class PelamarController : Controller
     [Authorize(Roles = "SysAdmin, PjlpAdmin")]
     public async Task<IActionResult> UpdateLainnya(PelamarVM model)
     {
+        if (!User.IsInRole("SysAdmin"))
+        {
+            var p = await pelamarRepo.Pelamars
+                .Include(e => e.Event)
+                .Where(x => x.PelamarId == model.Pelamar.PelamarId)
+                .Select(x => new
+                {
+                    x.Event.EndDate
+                }).FirstOrDefaultAsync();
+
+
+            DateOnly now = DateOnly.FromDateTime(DateTime.Now);
+
+            if (now > p.EndDate)
+            {
+                return Json(Result.TimeUp());
+            }
+        }
+
         if (model.Pelamar.PelamarId != Guid.Empty)
         {
             if (model.TglAkhirSIM is not null)

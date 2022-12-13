@@ -61,5 +61,7 @@ public class PelamarVM
 
     public int TotalNotUploaded { get; set; } = 0;
 
+    public bool IsAboutTime { get; set; } = false;
+
     public UploadVM? Upload { get; set; } = new UploadVM();
 }
