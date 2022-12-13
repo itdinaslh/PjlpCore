@@ -71,7 +71,7 @@
                     {
                         string path = p.FilePath;
                         string fullPath = p.FilePath + "/" + p.FileName;
-                        string thumb = p.FileExtension.ToLower() == ".pdf" ? "/img/pdf.jpg" : p.FilePath + "/thumbnail/" + p.FileName;
+                        string thumb = p.FileExtension.ToLower() == ".pdf" ? "/img/pdf.jpg" : p.FilePath + "/" + p.FileName;
                         string fileid = "File-" + p.FilePelamarID;
                         <div class="col-lg-4" id="@fileid">
                             <div class="card mb-4">
