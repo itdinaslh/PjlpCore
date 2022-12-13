@@ -142,14 +142,14 @@
                     </div>
                     @if (User.IsInRole("SysAdmin"))
                     {
-                        <div x-show="modul != 4" x-transition>
+                        <div x-transition>
                             <partial name="~/Views/Pelamar/Verify.cshtml" />
                         </div>
                     }
                     
                     @if (User.IsInRole("PPBJ") & Model.IsAboutTime)
                     {
-                        <div x-show="modul != 4" x-transition>
+                        <div x-transition>
                             <partial name="~/Views/Pelamar/Verify.cshtml" />
                         </div>
                     }
