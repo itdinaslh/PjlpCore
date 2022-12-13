@@ -16,7 +16,16 @@
     <script defer src="~/js/alpine.min.js"></script>    
     <link rel="stylesheet" href="~/css/addon.css" />
     <link rel="stylesheet" href="~/css/chkimage.css" />
+    <link rel="stylesheet" href="~/css/preview.css" />
 }
+
+<div id="myModal" class="modal">    
+    <span class="close">&times;</span>
+    
+    <img class="modal-content" id="img01">
+    
+    <div id="caption"></div>
+</div>
 
 <div x-data="{ modul: 1 }">
     <div class="row" x-data="{edit : false}">
@@ -142,14 +151,14 @@
                     </div>
                     @if (User.IsInRole("SysAdmin"))
                     {
-                        <div x-transition>
+                        <div class="mt-4" x-transition>
                             <partial name="~/Views/Pelamar/Verify.cshtml" />
                         </div>
                     }
                     
                     @if (User.IsInRole("PPBJ") & Model.IsAboutTime)
                     {
-                        <div x-transition>
+                        <div class="mt-4" x-transition>
                             <partial name="~/Views/Pelamar/Verify.cshtml" />
                         </div>
                     }
@@ -166,4 +175,5 @@
     <script src="~/pages/main/population.js"></script>
     <script src="~/pages/main/detailpelamar-1.0.2.js"></script>
     <script src="~/pages/main/verify.js"></script>
+    <script src="~/pages/main/preview.js"></script>
 }
