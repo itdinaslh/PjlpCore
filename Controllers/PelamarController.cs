@@ -42,8 +42,8 @@ public class PelamarController : Controller
     [Authorize(Roles = "SysAdmin, PPBJ, Kepeg")]
     public async Task<IActionResult> FileWajib(Guid? jab, bool? isNew)
     {
-        List<Persyaratan> dataList = new List<Persyaratan>();
-        List<EventFile> events = new List<EventFile>();
+        List<Persyaratan> dataList = new();
+        List<EventFile> events = new();
 
         if (jab is not null && isNew is not null)
         {
@@ -55,17 +55,17 @@ public class PelamarController : Controller
 
         dataList = await pRepo.Persyaratans.ToListAsync();
 
-        double bagi = dataList.Count() / 2;
+        double bagi = dataList.Count / 2;
 
         int batas = bagi % 2 == 0 ? (int)bagi : (int)Math.Ceiling(bagi);
 
-        List<SelectedList> syaratList = new List<SelectedList>();
+        List<SelectedList> syaratList = new();
 
         foreach (var data in dataList)
         {
             bool exist = events.Any(x => x.PersyaratanID == data.PersyaratanID);
 
-            SelectedList list = new SelectedList
+            SelectedList list = new()
             {
                 ID = data.PersyaratanID,
                 Text = data.NamaPersyaratan,
@@ -144,10 +144,10 @@ public class PelamarController : Controller
             .OrderByDescending(p => p.CreatedAt)
             .ToListAsync();
 
-            int SudahUpload = filePelamar is null ? 0 : filePelamar.Count();
+            int SudahUpload = filePelamar is null ? 0 : filePelamar.Count;
             int BelumUpload = HarusUpload - SudahUpload;
 
-            string pasfoto = "";
+            string? pasfoto = "";
 
             bool AboutTime = false;
 
@@ -168,7 +168,7 @@ public class PelamarController : Controller
                 }
             }
 
-            pasfoto = pasfoto.Contains("pdf") ? null : pasfoto;
+            pasfoto = pasfoto!.Contains("pdf") ? null : pasfoto;
 
             return View("~/Views/Pelamar/Details.cshtml", new PelamarVM
             {
@@ -229,7 +229,7 @@ public class PelamarController : Controller
         Response.ContentType = "application/octet-stream";
         Response.Headers.Add("Content-Disposition", "attachment; filename=" + myID!.Pelamar.Nama + " - " +  myID!.Pelamar.NoKTP + " - filtered.zip");
 
-        using (ZipArchive archive = new ZipArchive(Response.BodyWriter.AsStream(), ZipArchiveMode.Create))
+        using (ZipArchive archive = new(Response.BodyWriter.AsStream(), ZipArchiveMode.Create))
         {
             foreach (var file in files)
             {
@@ -259,7 +259,7 @@ public class PelamarController : Controller
         Response.Headers.Add("Content-Disposition", "attachment; filename=" + theID!.Pelamar.Nama + " - " + theID!.Pelamar.NoKTP + ".zip");
 
 
-        using (ZipArchive archive = new ZipArchive(Response.BodyWriter.AsStream(), ZipArchiveMode.Create))
+        using (ZipArchive archive = new(Response.BodyWriter.AsStream(), ZipArchiveMode.Create))
         {
             foreach (var file in files)
             {
@@ -330,7 +330,7 @@ public class PelamarController : Controller
 
             DateOnly now = DateOnly.FromDateTime(DateTime.Now);
 
-            if (now > p.EndDate)
+            if (now > p!.EndDate)
             {
                 return Json(Result.TimeUp());
             }
@@ -365,7 +365,7 @@ public class PelamarController : Controller
 
             DateOnly now = DateOnly.FromDateTime(DateTime.Now);
 
-            if (now > p.EndDate)
+            if (now > p!.EndDate)
             {
                 return Json(Result.TimeUp());
             }
@@ -409,7 +409,7 @@ public class PelamarController : Controller
 
             DateOnly now = DateOnly.FromDateTime(DateTime.Now);
 
-            if (now > p.EndDate)
+            if (now > p!.EndDate)
             {
                 return Json(Result.TimeUp());
             }
@@ -434,8 +434,10 @@ public class PelamarController : Controller
     {        
         bool isBidang = User.IsInRole("PjlpAdmin") || User.IsInRole("PPBJ");
 
-        System.Data.DataTable dt = new System.Data.DataTable();
-        dt.TableName = "Data_Pelamar";
+        System.Data.DataTable dt = new System.Data.DataTable
+        {
+            TableName = "Data_Pelamar"
+        };
 
         List<Guid> bidangs = new();
         List<UserBidang> bids = new();
