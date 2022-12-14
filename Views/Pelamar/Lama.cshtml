@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IndexPelamarVM
+
+@{
     ViewData["Title"] = "Data PJLP";
     ViewData["PageName"] = "data_pjlp";
     //ViewData["Category1"] = "Pegawai";
@@ -9,6 +11,7 @@
 
 @section styles {
     <link rel="stylesheet" href="~/css/datagrid/datatables/datatables.bundle.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
     <link rel="stylesheet" href="~/css/addon.css" />
     <link rel="stylesheet" href="~/css/loader.css" />
 }
@@ -18,14 +21,38 @@
     <div class="col-xl-12">
         <div class="panel">
             <div class="panel-hdr" role="heading">
-                <h2>Filtering</h2>
+                <h2>Filter Data</h2>
             </div>
             <div class="panel-container show">
-
+                <div class="panel-content">
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <label>Bidang</label>
+                            @if (Model.SingleBidang)
+                            {
+                                <select id="myBId" class="form-control">
+                                    <option value="@Model.BidangID" selected>@Model.NamaBidang</option>
+                                </select>
+                            } else
+                            {
+                                <select id="sBidang" class="form-control"></select>
+                            }                            
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label>Jabatan</label>
+                            <select id="sJabatan" class="form-control"></select>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label>Status Seleksi</label>
+                            <select id="sStatus" class="form-control"></select>
+                        </div>
+                    </div>                    
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <div class="row">    
     <div class="col-xl-12">        
         <div id="panel-1" class="panel">
@@ -81,7 +108,9 @@
 
 @section scripts {
     <script src="~/js/datagrid/datatables/datatables.bundle.js"></script>
-    <script src="~/pages/pelamar//lama-1.0.1.js"></script>
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/pages/pelamar//lama-1.0.2.js"></script>
+    <script src="~/pages/pelamar/populate.js"></script>
     <script>
         $('#js-page-content').smartPanel();
     </script>

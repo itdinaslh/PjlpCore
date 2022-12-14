@@ -3,10 +3,13 @@
 });
 
 function loadContent() {
-    loadTable();
+    var bid = $('#sBidang option:selected').val();
+    var jab = $('#sJabatan option:selected').val();
+    var stat = $('#sStatus option:selected').val();
+    loadTable(bid, jab, stat);
 }
 
-function loadTable() {
+function loadTable(bid, jab, stat) {
     $('#tblData').DataTable().clear().destroy();
     $('#tblData').DataTable({
         processing: false,
@@ -19,7 +22,12 @@ function loadTable() {
         ajax: {
             url: "/api/pelamar/baru",
             type: "POST",
-            dataType: "json"
+            dataType: "json",
+            data: {
+                bidang: bid,
+                jabatan: jab,
+                status: stat
+            }
         },
         columns: [
             { data: "nama", name: "nama", autoWidth: true },

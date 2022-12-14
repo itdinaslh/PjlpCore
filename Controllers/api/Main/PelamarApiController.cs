@@ -47,6 +47,9 @@ public class PelamarApiController : ControllerBase
             }
         }
 
+        var bidang = Request.Form["bidang"].FirstOrDefault();
+        var jabatan = Request.Form["jabatan"].FirstOrDefault();
+        var status = Request.Form["status"].FirstOrDefault();        
         var draw = Request.Form["draw"].FirstOrDefault();
         var start = Request.Form["start"].FirstOrDefault();
         var length = Request.Form["length"].FirstOrDefault();
@@ -55,11 +58,11 @@ public class PelamarApiController : ControllerBase
         var searchValue = Request.Form["search[value]"].FirstOrDefault();
         int pageSize = length != null ? Convert.ToInt32(length) : 0;
         int skip = start != null ? Convert.ToInt32(start) : 0;
-        int recordsTotal = 0;
+        int recordsTotal = 0;        
 
         var init = pelamarRepo.Pelamars
           .Where(p => p.IsNew == false)
-          .Where(p => isBidang ? bidangs.Contains(p.BidangId) : true)
+          .Where(p => isBidang ? bidangs.Contains(p.BidangId) : true)          
           .Select(k => new {
               pelamarId = k.PelamarId,
               bidangID = k.BidangId,
@@ -67,11 +70,17 @@ public class PelamarApiController : ControllerBase
               nama = k.Nama,
               usia = GetAgeLastDec((DateOnly)k.TglLahir!) + " Tahun",
               umur = GetAgeLastDec((DateOnly)k.TglLahir),
+              jabatanID = k.JabatanId,
               jabatan = k.Jabatan.NamaJabatan,
               bidang = k.Bidang.NamaBidang,
+              statusID = k.StatusLamaranId,
               status = k.StatusLamaran.NamaStatus,
               isk2 = k.IsK2
           });
+
+        init = bidang is not null ? init.Where(p => p.bidangID.ToString() == bidang) : init;
+        init = jabatan is not null ? init.Where(p => p.jabatanID.ToString() == jabatan) : init;
+        init = status is not null ? init.Where(p => p.statusID.ToString() == status) : init;
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
         {
@@ -88,7 +97,8 @@ public class PelamarApiController : ControllerBase
            );
         }
 
-        recordsTotal = init.Count();
+        recordsTotal = init.Count();        
+
         var result = await init.Skip(skip).Take(pageSize).ToListAsync();
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result };
 
@@ -117,6 +127,10 @@ public class PelamarApiController : ControllerBase
             }
         }
 
+
+        var bidang = Request.Form["bidang"].FirstOrDefault();
+        var jabatan = Request.Form["jabatan"].FirstOrDefault();
+        var status = Request.Form["status"].FirstOrDefault();
         var draw = Request.Form["draw"].FirstOrDefault();
         var start = Request.Form["start"].FirstOrDefault();
         var length = Request.Form["length"].FirstOrDefault();
@@ -137,11 +151,17 @@ public class PelamarApiController : ControllerBase
               nama = k.Nama,
               usia = GetAgeLastDec((DateOnly)k.TglLahir!) + " Tahun",
               umur = GetAgeLastDec((DateOnly)k.TglLahir),
+              jabatanID = k.JabatanId,
               jabatan = k.Jabatan.NamaJabatan,
               bidang = k.Bidang.NamaBidang,
+              statusID = k.StatusLamaranId,
               status = k.StatusLamaran.NamaStatus,
               isk2 = k.IsK2
           });
+
+        init = bidang is not null ? init.Where(p => p.bidangID.ToString() == bidang) : init;
+        init = jabatan is not null ? init.Where(p => p.jabatanID.ToString() == jabatan) : init;
+        init = status is not null ? init.Where(p => p.statusID.ToString() == status) : init;
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
         {

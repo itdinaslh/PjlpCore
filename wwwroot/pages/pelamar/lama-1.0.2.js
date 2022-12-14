@@ -3,7 +3,10 @@
 });
 
 function loadContent() {
-    loadTable();
+    var bid = $('#sBidang option:selected').val();
+    var jab = $('#sJabatan option:selected').val();   
+    var stat = $('#sStatus option:selected').val();
+    loadTable(bid, jab, stat);
 }
 
 $('#btnDownload').click(function () {
@@ -32,20 +35,24 @@ $('#btnDownload').click(function () {
     });
 });
 
-function loadTable() {
+function loadTable(bid, jab, stat) {    
     $('#tblData').DataTable().clear().destroy();
     $('#tblData').DataTable({
         processing: false,
         serverSide: true,
         lengthMenu: [5, 10, 25, 50],
         responsive: true,
-        filter: true,
-        stateSave: true,
+        filter: true,        
         orderMulti: false,
         ajax: {
             url: "/api/pelamar/lama",
             type: "POST",
-            dataType: "json"
+            dataType: "json",
+            data: {
+                bidang: bid,
+                jabatan: jab,
+                status: stat
+            }
         },
         columns: [
             { data: "nama", name: "nama", autoWidth: true },

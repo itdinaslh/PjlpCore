@@ -101,16 +101,79 @@ public class PelamarController : Controller
 
     [HttpGet("/pelamar/lama")]
     [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
-    public IActionResult Lama()
+    public async Task<IActionResult> Lama()
     {
-        return View();
+        bool isBidang = User.IsInRole("PjlpAdmin") || User.IsInRole("PPBJ");
+        bool isSingle = false;
+        List<UserBidang> bids = new();
+        Guid? bidId = null;
+        string? bidName = null;
+
+        if (isBidang)
+        {
+            var user = await userRepo.Users.Where(x => x.UserName == User.Identity!.Name).FirstOrDefaultAsync();
+
+            bids = await userBidangRepo.UserBidangs
+                .Include(b => b.Bidang)
+                .Where(x => x.UserID == user!.UserID)
+                .ToListAsync();
+
+            if (bids.Count == 1)
+            {
+                isSingle = true;
+
+                var first = bids.FirstOrDefault();
+
+                bidId = first!.BidangID;
+                bidName = first!.Bidang.NamaBidang;
+            }
+        }
+
+
+        return View(new IndexPelamarVM
+        {
+            BidangID = bidId,
+            NamaBidang = bidName,
+            SingleBidang = isSingle
+        });
     }
 
     [HttpGet("/pelamar/baru")]
     [Authorize(Roles = "SysAdmin, PPBJ, PjlpAdmin, Kepeg")]
-    public IActionResult Baru()
+    public async Task<IActionResult> Baru()
     {
-        return View();
+        bool isBidang = User.IsInRole("PjlpAdmin") || User.IsInRole("PPBJ");
+        bool isSingle = false;
+        List<UserBidang> bids = new();
+        Guid? bidId = null;
+        string? bidName = null;
+
+        if (isBidang)
+        {
+            var user = await userRepo.Users.Where(x => x.UserName == User.Identity!.Name).FirstOrDefaultAsync();
+
+            bids = await userBidangRepo.UserBidangs
+                .Include(b => b.Bidang)
+                .Where(x => x.UserID == user!.UserID)
+                .ToListAsync();
+
+            if (bids.Count == 1)
+            {
+                isSingle = true;
+
+                var first = bids.FirstOrDefault();
+
+                bidId = first!.BidangID;
+                bidName = first!.Bidang.NamaBidang;
+            }
+        }
+
+        return View(new IndexPelamarVM
+        {
+            BidangID = bidId,
+            NamaBidang = bidName,
+            SingleBidang = isSingle
+        });
     }
 
     [HttpGet("/pelamar/details")]
