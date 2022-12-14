@@ -16,8 +16,7 @@ function loadTable(bid, jab, stat) {
         serverSide: true,
         lengthMenu: [5, 10, 25, 50],
         responsive: true,
-        filter: true,
-        stateSave: true,
+        filter: true,        
         orderMulti: false,
         ajax: {
             url: "/api/pelamar/baru",
