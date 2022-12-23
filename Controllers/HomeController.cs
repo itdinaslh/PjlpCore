@@ -122,12 +122,12 @@ namespace PjlpCore.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //[HttpGet("/daftar/jangandipake/masihngototaja/dilarangtau/suruhsiapa")]
-        //public IActionResult Daftar()
-        //{
-        //    string uri = Simpanan.AuthServer + HttpUtility.UrlEncode(Simpanan.ReturnUrl);
+        [HttpGet("/daftar/telat")]
+        public IActionResult Daftar()
+        {
+            string uri = Simpanan.AuthServer + HttpUtility.UrlEncode(Simpanan.ReturnUrl);
 
-        //    return Redirect(uri);
-        //}
+            return Redirect(uri);
+        }
     }
 }
