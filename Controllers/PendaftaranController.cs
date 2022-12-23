@@ -37,12 +37,12 @@ public class PendaftaranController : Controller
     [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> Index()
     {
-        DateTime closed = new(2022, 12, 12);
+        //DateTime closed = new(2022, 12, 12);
 
-        if (DateTime.Now > closed)
-        {
-            return View("~/Views/Pendaftaran/TimeUp.cshtml");
-        }
+        //if (DateTime.Now > closed)
+        //{
+        //    return View("~/Views/Pendaftaran/TimeUp.cshtml");
+        //}
 
         string? uid = ((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "sub").Select(c => c.Value).SingleOrDefault();
         string? email = ((ClaimsIdentity)User.Identity).Claims.Where(c => c.Type == "email").Select(c => c.Value).SingleOrDefault();
@@ -114,12 +114,12 @@ public class PendaftaranController : Controller
     [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> SavePendaftaran(PelamarVM model)
     {
-        DateTime closed = new(2022, 12, 12);
+        //DateTime closed = new(2022, 12, 12);
 
-        if (DateTime.Now > closed)
-        {
-            return View("~/Views/Pendaftaran/TimeUp.cshtml");
-        }
+        //if (DateTime.Now > closed)
+        //{
+        //    return View("~/Views/Pendaftaran/TimeUp.cshtml");
+        //}
 
         TextInfo info = new CultureInfo("id_ID", false).TextInfo;
 
