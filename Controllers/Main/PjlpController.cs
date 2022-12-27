@@ -31,7 +31,7 @@ public class PjlpController : Controller
             .Include(k => k.Kelurahan!.Kecamatan.Kabupaten.Provinsi)
             .Include(d => d.KelurahanDom!.Kecamatan.Kabupaten.Provinsi)
             .Include(x => x.DetailPjlp)
-            .ThenInclude(x => x.Jabatan)
+            .ThenInclude(x => x!.Jabatan)
             .FirstOrDefaultAsync();
 
         List<FilePegawai>? filePegawai = await fileRepo.FilePegawais
