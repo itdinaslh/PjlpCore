@@ -110,6 +110,12 @@ public class PendaftaranController : Controller
         });
     }
 
+    [HttpGet("/pendaftaran/himbauan")]
+    public IActionResult Himbauan()
+    {
+        return PartialView("~/Views/Pendaftaran/Himbauan.cshtml");
+    }
+
     [HttpPost("/pendaftaran/store")]
     [Authorize(Roles = "PjlpUser")]
     public async Task<IActionResult> SavePendaftaran(PelamarVM model)

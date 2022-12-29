@@ -96,6 +96,10 @@
     var myBid = $('#sBidang option:selected').val();
 
     PopulateJabatan(myBid);
+
+    $('#myModalContent').load('/pendaftaran/himbauan' ,function () {
+        $('#myModal').modal();
+    });
 });
 
 $('.formdata').submit(function (e) {
