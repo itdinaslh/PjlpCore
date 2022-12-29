@@ -16,55 +16,8 @@
     <link rel="stylesheet" href="~/css/chkimage.css" />
 }
 
-<div x-data="{edit: false}">
-    <div class="row">
-        <input id="myIsNew" type="hidden" value="@Model.Pelamar.IsNew" />
-        <div class="col-lg-12 mb-4" x-show="!edit">
-            <button type="button" class="btn btn-primary" x-on:click="edit = !edit">Tambah / Update File</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 d-none" :class="edit ? 'd-block' : 'd-none'" x-show="edit" x-transition:enter x-transition:leave>
-            <div class="panel">
-                @{
-                    bool myNew = (bool)Model.Pelamar.IsNew!;
-                }
-                <input type="hidden" id="jabatan-elu" asp-for="Pelamar.JabatanId" style="display: none;" />
-                <input type="hidden" id="gueBaruApaKagak" value="@myNew.ToString().ToLower()" />
-                <div class="panel-hdr bg-primary-700 bg-danger-gradient" role="heading">
-                    <h2>Tambah / Ubah File</h2>
-                </div>
-                <div class="panel-container show">
-                    <div class="panel-content">
-                        <form method="post" id="UploadUser" action="/pelamar/files/upload" enctype="multipart/form-data">
-                            <input type="hidden" asp-for="Pelamar.PelamarId" style="display:none;" />
-                            <input type="hidden" id="typeName" asp-for="Upload!.TypeName" style="display:none;" />
-                            <div class="form-group">
-                                <label for="">Jenis File</label>
-                                <select id="sFileWajib" asp-for="Upload!.PersyaratanID" class="form-control" style="width:100%;">
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="fileUpload" class="form-label">Pilih File</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" asp-for="Upload!.TheFile" class="custom-file-input" id="filePilih" accept="application/pdf, image/*" aria-describedby="fileUploadAddon" required />
-                                        <label for="fileUpload" class="custom-file-label"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="text-right">
-                                    <button class="btn btn-danger" x-on:click="edit = false">Tutup</button>
-                                    <button class="btn btn-primary">Tambah / Update File</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div x-data="{edit: false}">    
+    <div class="row">        
         <div class="col-xs-12" :class="edit ? 'col-md-8' : 'col-md-12'">
             <div class="row" id="AllFiles">
                 <!-- File -->
