@@ -10,7 +10,7 @@ namespace PjlpCore.Controllers.api;
 [ApiController]
 [Route("[controller]")]
 public class KelurahanApiController : Controller {
-    private IKelurahanRepo repo;
+    private readonly IKelurahanRepo repo;
 
     public KelurahanApiController(IKelurahanRepo kelurahanRepo) {
         repo = kelurahanRepo;
@@ -18,7 +18,7 @@ public class KelurahanApiController : Controller {
 
     #nullable disable
     [HttpPost("/api/wilayah/kelurahan")]
-    public async Task<IActionResult> KecamatanTable() {
+    public async Task<IActionResult> KelurahanTable() {
         var draw = Request.Form["draw"].FirstOrDefault();
         var start = Request.Form["start"].FirstOrDefault();
         var length = Request.Form["length"].FirstOrDefault();

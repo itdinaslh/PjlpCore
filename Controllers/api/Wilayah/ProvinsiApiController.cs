@@ -13,7 +13,7 @@ namespace PjlpCore.Controllers.api;
 [ApiController]
 [Route("[controller]")]
 public class ProvinsiApiController : Controller {
-    public IProvinsiRepo repo;
+    private readonly IProvinsiRepo repo;
 
     public ProvinsiApiController(IProvinsiRepo pRepo) => repo = pRepo;
 

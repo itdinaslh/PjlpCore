@@ -11,7 +11,7 @@ namespace PjlpCore.Controllers.api;
 [ApiController]
 [Route("[controller]")]
 public class KabupatenApiController : Controller {
-    private IKabupatenRepo repo;
+    private readonly IKabupatenRepo repo;
 
     public KabupatenApiController(IKabupatenRepo kRepo) => repo = kRepo;
 
