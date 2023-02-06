@@ -22,5 +22,4 @@ public class Divisi {
 
     public Bidang Bidang { get; set; }
 
-    public List<Tupoksi> Tupoksis { get; set; }
 }

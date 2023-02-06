@@ -11,10 +11,10 @@ namespace PjlpCore.Controllers;
 [Authorize(Roles = "SysAdmin, PjlpAdmin")]
 public class TupoksiController : Controller {
     private ITupoksiRepo tupRepo;
-    private IDivisiRepo divRepo;
+    private IJabatanRepo jabRepo;
 
-    public TupoksiController(ITupoksiRepo kRepo, IDivisiRepo pRepo) {
-        tupRepo = kRepo; divRepo = pRepo;
+    public TupoksiController(ITupoksiRepo kRepo, IJabatanRepo pRepo) {
+        tupRepo = kRepo; jabRepo = pRepo;
     }
 
     [HttpGet("/master/tupoksi")]
@@ -32,11 +32,11 @@ public class TupoksiController : Controller {
     [HttpGet("/master/tupoksi/edit")]    
     public async Task<IActionResult> Edit(Guid tupoksiID) {
         Tupoksi div = await tupRepo.Tupoksis.FirstOrDefaultAsync(k => k.TupoksiID == tupoksiID);
-        Divisi jab = await divRepo.Divisis.FirstOrDefaultAsync(p => p.DivisiID == div.DivisiID);
+        Jabatan jab = await jabRepo.Jabatans.FirstOrDefaultAsync(p => p.JabatanID == div.JabatanID);
 
         return PartialView("~/Views/Master/Tupoksi/AddEdit.cshtml", new TupoksiViewModel {
             Tupoksi = div,
-            NamaDivisi = jab.NamaDivisi,
+            NamaJabatan = jab.NamaJabatan,
             IsNew = false,
             ExistingID = div.TupoksiID
         });

@@ -28,4 +28,5 @@ public class Jabatan {
     public List<DetailPjlp> DetailPjlps { get; set; }
 
     public List<EventFile> EventFiles { get; set; }
+    public List<Tupoksi> Tupoksis { get; set; }
 }

@@ -7,7 +7,7 @@ public class TupoksiViewModel {
     public Tupoksi Tupoksi { get; set; }
 
     #nullable enable
-    public string? NamaDivisi { get; set; }
+    public string? NamaJabatan { get; set; }
 
     public Guid? ExistingID { get; set; }
 

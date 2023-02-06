@@ -18,7 +18,7 @@ public class Tupoksi {
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
     #nullable disable
-    public Guid? DivisiID { get; set; }
+    public Guid? JabatanID { get; set; }
 
-    public Divisi Divisi { get; set; }
+    public Jabatan Jabatan { get; set; }
 }

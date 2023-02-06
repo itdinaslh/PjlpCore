@@ -23,13 +23,13 @@
         </div> 
         <div class="form-group">
             <label>Nama Divisi</label>
-            <select asp-for="Tupoksi.DivisiID" class="form-control cSelect" id="sDivisi">
-                @if (Model.Tupoksi.DivisiID != Guid.Empty)
+            <select asp-for="Tupoksi.JabatanID" class="form-control cSelect" id="sDivisi">
+                @if (Model.Tupoksi.JabatanID != Guid.Empty)
                 {
-                    <option value="@Model.Tupoksi.DivisiID" selected="selected">@Model.NamaDivisi</option>
+                    <option value="@Model.Tupoksi.JabatanID" selected="selected">@Model.NamaJabatan</option>
                 }
             </select>
-            <span asp-validation-for="Tupoksi.DivisiID" class="text-danger"></span>
+            <span asp-validation-for="Tupoksi.JabatanID" class="text-danger"></span>
         </div>
     </div>
     <div class="modal-footer">

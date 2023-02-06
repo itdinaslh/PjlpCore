@@ -22,7 +22,7 @@ public class TupoksiService : ITupoksiRepo {
             Tupoksi div = await context.Tupoksis.FindAsync(model.Tupoksi.TupoksiID);
 
             div.NamaTupoksi = model.Tupoksi.NamaTupoksi.Trim();
-            div.DivisiID = model.Tupoksi.DivisiID;
+            div.JabatanID = model.Tupoksi.JabatanID;
 
             context.Update(div);
         }

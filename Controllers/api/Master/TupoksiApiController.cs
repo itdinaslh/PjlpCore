@@ -31,7 +31,7 @@ public class TupoksiApiController : Controller {
         var init = repo.Tupoksis.Select(d => new {
             tupoksiID = d.TupoksiID,
             namaTupoksi = d.NamaTupoksi,
-            namaDivisi = d.Divisi.NamaDivisi
+            namaDivisi = d.Jabatan.NamaJabatan
         });
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
